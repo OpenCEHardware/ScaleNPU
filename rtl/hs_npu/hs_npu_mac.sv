@@ -12,22 +12,16 @@ module hs_npu_mac (
   // Flip-flops to store inputs A and B
   logic signed [15:0] a_ff, b_ff;
 
-  // Flip-flop to store the result
-  logic signed [31:0] result_ff;
-
   always_ff @(posedge clk) begin
     // Register the input A and the persistent B value
     a_ff <= a_in;
     if (enable_in) begin
       b_ff <= b_in;  // Register B only when enable_in is high
     end
-
-    // Perform the multiply-accumulate operation and register the result
-    result_ff <= (a_in * b_ff) + sum;
+    // Perform the multiply-accumulate operation and set the result
+    result <= (a_in * b_ff) + sum;
   end
 
-  // Assign registered result to output
-  assign result = result_ff;
 
   // Pass forward the inputs to the outputs (these go to the next MAC units)
   assign a_out  = a_ff;

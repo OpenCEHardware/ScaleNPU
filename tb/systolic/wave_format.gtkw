@@ -1,0 +1,119 @@
+[*]
+[*] GTKWave Analyzer v3.4.0 (w)1999-2022 BSI
+[*] Mon Sep 30 18:07:28 2024
+[*]
+[dumpfile] "/home/jachm/Repos/SCALE-NPU/build/tb_hs_npu_systolic/test-cf8630dc/dump.vcd"
+[dumpfile_mtime] "Mon Sep 30 17:59:16 2024"
+[dumpfile_size] 76661
+[savefile] "/home/jachm/Repos/SCALE-NPU/tb/systolic/wave_format.gtkw"
+[timestart] 0
+[size] 2560 1345
+[pos] -1 -1
+*-5.848534 171 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+[treeopen] hs_npu_systolic.
+[treeopen] hs_npu_systolic.gen_col[0].
+[treeopen] hs_npu_systolic.gen_col[0].gen_row[0].
+[treeopen] hs_npu_systolic.gen_col[0].gen_row[1].
+[treeopen] hs_npu_systolic.gen_col[0].gen_row[4].
+[treeopen] hs_npu_systolic.gen_col[0].gen_row[7].
+[treeopen] hs_npu_systolic.gen_col[1].
+[treeopen] hs_npu_systolic.gen_col[1].gen_row[0].
+[treeopen] hs_npu_systolic.gen_col[1].gen_row[7].
+[treeopen] hs_npu_systolic.gen_col[2].
+[treeopen] hs_npu_systolic.gen_col[2].gen_row[7].
+[treeopen] hs_npu_systolic.gen_col[3].
+[treeopen] hs_npu_systolic.gen_col[3].gen_row[7].
+[treeopen] hs_npu_systolic.gen_col[4].
+[treeopen] hs_npu_systolic.gen_col[4].gen_row[7].
+[treeopen] hs_npu_systolic.gen_col[5].
+[treeopen] hs_npu_systolic.gen_col[5].gen_row[7].
+[treeopen] hs_npu_systolic.gen_col[6].
+[treeopen] hs_npu_systolic.gen_col[6].gen_row[7].
+[treeopen] hs_npu_systolic.gen_col[7].
+[treeopen] hs_npu_systolic.gen_col[7].gen_row[7].
+[sst_width] 297
+[signals_width] 264
+[sst_expanded] 1
+[sst_vpaned_height] 343
+@28
+hs_npu_systolic.gen_col[0].gen_row[0].mac_unit.clk
+@420
+hs_npu_systolic.gen_col[0].gen_row[0].mac_unit.a_ff[15:0]
+hs_npu_systolic.gen_col[0].gen_row[0].mac_unit.a_in[15:0]
+hs_npu_systolic.gen_col[0].gen_row[0].mac_unit.a_out[15:0]
+hs_npu_systolic.gen_col[0].gen_row[0].mac_unit.b_ff[15:0]
+hs_npu_systolic.gen_col[0].gen_row[0].mac_unit.b_in[15:0]
+hs_npu_systolic.gen_col[0].gen_row[0].mac_unit.b_out[15:0]
+hs_npu_systolic.gen_col[0].gen_row[0].mac_unit.enable_in
+hs_npu_systolic.gen_col[0].gen_row[0].mac_unit.result[31:0]
+hs_npu_systolic.gen_col[0].gen_row[0].mac_unit.sum[31:0]
+[color] 2
+hs_npu_systolic.gen_col[1].gen_row[0].mac_unit.a_ff[15:0]
+[color] 2
+hs_npu_systolic.gen_col[1].gen_row[0].mac_unit.a_in[15:0]
+[color] 2
+hs_npu_systolic.gen_col[1].gen_row[0].mac_unit.a_out[15:0]
+[color] 2
+hs_npu_systolic.gen_col[1].gen_row[0].mac_unit.b_ff[15:0]
+[color] 2
+hs_npu_systolic.gen_col[1].gen_row[0].mac_unit.b_in[15:0]
+[color] 2
+hs_npu_systolic.gen_col[1].gen_row[0].mac_unit.b_out[15:0]
+[color] 2
+hs_npu_systolic.gen_col[1].gen_row[0].mac_unit.enable_in
+[color] 2
+hs_npu_systolic.gen_col[1].gen_row[0].mac_unit.result[31:0]
+[color] 2
+hs_npu_systolic.gen_col[1].gen_row[0].mac_unit.sum[31:0]
+[color] 5
+hs_npu_systolic.gen_col[0].gen_row[1].mac_unit.a_ff[15:0]
+[color] 5
+hs_npu_systolic.gen_col[0].gen_row[1].mac_unit.a_in[15:0]
+[color] 5
+hs_npu_systolic.gen_col[0].gen_row[1].mac_unit.a_out[15:0]
+[color] 5
+hs_npu_systolic.gen_col[0].gen_row[1].mac_unit.b_ff[15:0]
+[color] 5
+hs_npu_systolic.gen_col[0].gen_row[1].mac_unit.b_in[15:0]
+[color] 5
+hs_npu_systolic.gen_col[0].gen_row[1].mac_unit.b_out[15:0]
+[color] 5
+hs_npu_systolic.gen_col[0].gen_row[1].mac_unit.enable_in
+[color] 5
+hs_npu_systolic.gen_col[0].gen_row[1].mac_unit.result[31:0]
+[color] 5
+hs_npu_systolic.gen_col[0].gen_row[1].mac_unit.sum[31:0]
+[color] 6
+hs_npu_systolic.gen_col[0].gen_row[4].mac_unit.a_ff[15:0]
+[color] 6
+hs_npu_systolic.gen_col[0].gen_row[4].mac_unit.a_in[15:0]
+[color] 6
+hs_npu_systolic.gen_col[0].gen_row[4].mac_unit.a_out[15:0]
+[color] 6
+hs_npu_systolic.gen_col[0].gen_row[4].mac_unit.b_ff[15:0]
+[color] 6
+hs_npu_systolic.gen_col[0].gen_row[4].mac_unit.b_in[15:0]
+[color] 6
+hs_npu_systolic.gen_col[0].gen_row[4].mac_unit.b_out[15:0]
+[color] 6
+hs_npu_systolic.gen_col[0].gen_row[4].mac_unit.enable_in
+[color] 6
+hs_npu_systolic.gen_col[0].gen_row[4].mac_unit.result[31:0]
+[color] 6
+hs_npu_systolic.gen_col[0].gen_row[4].mac_unit.sum[31:0]
+[color] 3
+hs_npu_systolic.gen_col[0].gen_row[7].mac_unit.result[31:0]
+[color] 3
+hs_npu_systolic.gen_col[1].gen_row[7].mac_unit.result[31:0]
+[color] 3
+hs_npu_systolic.gen_col[2].gen_row[7].mac_unit.result[31:0]
+[color] 3
+hs_npu_systolic.gen_col[3].gen_row[7].mac_unit.result[31:0]
+[color] 3
+hs_npu_systolic.gen_col[5].gen_row[7].mac_unit.result[31:0]
+[color] 3
+hs_npu_systolic.gen_col[6].gen_row[7].mac_unit.result[31:0]
+[color] 3
+hs_npu_systolic.gen_col[7].gen_row[7].mac_unit.result[31:0]
+[pattern_trace] 1
+[pattern_trace] 0
