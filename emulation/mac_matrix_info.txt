@@ -1,0 +1,59 @@
+MAC 0            | MAC 1            | MAC 2            | MAC 3            | MAC 4            | MAC 5            | MAC 6            | MAC 7            | 
+Input  = 0       | Input  = 0       | Input  = 0       | Input  = 0       | Input  = 0       | Input  = 0       | Input  = 96      | Input  = 96      | 
+Sum    = 0       | Sum    = 0       | Sum    = 0       | Sum    = 0       | Sum    = 0       | Sum    = 0       | Sum    = 0       | Sum    = 0       | 
+Enable = 0       | Enable = 0       | Enable = 0       | Enable = 0       | Enable = 0       | Enable = 0       | Enable = 0       | Enable = 0       | 
+Weight = 85      | Weight = 37      | Weight = -3      | Weight = -115    | Weight = -110    | Weight = -98     | Weight = 95      | Weight = -14     | 
+Result = 0       | Result = 0       | Result = 0       | Result = 0       | Result = 0       | Result = 0       | Result = 9120    | Result = -1344   | 
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+MAC 8            | MAC 9            | MAC 10           | MAC 11           | MAC 12           | MAC 13           | MAC 14           | MAC 15           | 
+Input  = 0       | Input  = 0       | Input  = 0       | Input  = 0       | Input  = 0       | Input  = -26     | Input  = -26     | Input  = -36     | 
+Sum    = 0       | Sum    = 0       | Sum    = 0       | Sum    = 0       | Sum    = 0       | Sum    = 0       | Sum    = 9120    | Sum    = -1344   | 
+Enable = 0       | Enable = 0       | Enable = 0       | Enable = 0       | Enable = 0       | Enable = 0       | Enable = 0       | Enable = 0       | 
+Weight = 98      | Weight = 10      | Weight = 13      | Weight = -15     | Weight = -43     | Weight = 69      | Weight = 68      | Weight = 37      | 
+Result = 0       | Result = 0       | Result = 0       | Result = 0       | Result = 0       | Result = -11202  | Result = 7352    | Result = -2410   | 
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+MAC 16           | MAC 17           | MAC 18           | MAC 19           | MAC 20           | MAC 21           | MAC 22           | MAC 23           | 
+Input  = 0       | Input  = 0       | Input  = 0       | Input  = 0       | Input  = 29      | Input  = 29      | Input  = 54      | Input  = 0       | 
+Sum    = 0       | Sum    = 0       | Sum    = 0       | Sum    = 0       | Sum    = 0       | Sum    = -11202  | Sum    = 7352    | Sum    = -2410   | 
+Enable = 0       | Enable = 0       | Enable = 0       | Enable = 0       | Enable = 0       | Enable = 0       | Enable = 0       | Enable = 0       | 
+Weight = -35     | Weight = -128    | Weight = -26     | Weight = 53      | Weight = -20     | Weight = -5      | Weight = 127     | Weight = -81     | 
+Result = 0       | Result = 0       | Result = 0       | Result = 0       | Result = -10022  | Result = -11347  | Result = 11725   | Result = 0       | 
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+MAC 24           | MAC 25           | MAC 26           | MAC 27           | MAC 28           | MAC 29           | MAC 30           | MAC 31           | 
+Input  = 0       | Input  = 0       | Input  = 0       | Input  = -93     | Input  = -93     | Input  = -72     | Input  = 0       | Input  = 0       | 
+Sum    = 0       | Sum    = 0       | Sum    = 0       | Sum    = 0       | Sum    = -10022  | Sum    = -11347  | Sum    = 11725   | Sum    = 0       | 
+Enable = 0       | Enable = 0       | Enable = 0       | Enable = 0       | Enable = 0       | Enable = 0       | Enable = 0       | Enable = 0       | 
+Weight = -58     | Weight = -47     | Weight = 43      | Weight = -57     | Weight = -53     | Weight = 94      | Weight = 34      | Weight = 109     | 
+Result = 0       | Result = 0       | Result = 0       | Result = -3812   | Result = -5093   | Result = -17068  | Result = 0       | Result = 0       | 
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+MAC 32           | MAC 33           | MAC 34           | MAC 35           | MAC 36           | MAC 37           | MAC 38           | MAC 39           | 
+Input  = 0       | Input  = 0       | Input  = 96      | Input  = 96      | Input  = 77      | Input  = 0       | Input  = 0       | Input  = 0       | 
+Sum    = 0       | Sum    = 0       | Sum    = 0       | Sum    = -3812   | Sum    = -5093   | Sum    = -17068  | Sum    = 0       | Sum    = 0       | 
+Enable = 0       | Enable = 0       | Enable = 0       | Enable = 0       | Enable = 0       | Enable = 0       | Enable = 0       | Enable = 0       | 
+Weight = 85      | Weight = 37      | Weight = -3      | Weight = -115    | Weight = -110    | Weight = -98     | Weight = 95      | Weight = -14     | 
+Result = 0       | Result = 0       | Result = -5667   | Result = -14852  | Result = -12656  | Result = 0       | Result = 0       | Result = 0       | 
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+MAC 40           | MAC 41           | MAC 42           | MAC 43           | MAC 44           | MAC 45           | MAC 46           | MAC 47           | 
+Input  = 0       | Input  = -26     | Input  = -26     | Input  = -36     | Input  = 0       | Input  = 0       | Input  = 0       | Input  = 0       | 
+Sum    = 0       | Sum    = 0       | Sum    = -5667   | Sum    = -14852  | Sum    = -12656  | Sum    = 0       | Sum    = 0       | Sum    = 0       | 
+Enable = 0       | Enable = 0       | Enable = 0       | Enable = 0       | Enable = 0       | Enable = 0       | Enable = 0       | Enable = 0       | 
+Weight = 98      | Weight = 10      | Weight = 13      | Weight = -15     | Weight = -43     | Weight = 69      | Weight = 68      | Weight = 37      | 
+Result = 0       | Result = 7243    | Result = -6005   | Result = -9664   | Result = 0       | Result = 0       | Result = 0       | Result = 0       | 
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+MAC 48           | MAC 49           | MAC 50           | MAC 51           | MAC 52           | MAC 53           | MAC 54           | MAC 55           | 
+Input  = 29      | Input  = 29      | Input  = 54      | Input  = 0       | Input  = 0       | Input  = 0       | Input  = 0       | Input  = 0       | 
+Sum    = 0       | Sum    = 7243    | Sum    = -6005   | Sum    = -9664   | Sum    = 0       | Sum    = 0       | Sum    = 0       | Sum    = 0       | 
+Enable = 0       | Enable = 0       | Enable = 0       | Enable = 0       | Enable = 0       | Enable = 0       | Enable = 0       | Enable = 0       | 
+Weight = -35     | Weight = -128    | Weight = -26     | Weight = 53      | Weight = -20     | Weight = -5      | Weight = 127     | Weight = -81     | 
+Result = 14588   | Result = 3531    | Result = -7302   | Result = 0       | Result = 0       | Result = 0       | Result = 0       | Result = 0       | 
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+MAC 56           | MAC 57           | MAC 58           | MAC 59           | MAC 60           | MAC 61           | MAC 62           | MAC 63           | 
+Input  = -93     | Input  = -72     | Input  = 0       | Input  = 0       | Input  = 0       | Input  = 0       | Input  = 0       | Input  = 0       | 
+Sum    = 14588   | Sum    = 3531    | Sum    = -7302   | Sum    = 0       | Sum    = 0       | Sum    = 0       | Sum    = 0       | Sum    = 0       | 
+Enable = 0       | Enable = 0       | Enable = 0       | Enable = 0       | Enable = 0       | Enable = 0       | Enable = 0       | Enable = 0       | 
+Weight = -58     | Weight = -47     | Weight = 43      | Weight = -57     | Weight = -53     | Weight = 94      | Weight = 34      | Weight = 109     | 
+Result = 19982   | Result = -2078   | Result = 0       | Result = 0       | Result = 0       | Result = 0       | Result = 0       | Result = 0       | 
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+Total cycles:  17
+Total input cycles:  9
+Total result cycles:  2
