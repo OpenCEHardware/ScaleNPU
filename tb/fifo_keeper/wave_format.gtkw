@@ -1,0 +1,94 @@
+[*]
+[*] GTKWave Analyzer v3.4.0 (w)1999-2022 BSI
+[*] Wed Oct  2 00:15:12 2024
+[*]
+[dumpfile] "/home/jachm/Repos/SCALE-NPU/build/tb_hs_npu_fifo_keeper/test-b4f49fde/dump.vcd"
+[dumpfile_mtime] "Wed Oct  2 00:14:03 2024"
+[dumpfile_size] 8429
+[savefile] "/home/jachm/Repos/SCALE-NPU/tb/fifo_keeper/wave_format.gtkw"
+[timestart] 0
+[size] 2560 1345
+[pos] -1 -1
+*-5.353006 111 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+[treeopen] hs_npu_fifo_keeper.
+[sst_width] 297
+[signals_width] 206
+[sst_expanded] 1
+[sst_vpaned_height] 416
+@28
+clk
+@24
+enable_cycles[31:0]
+fifo_in_data[31:0]
+@420
+fifo_out_data[31:0]
+@28
+fifo_out_ready
+fifo_out_valid
+rst_n
+start_in
+[color] 2
+hs_npu_fifo_keeper.input_fifo.can_read
+[color] 2
+hs_npu_fifo_keeper.input_fifo.can_write
+[color] 2
+hs_npu_fifo_keeper.input_fifo.clk_core
+@420
+[color] 2
+hs_npu_fifo_keeper.input_fifo.fifo[0][31:0]
+[color] 2
+hs_npu_fifo_keeper.input_fifo.fifo[1][31:0]
+[color] 2
+hs_npu_fifo_keeper.input_fifo.fifo[2][31:0]
+[color] 2
+hs_npu_fifo_keeper.input_fifo.fifo[3][31:0]
+@24
+[color] 7
+hs_npu_fifo_keeper.gatekeeper.active
+[color] 7
+hs_npu_fifo_keeper.gatekeeper.enable_cycles[31:0]
+[color] 7
+hs_npu_fifo_keeper.gatekeeper.enable_cycles_in[31:0]
+[color] 7
+hs_npu_fifo_keeper.gatekeeper.input_data[31:0]
+[color] 7
+hs_npu_fifo_keeper.gatekeeper.output_data[31:0]
+[color] 7
+hs_npu_fifo_keeper.gatekeeper.rst_n
+[color] 7
+hs_npu_fifo_keeper.gatekeeper.start_in
+[color] 7
+hs_npu_fifo_keeper.gatekeeper.start_out
+@28
+[color] 3
+hs_npu_fifo_keeper.output_fifo.can_read
+[color] 3
+hs_npu_fifo_keeper.output_fifo.can_write
+@420
+[color] 3
+hs_npu_fifo_keeper.output_fifo.fifo[0][31:0]
+[color] 3
+hs_npu_fifo_keeper.output_fifo.fifo[1][31:0]
+[color] 3
+hs_npu_fifo_keeper.output_fifo.fifo[2][31:0]
+[color] 3
+hs_npu_fifo_keeper.output_fifo.fifo[3][31:0]
+[color] 3
+hs_npu_fifo_keeper.output_fifo.flush
+[color] 3
+hs_npu_fifo_keeper.output_fifo.in[31:0]
+[color] 3
+hs_npu_fifo_keeper.output_fifo.out[31:0]
+@24
+[color] 3
+hs_npu_fifo_keeper.output_fifo.write_ptr[1:0]
+hs_npu_fifo_keeper.gatekeeper2.active
+hs_npu_fifo_keeper.gatekeeper2.enable_cycles[31:0]
+hs_npu_fifo_keeper.gatekeeper2.enable_cycles_in[31:0]
+hs_npu_fifo_keeper.gatekeeper2.input_data[31:0]
+hs_npu_fifo_keeper.gatekeeper2.output_data[31:0]
+hs_npu_fifo_keeper.gatekeeper2.rst_n
+hs_npu_fifo_keeper.gatekeeper2.start_in
+hs_npu_fifo_keeper.gatekeeper2.start_out
+[pattern_trace] 1
+[pattern_trace] 0

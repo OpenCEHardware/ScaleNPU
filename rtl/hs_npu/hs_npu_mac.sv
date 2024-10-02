@@ -1,16 +1,18 @@
-module hs_npu_mac (
-    input  logic               clk,        // Clock signal
-    input  logic               enable_in,  // Enable input signal for weights
-    input  logic signed [15:0] a_in,       // Input for matrix A element (a_ij)
-    input  logic signed [15:0] b_in,       // Input for matrix B element (b_ij)
-    input  logic signed [31:0] sum,        // Input for sum (C)
-    output logic signed [15:0] a_out,      // Output for matrix A element (passed forward)
-    output logic signed [15:0] b_out,      // Output for matrix B element (passed downward)
-    output logic signed [31:0] result      // Output for the result of A*B + C
+module hs_npu_mac
+  import hs_npu_pkg::*;
+(
+    input  logic clk,        // Clock signal
+    input  logic enable_in,  // Enable input signal for weights
+    input  short a_in,       // Input for matrix A element (a_ij)
+    input  short b_in,       // Input for matrix B element (b_ij)
+    input  word  sum,        // Input for sum (C)
+    output short a_out,      // Output for matrix A element (passed forward)
+    output short b_out,      // Output for matrix B element (passed downward)
+    output word  result      // Output for the result of A*B + C
 );
 
   // Flip-flops to store inputs A and B
-  logic signed [15:0] a_ff, b_ff;
+  short a_ff, b_ff;
 
   always_ff @(posedge clk) begin
     // Register the input A and the persistent B value
@@ -24,7 +26,7 @@ module hs_npu_mac (
 
 
   // Pass forward the inputs to the outputs (these go to the next MAC units)
-  assign a_out  = a_ff;
-  assign b_out  = b_ff;
+  assign a_out = a_ff;
+  assign b_out = b_ff;
 
 endmodule

@@ -190,14 +190,14 @@ int main() {
         }
         printf("\n\n\n");
 
-    //     // Apply softmax activation to the output
-    //     //softmax(output, probabilities, OUTPUT_SIZE);
+        // Apply softmax activation to the output
+        //softmax(output, probabilities, OUTPUT_SIZE);
 
-    //     // Print the output probabilities
-    //     // printf("Output probabilities: \n");
-    //     // for (int i = 0; i < OUTPUT_SIZE; i++) {
-    //     //     printf("Class %d: %f\n", i, output[i]);
-    //     // }
+        // Print the output probabilities
+        // printf("Output probabilities: \n");
+        // for (int i = 0; i < OUTPUT_SIZE; i++) {
+        //     printf("Class %d: %f\n", i, output[i]);
+        // }
 
     }
 

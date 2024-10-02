@@ -1,1 +1,1 @@
-subdirs := systolic
+subdirs := fifo_keeper systolic
