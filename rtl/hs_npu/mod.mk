@@ -1,4 +1,4 @@
-cores := hs_npu_pkg hs_npu_systolic hs_npu_fifo_keeper
+cores := hs_npu_pkg hs_npu_systolic hs_npu_fifo_keeper hs_npu_mm_unit
 
 define core/hs_npu_systolic
   $(this)/deps := hs_npu_pkg
@@ -8,6 +8,15 @@ define core/hs_npu_systolic
     hs_npu_pkg.sv \
     hs_npu_systolic.sv \
     hs_npu_mac.sv 
+endef
+
+define core/hs_npu_mm_unit
+  $(this)/deps := hs_npu_pkg hs_npu_systolic hs_utils
+
+  $(this)/rtl_top := hs_npu_mm_unit
+  $(this)/rtl_files := \
+    hs_npu_gatekeeper.sv \
+    hs_npu_mm_unit.sv 
 endef
 
 define core/hs_npu_fifo_keeper

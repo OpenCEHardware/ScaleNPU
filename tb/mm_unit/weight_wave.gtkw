@@ -1,0 +1,182 @@
+[*]
+[*] GTKWave Analyzer v3.4.0 (w)1999-2022 BSI
+[*] Thu Oct  3 19:55:44 2024
+[*]
+[dumpfile] "/home/jachm/Repos/SCALE-NPU/build/tb_hs_npu_mm_unit/test-84b96b19/dump.vcd"
+[dumpfile_mtime] "Thu Oct  3 19:51:28 2024"
+[dumpfile_size] 154900
+[savefile] "/home/jachm/Repos/SCALE-NPU/tb/mm_unit/weight_wave.gtkw"
+[timestart] 83
+[size] 1920 985
+[pos] -1 -1
+*-4.945831 16 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+[treeopen] hs_npu_mm_unit.
+[treeopen] hs_npu_mm_unit.systolic_array.
+[treeopen] hs_npu_mm_unit.systolic_array.gen_col[0].
+[treeopen] hs_npu_mm_unit.systolic_array.gen_col[0].gen_row[7].
+[treeopen] hs_npu_mm_unit.systolic_array.gen_col[1].
+[treeopen] hs_npu_mm_unit.systolic_array.gen_col[1].gen_row[7].
+[treeopen] hs_npu_mm_unit.systolic_array.gen_col[2].
+[treeopen] hs_npu_mm_unit.systolic_array.gen_col[2].gen_row[7].
+[treeopen] hs_npu_mm_unit.systolic_array.gen_col[3].
+[treeopen] hs_npu_mm_unit.systolic_array.gen_col[3].gen_row[7].
+[treeopen] hs_npu_mm_unit.systolic_array.gen_col[4].
+[treeopen] hs_npu_mm_unit.systolic_array.gen_col[4].gen_row[7].
+[treeopen] hs_npu_mm_unit.systolic_array.gen_col[5].
+[treeopen] hs_npu_mm_unit.systolic_array.gen_col[5].gen_row[7].
+[treeopen] hs_npu_mm_unit.systolic_array.gen_col[6].
+[treeopen] hs_npu_mm_unit.systolic_array.gen_col[6].gen_row[7].
+[treeopen] hs_npu_mm_unit.systolic_array.gen_col[7].
+[treeopen] hs_npu_mm_unit.systolic_array.gen_col[7].gen_row[7].
+[sst_width] 297
+[signals_width] 333
+[sst_expanded] 1
+[sst_vpaned_height] 543
+@28
+hs_npu_mm_unit.clk
+hs_npu_mm_unit.weight_fifo_valid_i
+hs_npu_mm_unit.gen_fifo_weight[0].weight_fifo.valid_i
+@24
+hs_npu_mm_unit.gen_fifo_weight[0].weight_fifo.write_ptr[2:0]
+hs_npu_mm_unit.gen_fifo_weight[0].weight_fifo.read_ptr[2:0]
+@420
+[color] 2
+hs_npu_mm_unit.gen_fifo_weight[0].weight_fifo.fifo[0][15:0]
+[color] 2
+hs_npu_mm_unit.gen_fifo_weight[0].weight_fifo.fifo[1][15:0]
+[color] 2
+hs_npu_mm_unit.gen_fifo_weight[0].weight_fifo.fifo[2][15:0]
+[color] 2
+hs_npu_mm_unit.gen_fifo_weight[0].weight_fifo.fifo[3][15:0]
+[color] 2
+hs_npu_mm_unit.gen_fifo_weight[0].weight_fifo.fifo[4][15:0]
+[color] 2
+hs_npu_mm_unit.gen_fifo_weight[0].weight_fifo.fifo[5][15:0]
+[color] 2
+hs_npu_mm_unit.gen_fifo_weight[0].weight_fifo.fifo[6][15:0]
+[color] 2
+hs_npu_mm_unit.gen_fifo_weight[0].weight_fifo.fifo[7][15:0]
+[color] 3
+hs_npu_mm_unit.gen_fifo_weight[1].weight_fifo.fifo[0][15:0]
+[color] 3
+hs_npu_mm_unit.gen_fifo_weight[1].weight_fifo.fifo[1][15:0]
+[color] 3
+hs_npu_mm_unit.gen_fifo_weight[1].weight_fifo.fifo[2][15:0]
+[color] 3
+hs_npu_mm_unit.gen_fifo_weight[1].weight_fifo.fifo[3][15:0]
+[color] 3
+hs_npu_mm_unit.gen_fifo_weight[1].weight_fifo.fifo[4][15:0]
+[color] 3
+hs_npu_mm_unit.gen_fifo_weight[1].weight_fifo.fifo[5][15:0]
+[color] 3
+hs_npu_mm_unit.gen_fifo_weight[1].weight_fifo.fifo[6][15:0]
+[color] 3
+hs_npu_mm_unit.gen_fifo_weight[1].weight_fifo.fifo[7][15:0]
+[color] 4
+hs_npu_mm_unit.gen_fifo_weight[2].weight_fifo.fifo[0][15:0]
+[color] 4
+hs_npu_mm_unit.gen_fifo_weight[2].weight_fifo.fifo[1][15:0]
+[color] 4
+hs_npu_mm_unit.gen_fifo_weight[2].weight_fifo.fifo[2][15:0]
+[color] 4
+hs_npu_mm_unit.gen_fifo_weight[2].weight_fifo.fifo[3][15:0]
+[color] 4
+hs_npu_mm_unit.gen_fifo_weight[2].weight_fifo.fifo[4][15:0]
+[color] 4
+hs_npu_mm_unit.gen_fifo_weight[2].weight_fifo.fifo[5][15:0]
+[color] 4
+hs_npu_mm_unit.gen_fifo_weight[2].weight_fifo.fifo[6][15:0]
+[color] 4
+hs_npu_mm_unit.gen_fifo_weight[2].weight_fifo.fifo[7][15:0]
+[color] 5
+hs_npu_mm_unit.gen_fifo_weight[3].weight_fifo.fifo[0][15:0]
+[color] 5
+hs_npu_mm_unit.gen_fifo_weight[3].weight_fifo.fifo[1][15:0]
+[color] 5
+hs_npu_mm_unit.gen_fifo_weight[3].weight_fifo.fifo[2][15:0]
+[color] 5
+hs_npu_mm_unit.gen_fifo_weight[3].weight_fifo.fifo[3][15:0]
+[color] 5
+hs_npu_mm_unit.gen_fifo_weight[3].weight_fifo.fifo[4][15:0]
+[color] 5
+hs_npu_mm_unit.gen_fifo_weight[3].weight_fifo.fifo[5][15:0]
+[color] 5
+hs_npu_mm_unit.gen_fifo_weight[3].weight_fifo.fifo[6][15:0]
+[color] 5
+hs_npu_mm_unit.gen_fifo_weight[3].weight_fifo.fifo[7][15:0]
+[color] 6
+hs_npu_mm_unit.gen_fifo_weight[4].weight_fifo.fifo[0][15:0]
+[color] 6
+hs_npu_mm_unit.gen_fifo_weight[4].weight_fifo.fifo[1][15:0]
+[color] 6
+hs_npu_mm_unit.gen_fifo_weight[4].weight_fifo.fifo[2][15:0]
+[color] 6
+hs_npu_mm_unit.gen_fifo_weight[4].weight_fifo.fifo[3][15:0]
+[color] 6
+hs_npu_mm_unit.gen_fifo_weight[4].weight_fifo.fifo[4][15:0]
+@421
+[color] 6
+hs_npu_mm_unit.gen_fifo_weight[4].weight_fifo.fifo[5][15:0]
+@420
+[color] 6
+hs_npu_mm_unit.gen_fifo_weight[4].weight_fifo.fifo[6][15:0]
+[color] 6
+hs_npu_mm_unit.gen_fifo_weight[4].weight_fifo.fifo[7][15:0]
+[color] 7
+hs_npu_mm_unit.gen_fifo_weight[5].weight_fifo.fifo[0][15:0]
+[color] 7
+hs_npu_mm_unit.gen_fifo_weight[5].weight_fifo.fifo[1][15:0]
+[color] 7
+hs_npu_mm_unit.gen_fifo_weight[5].weight_fifo.fifo[2][15:0]
+[color] 7
+hs_npu_mm_unit.gen_fifo_weight[5].weight_fifo.fifo[3][15:0]
+[color] 7
+hs_npu_mm_unit.gen_fifo_weight[5].weight_fifo.fifo[4][15:0]
+[color] 7
+hs_npu_mm_unit.gen_fifo_weight[5].weight_fifo.fifo[5][15:0]
+[color] 7
+hs_npu_mm_unit.gen_fifo_weight[5].weight_fifo.fifo[6][15:0]
+[color] 7
+hs_npu_mm_unit.gen_fifo_weight[5].weight_fifo.fifo[7][15:0]
+[color] 1
+hs_npu_mm_unit.gen_fifo_weight[6].weight_fifo.fifo[0][15:0]
+[color] 1
+hs_npu_mm_unit.gen_fifo_weight[6].weight_fifo.fifo[1][15:0]
+[color] 1
+hs_npu_mm_unit.gen_fifo_weight[6].weight_fifo.fifo[2][15:0]
+[color] 1
+hs_npu_mm_unit.gen_fifo_weight[6].weight_fifo.fifo[3][15:0]
+[color] 1
+hs_npu_mm_unit.gen_fifo_weight[6].weight_fifo.fifo[4][15:0]
+[color] 1
+hs_npu_mm_unit.gen_fifo_weight[6].weight_fifo.fifo[5][15:0]
+[color] 1
+hs_npu_mm_unit.gen_fifo_weight[6].weight_fifo.fifo[6][15:0]
+[color] 1
+hs_npu_mm_unit.gen_fifo_weight[6].weight_fifo.fifo[7][15:0]
+hs_npu_mm_unit.gen_fifo_weight[7].weight_fifo.fifo[0][15:0]
+hs_npu_mm_unit.gen_fifo_weight[7].weight_fifo.fifo[1][15:0]
+hs_npu_mm_unit.gen_fifo_weight[7].weight_fifo.fifo[2][15:0]
+hs_npu_mm_unit.gen_fifo_weight[7].weight_fifo.fifo[3][15:0]
+hs_npu_mm_unit.gen_fifo_weight[7].weight_fifo.fifo[4][15:0]
+hs_npu_mm_unit.gen_fifo_weight[7].weight_fifo.fifo[5][15:0]
+hs_npu_mm_unit.gen_fifo_weight[7].weight_fifo.fifo[6][15:0]
+hs_npu_mm_unit.gen_fifo_weight[7].weight_fifo.fifo[7][15:0]
+[color] 2
+hs_npu_mm_unit.systolic_array.gen_col[0].gen_row[7].mac_unit.b_ff[15:0]
+[color] 2
+hs_npu_mm_unit.systolic_array.gen_col[1].gen_row[7].mac_unit.b_ff[15:0]
+[color] 2
+hs_npu_mm_unit.systolic_array.gen_col[2].gen_row[7].mac_unit.b_ff[15:0]
+[color] 2
+hs_npu_mm_unit.systolic_array.gen_col[3].gen_row[7].mac_unit.b_ff[15:0]
+[color] 2
+hs_npu_mm_unit.systolic_array.gen_col[4].gen_row[7].mac_unit.b_ff[15:0]
+[color] 2
+hs_npu_mm_unit.systolic_array.gen_col[5].gen_row[7].mac_unit.b_ff[15:0]
+[color] 2
+hs_npu_mm_unit.systolic_array.gen_col[6].gen_row[7].mac_unit.b_ff[15:0]
+[color] 2
+hs_npu_mm_unit.systolic_array.gen_col[7].gen_row[7].mac_unit.b_ff[15:0]
+[pattern_trace] 1
+[pattern_trace] 0

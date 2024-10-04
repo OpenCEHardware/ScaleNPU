@@ -1,0 +1,154 @@
+[*]
+[*] GTKWave Analyzer v3.4.0 (w)1999-2022 BSI
+[*] Fri Oct  4 01:25:44 2024
+[*]
+[dumpfile] "/home/jachm/Repos/SCALE-NPU/build/tb_hs_npu_mm_unit/test-84b96b19/dump.vcd"
+[dumpfile_mtime] "Fri Oct  4 01:25:36 2024"
+[dumpfile_size] 234940
+[savefile] "/home/jachm/Repos/SCALE-NPU/tb/mm_unit/out_wave.gtkw"
+[timestart] 341
+[size] 1000 600
+[pos] -1 -1
+*-6.600000 390 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+[treeopen] hs_npu_mm_unit.
+[treeopen] hs_npu_mm_unit.gen_fifo_weight[0].
+[sst_width] 297
+[signals_width] 266
+[sst_expanded] 1
+[sst_vpaned_height] 131
+@28
+hs_npu_mm_unit.clk
+@420
+[color] 1
+hs_npu_mm_unit.gen_fifo_gatekeeper_output[0].gatekeeper_out.active
+[color] 1
+hs_npu_mm_unit.gen_fifo_gatekeeper_output[0].gatekeeper_out.enable_cycles[31:0]
+[color] 1
+hs_npu_mm_unit.gen_fifo_gatekeeper_output[0].gatekeeper_out.enable_cycles_in[31:0]
+[color] 1
+hs_npu_mm_unit.gen_fifo_gatekeeper_output[0].gatekeeper_out.input_data[31:0]
+[color] 1
+hs_npu_mm_unit.gen_fifo_gatekeeper_output[0].gatekeeper_out.output_data[31:0]
+[color] 1
+hs_npu_mm_unit.gen_fifo_gatekeeper_output[0].gatekeeper_out.start_in
+[color] 1
+hs_npu_mm_unit.gen_fifo_gatekeeper_output[0].gatekeeper_out.start_out
+[color] 2
+hs_npu_mm_unit.gen_fifo_gatekeeper_output[1].gatekeeper_out.active
+[color] 2
+hs_npu_mm_unit.gen_fifo_gatekeeper_output[1].gatekeeper_out.enable_cycles[31:0]
+[color] 2
+hs_npu_mm_unit.gen_fifo_gatekeeper_output[1].gatekeeper_out.enable_cycles_in[31:0]
+[color] 2
+hs_npu_mm_unit.gen_fifo_gatekeeper_output[1].gatekeeper_out.input_data[31:0]
+[color] 2
+hs_npu_mm_unit.gen_fifo_gatekeeper_output[1].gatekeeper_out.output_data[31:0]
+[color] 2
+hs_npu_mm_unit.gen_fifo_gatekeeper_output[1].gatekeeper_out.rst_n
+[color] 2
+hs_npu_mm_unit.gen_fifo_gatekeeper_output[1].gatekeeper_out.start_in
+[color] 2
+hs_npu_mm_unit.gen_fifo_gatekeeper_output[1].gatekeeper_out.start_out
+[color] 3
+hs_npu_mm_unit.gen_fifo_gatekeeper_output[2].gatekeeper_out.active
+[color] 3
+hs_npu_mm_unit.gen_fifo_gatekeeper_output[2].gatekeeper_out.enable_cycles[31:0]
+[color] 3
+hs_npu_mm_unit.gen_fifo_gatekeeper_output[2].gatekeeper_out.enable_cycles_in[31:0]
+[color] 3
+hs_npu_mm_unit.gen_fifo_gatekeeper_output[2].gatekeeper_out.input_data[31:0]
+[color] 3
+hs_npu_mm_unit.gen_fifo_gatekeeper_output[2].gatekeeper_out.output_data[31:0]
+[color] 3
+hs_npu_mm_unit.gen_fifo_gatekeeper_output[2].gatekeeper_out.rst_n
+[color] 3
+hs_npu_mm_unit.gen_fifo_gatekeeper_output[2].gatekeeper_out.start_in
+[color] 3
+hs_npu_mm_unit.gen_fifo_gatekeeper_output[2].gatekeeper_out.start_out
+hs_npu_mm_unit.gen_fifo_gatekeeper_output[3].gatekeeper_out.active
+[color] 4
+hs_npu_mm_unit.gen_fifo_gatekeeper_output[3].gatekeeper_out.enable_cycles[31:0]
+[color] 4
+hs_npu_mm_unit.gen_fifo_gatekeeper_output[3].gatekeeper_out.enable_cycles_in[31:0]
+[color] 4
+hs_npu_mm_unit.gen_fifo_gatekeeper_output[3].gatekeeper_out.input_data[31:0]
+[color] 4
+hs_npu_mm_unit.gen_fifo_gatekeeper_output[3].gatekeeper_out.output_data[31:0]
+[color] 4
+hs_npu_mm_unit.gen_fifo_gatekeeper_output[3].gatekeeper_out.rst_n
+[color] 4
+hs_npu_mm_unit.gen_fifo_gatekeeper_output[3].gatekeeper_out.start_in
+[color] 4
+hs_npu_mm_unit.gen_fifo_gatekeeper_output[3].gatekeeper_out.start_out
+[color] 5
+hs_npu_mm_unit.gen_fifo_gatekeeper_output[4].gatekeeper_out.active
+[color] 5
+hs_npu_mm_unit.gen_fifo_gatekeeper_output[4].gatekeeper_out.enable_cycles[31:0]
+[color] 5
+hs_npu_mm_unit.gen_fifo_gatekeeper_output[4].gatekeeper_out.enable_cycles_in[31:0]
+[color] 5
+hs_npu_mm_unit.gen_fifo_gatekeeper_output[4].gatekeeper_out.input_data[31:0]
+[color] 5
+hs_npu_mm_unit.gen_fifo_gatekeeper_output[4].gatekeeper_out.output_data[31:0]
+[color] 5
+hs_npu_mm_unit.gen_fifo_gatekeeper_output[4].gatekeeper_out.rst_n
+[color] 5
+hs_npu_mm_unit.gen_fifo_gatekeeper_output[4].gatekeeper_out.start_in
+[color] 5
+hs_npu_mm_unit.gen_fifo_gatekeeper_output[4].gatekeeper_out.start_out
+[color] 6
+hs_npu_mm_unit.gen_fifo_gatekeeper_output[5].gatekeeper_out.active
+[color] 6
+hs_npu_mm_unit.gen_fifo_gatekeeper_output[5].gatekeeper_out.enable_cycles[31:0]
+[color] 6
+hs_npu_mm_unit.gen_fifo_gatekeeper_output[5].gatekeeper_out.enable_cycles_in[31:0]
+[color] 6
+hs_npu_mm_unit.gen_fifo_gatekeeper_output[5].gatekeeper_out.input_data[31:0]
+[color] 6
+hs_npu_mm_unit.gen_fifo_gatekeeper_output[5].gatekeeper_out.output_data[31:0]
+[color] 6
+hs_npu_mm_unit.gen_fifo_gatekeeper_output[5].gatekeeper_out.rst_n
+[color] 6
+hs_npu_mm_unit.gen_fifo_gatekeeper_output[5].gatekeeper_out.start_in
+[color] 6
+hs_npu_mm_unit.gen_fifo_gatekeeper_output[5].gatekeeper_out.start_out
+@28
+[color] 1
+hs_npu_mm_unit.gen_fifo_gatekeeper_output[6].gatekeeper_out.active
+@420
+[color] 1
+hs_npu_mm_unit.gen_fifo_gatekeeper_output[6].gatekeeper_out.enable_cycles[31:0]
+[color] 1
+hs_npu_mm_unit.gen_fifo_gatekeeper_output[6].gatekeeper_out.enable_cycles_in[31:0]
+[color] 1
+hs_npu_mm_unit.gen_fifo_gatekeeper_output[6].gatekeeper_out.input_data[31:0]
+[color] 1
+hs_npu_mm_unit.gen_fifo_gatekeeper_output[6].gatekeeper_out.output_data[31:0]
+[color] 1
+hs_npu_mm_unit.gen_fifo_gatekeeper_output[6].gatekeeper_out.rst_n
+[color] 1
+hs_npu_mm_unit.gen_fifo_gatekeeper_output[6].gatekeeper_out.start_in
+[color] 1
+hs_npu_mm_unit.gen_fifo_gatekeeper_output[6].gatekeeper_out.start_out
+[color] 2
+hs_npu_mm_unit.gen_fifo_gatekeeper_output[7].gatekeeper_out.active
+[color] 2
+hs_npu_mm_unit.gen_fifo_gatekeeper_output[7].gatekeeper_out.enable_cycles[31:0]
+@421
+[color] 2
+hs_npu_mm_unit.gen_fifo_gatekeeper_output[7].gatekeeper_out.enable_cycles_in[31:0]
+@420
+[color] 2
+hs_npu_mm_unit.gen_fifo_gatekeeper_output[7].gatekeeper_out.input_data[31:0]
+[color] 2
+hs_npu_mm_unit.gen_fifo_gatekeeper_output[7].gatekeeper_out.output_data[31:0]
+[color] 2
+hs_npu_mm_unit.gen_fifo_gatekeeper_output[7].gatekeeper_out.rst_n
+[color] 2
+hs_npu_mm_unit.gen_fifo_gatekeeper_output[7].gatekeeper_out.start_in
+[color] 2
+hs_npu_mm_unit.gen_fifo_gatekeeper_output[7].gatekeeper_out.start_out
+@28
+#{hs_npu_mm_unit.valid_o[0:7]} hs_npu_mm_unit.valid_o[0] hs_npu_mm_unit.valid_o[1] hs_npu_mm_unit.valid_o[2] hs_npu_mm_unit.valid_o[3] hs_npu_mm_unit.valid_o[4] hs_npu_mm_unit.valid_o[5] hs_npu_mm_unit.valid_o[6] hs_npu_mm_unit.valid_o[7]
+[pattern_trace] 1
+[pattern_trace] 0

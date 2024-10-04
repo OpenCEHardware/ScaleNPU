@@ -1,1 +1,1 @@
-subdirs := fifo_keeper systolic
+subdirs := fifo_keeper systolic mm_unit

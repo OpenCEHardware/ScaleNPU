@@ -1,0 +1,106 @@
+[*]
+[*] GTKWave Analyzer v3.4.0 (w)1999-2022 BSI
+[*] Thu Oct  3 21:30:05 2024
+[*]
+[dumpfile] "/home/jachm/Repos/SCALE-NPU/build/tb_hs_npu_mm_unit/test-84b96b19/dump.vcd"
+[dumpfile_mtime] "Thu Oct  3 21:29:49 2024"
+[dumpfile_size] 186781
+[savefile] "/home/jachm/Repos/SCALE-NPU/tb/mm_unit/input_wave.gtkw"
+[timestart] 0
+[size] 1920 985
+[pos] -1 -1
+*-6.660674 320 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+[treeopen] hs_npu_mm_unit.
+[treeopen] hs_npu_mm_unit.gen_fifo_gatekeeper_input[0].
+[treeopen] hs_npu_mm_unit.gen_fifo_gatekeeper_input[1].
+[treeopen] hs_npu_mm_unit.gen_fifo_gatekeeper_input[2].
+[treeopen] hs_npu_mm_unit.gen_fifo_gatekeeper_input[3].
+[treeopen] hs_npu_mm_unit.gen_fifo_gatekeeper_input[4].
+[treeopen] hs_npu_mm_unit.gen_fifo_gatekeeper_input[5].
+[treeopen] hs_npu_mm_unit.gen_fifo_gatekeeper_input[6].
+[treeopen] hs_npu_mm_unit.gen_fifo_gatekeeper_input[7].
+[sst_width] 297
+[signals_width] 277
+[sst_expanded] 1
+[sst_vpaned_height] 291
+@24
+hs_npu_mm_unit.gen_fifo_gatekeeper_input[0].input_fifo.write_ptr[1:0]
+@420
+[color] 1
+hs_npu_mm_unit.gen_fifo_gatekeeper_input[0].input_fifo.fifo[0][15:0]
+[color] 1
+hs_npu_mm_unit.gen_fifo_gatekeeper_input[0].input_fifo.fifo[1][15:0]
+[color] 1
+hs_npu_mm_unit.gen_fifo_gatekeeper_input[0].input_fifo.fifo[2][15:0]
+[color] 1
+hs_npu_mm_unit.gen_fifo_gatekeeper_input[0].input_fifo.fifo[3][15:0]
+[color] 2
+hs_npu_mm_unit.gen_fifo_gatekeeper_input[1].input_fifo.fifo[0][15:0]
+[color] 2
+hs_npu_mm_unit.gen_fifo_gatekeeper_input[1].input_fifo.fifo[1][15:0]
+[color] 2
+hs_npu_mm_unit.gen_fifo_gatekeeper_input[1].input_fifo.fifo[2][15:0]
+[color] 2
+hs_npu_mm_unit.gen_fifo_gatekeeper_input[1].input_fifo.fifo[3][15:0]
+[color] 3
+hs_npu_mm_unit.gen_fifo_gatekeeper_input[2].input_fifo.fifo[0][15:0]
+[color] 3
+hs_npu_mm_unit.gen_fifo_gatekeeper_input[2].input_fifo.fifo[1][15:0]
+[color] 3
+hs_npu_mm_unit.gen_fifo_gatekeeper_input[2].input_fifo.fifo[2][15:0]
+[color] 3
+hs_npu_mm_unit.gen_fifo_gatekeeper_input[2].input_fifo.fifo[3][15:0]
+[color] 4
+hs_npu_mm_unit.gen_fifo_gatekeeper_input[3].input_fifo.fifo[0][15:0]
+[color] 4
+hs_npu_mm_unit.gen_fifo_gatekeeper_input[3].input_fifo.fifo[1][15:0]
+[color] 4
+hs_npu_mm_unit.gen_fifo_gatekeeper_input[3].input_fifo.fifo[2][15:0]
+[color] 4
+hs_npu_mm_unit.gen_fifo_gatekeeper_input[3].input_fifo.fifo[3][15:0]
+[color] 5
+hs_npu_mm_unit.gen_fifo_gatekeeper_input[4].input_fifo.fifo[0][15:0]
+[color] 5
+hs_npu_mm_unit.gen_fifo_gatekeeper_input[4].input_fifo.fifo[1][15:0]
+[color] 5
+hs_npu_mm_unit.gen_fifo_gatekeeper_input[4].input_fifo.fifo[2][15:0]
+[color] 5
+hs_npu_mm_unit.gen_fifo_gatekeeper_input[4].input_fifo.fifo[3][15:0]
+[color] 6
+hs_npu_mm_unit.gen_fifo_gatekeeper_input[5].input_fifo.fifo[0][15:0]
+[color] 6
+hs_npu_mm_unit.gen_fifo_gatekeeper_input[5].input_fifo.fifo[1][15:0]
+[color] 6
+hs_npu_mm_unit.gen_fifo_gatekeeper_input[5].input_fifo.fifo[2][15:0]
+@421
+[color] 6
+hs_npu_mm_unit.gen_fifo_gatekeeper_input[5].input_fifo.fifo[3][15:0]
+@420
+[color] 7
+hs_npu_mm_unit.gen_fifo_gatekeeper_input[6].input_fifo.fifo[0][15:0]
+[color] 7
+hs_npu_mm_unit.gen_fifo_gatekeeper_input[6].input_fifo.fifo[1][15:0]
+[color] 7
+hs_npu_mm_unit.gen_fifo_gatekeeper_input[6].input_fifo.fifo[2][15:0]
+[color] 7
+hs_npu_mm_unit.gen_fifo_gatekeeper_input[6].input_fifo.fifo[3][15:0]
+[color] 1
+hs_npu_mm_unit.gen_fifo_gatekeeper_input[7].input_fifo.fifo[0][15:0]
+[color] 1
+hs_npu_mm_unit.gen_fifo_gatekeeper_input[7].input_fifo.fifo[1][15:0]
+[color] 1
+hs_npu_mm_unit.gen_fifo_gatekeeper_input[7].input_fifo.fifo[2][15:0]
+[color] 1
+hs_npu_mm_unit.gen_fifo_gatekeeper_input[7].input_fifo.fifo[3][15:0]
+@28
+hs_npu_mm_unit.gen_fifo_gatekeeper_input[4].input_gatekeeper.active
+hs_npu_mm_unit.gen_fifo_gatekeeper_input[4].input_gatekeeper.clk
+@420
+hs_npu_mm_unit.gen_fifo_gatekeeper_input[4].input_gatekeeper.enable_cycles[31:0]
+hs_npu_mm_unit.gen_fifo_gatekeeper_input[4].input_gatekeeper.enable_cycles_in[31:0]
+hs_npu_mm_unit.gen_fifo_gatekeeper_input[4].input_gatekeeper.input_data[15:0]
+hs_npu_mm_unit.gen_fifo_gatekeeper_input[4].input_gatekeeper.output_data[15:0]
+hs_npu_mm_unit.gen_fifo_gatekeeper_input[4].input_gatekeeper.start_in
+hs_npu_mm_unit.gen_fifo_gatekeeper_input[4].input_gatekeeper.start_out
+[pattern_trace] 1
+[pattern_trace] 0
