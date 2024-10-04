@@ -6,13 +6,11 @@ module hs_npu_mm_unit
     parameter int OUTPUT_DATA_WIDTH = 32,  // Output data width (int32)
     parameter int WEIGHT_DATA_WIDTH = 16,  // Weight data width (int8)
     parameter int INPUT_FIFO_DEPTH = 10,  // Depth of input FIFOs
-    // parameter int OUTPUT_FIFO_DEPTH = 10,  // Depth of output FIFOs
     parameter int WEIGHT_FIFO_DEPTH = 8    // Depth of weight FIFOs (same or more than the systolic array size)
 ) (
     input logic clk,
     input logic rst_n,
     input logic flush_input_fifos,
-    // input logic flush_output_fifos,
     input logic flush_weight_fifos,
 
     // Input FIFO sink signals
@@ -28,8 +26,6 @@ module hs_npu_mm_unit
     // Output source signals
     output logic [OUTPUT_DATA_WIDTH-1:0] output_data[SIZE],  // Output data from systolic array
     output logic valid_o[SIZE],
-    // output logic output_fifo_valid_o[SIZE],
-    // input logic output_fifo_ready_i,
 
     // Initial sums for systolic array computation
     input logic [OUTPUT_DATA_WIDTH-1:0] input_sums[SIZE],  // Initial sum values
@@ -43,14 +39,12 @@ module hs_npu_mm_unit
 
   // Internal signals for FIFO, gatekeeper and systolic array connections
   logic [INPUT_DATA_WIDTH-1:0] input_fifo_out[SIZE];  // Output data from input FIFOs
-  // logic [OUTPUT_DATA_WIDTH-1:0] output_fifo_in[SIZE];  // Input data for output FIFOs
   logic [WEIGHT_DATA_WIDTH-1:0] weight_fifo_out[SIZE];  // Output data from weight FIFOs
 
   logic [INPUT_DATA_WIDTH-1:0] input_systolic[SIZE];  // Input data to systolic array (delayed input matrix)
   logic [OUTPUT_DATA_WIDTH-1:0] output_systolic[SIZE];  // Output data from systolic array (delayed results)
 
   logic input_keeper_active[SIZE];  // Gatekeeper active signal for input FIFOs
-  //logic output_keeper_active[SIZE];  // Gatekeeper active signal for output FIFOs
 
   logic start_input_out[SIZE];  // Start signal for cascading input gatekeepers
   logic start_output_out[SIZE];  // Start signal for cascading output gatekeepers
@@ -138,24 +132,6 @@ module hs_npu_mm_unit
           .active(valid_o[i])  // Active signal
       );
     end
-
-    // // Output FIFO logic
-    // for (i = 0; i < SIZE; i++) begin : gen_output_fifo
-    //   hs_fifo #(
-    //       .WIDTH(OUTPUT_DATA_WIDTH),
-    //       .DEPTH(OUTPUT_FIFO_DEPTH)
-    //   ) output_fifo (
-    //       .clk_core  (clk),
-    //       .rst_core_n(rst_n),
-    //       .flush     (flush_output_fifos),
-    //       .ready_o   (),                         // Not used
-    //       .valid_i   (output_keeper_active[i]),  // Valid signal from gatekeeper
-    //       .in        (output_fifo_in[i]),        // Input data from gatekeeper
-    //       .ready_i   (output_fifo_ready_i),      // Ready signal for external output
-    //       .valid_o   (output_fifo_valid_o[i]),   // Valid output data signal
-    //       .out       (output_data[i])            // Output data from FIFO
-    //   );
-    // end
   endgenerate
 
 endmodule
