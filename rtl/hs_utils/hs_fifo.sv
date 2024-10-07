@@ -6,6 +6,7 @@ module hs_fifo #(
     input logic rst_core_n,
 
     input logic flush,
+    input logic reread,
 
     output logic               ready_o,
     input  logic               valid_i,
@@ -64,6 +65,8 @@ module hs_fifo #(
 
         valid_o   <= 0;
       end
+
+      if (reread) read_ptr  <= '0;
     end
 
   always_ff @(posedge clk_core) begin
