@@ -121,7 +121,7 @@ module hs_npu_inference
       hs_fifo #(
           .WIDTH(INPUT_DATA_WIDTH),
           .DEPTH(OUTPUT_FIFO_DEPTH)
-      ) input_fifo (
+      ) output_fifo (
           .clk_core  (clk),
           .rst_core_n(rst_n),
           .flush     (flush_output_fifos),

@@ -2,9 +2,10 @@ module hs_npu_memory_ordering
   import hs_npu_pkg::*;
 #(
     parameter int SIZE = 8,  // Number of rows and columns of the systolic array
-    parameter int BUFFER_SIZE = 16,  // Maximum number of inferences the system cand hold
+    parameter int BUFFER_SIZE = 16,  // Maximum number of inferences the system can hold
     parameter int OUTPUT_DATA_WIDTH = 32,
-    parameter int WORDS_PER_LINE = SIZE * 8 / 32  // SYS_SIZE x INT8 / WORD_LENGHT
+    parameter int INPUT_DATA_WIDTH = 16,
+    parameter int WORDS_PER_LINE = SIZE * 8 / 32  // SYS_SIZE x INT8 / WORD_LENGTH
 ) (
     input logic clk,
     input logic rst_n,
@@ -13,10 +14,11 @@ module hs_npu_memory_ordering
     output exec_ready_o,
 
     input  mem_valid_i,
+    input  mem_ready_i,
     output mem_read_ready_o,
     output mem_write_valid_o,
 
-    // Input and weight matrices dimesions from CPU
+    // Input and weight matrices dimensions from CPU
     input uword num_input_rows_in,
     input uword num_input_columns_in,
     input uword num_weight_rows_in,
@@ -38,7 +40,7 @@ module hs_npu_memory_ordering
     output uword memory_data_out[WORDS_PER_LINE],
     output uword request_address,
 
-    // Control signals for matrix multiplication unit and fifos
+    // Control signals for matrix multiplication unit and FIFOs
     output logic flush_input_fifos,
     output logic input_fifo_valid_o,
     input  logic input_fifo_ready_i[SIZE],
@@ -58,52 +60,45 @@ module hs_npu_memory_ordering
     output logic start_output_gatekeeper,
     output uword enable_cycles_gatekeeper,
     output logic activation_select_out,
-
+    output uword shift_amount_out,
 
     output logic [INPUT_DATA_WIDTH-1:0] output_weights[SIZE],
     output logic [INPUT_DATA_WIDTH-1:0] output_inputs[SIZE],
     output logic [OUTPUT_DATA_WIDTH-1:0] output_bias[SIZE],
     output logic [OUTPUT_DATA_WIDTH-1:0] output_sums[SIZE],
 
-    input logic [ACTIVATION_OUTPUT_WIDTH-1:0] inference_result[SIZE]  // Final output from inference
-
+    input logic [INPUT_DATA_WIDTH-1:0] inference_result[SIZE]  // Final output from inference
 );
 
+  // States for the state machine
+  typedef enum logic [2:0] {
+    IDLE,
+    LOADING_WEIGHTS,
+    LOADING_INPUTS,
+    LOADING_BIAS,
+    LOADING_SUMS,
+    READY_TO_COMPUTE,
+    SAVING
+  } loading_state_t;
 
-  logic in_progress;
-
-  // Floped layer control signals from CPU
-  uword num_input_rows;
-  uword num_input_columns;
-  uword num_weight_rows;
-  uword num_weight_columns;
-
-  logic reuse_inputs;
-  logic reuse_weights;
-  logic save_outputs;
-  uword shift_amount;
-  logic activation_select;
-  uword base_address;
-  uword result_address;
-  logic use_bias;
-  logic use_sum;
-
-  // Operation flux control signals
-  //uword operation_cycles;
   loading_state_t state;
-  uword computation_cycles;
 
-  uword current_i;
-  uword current_j;
+  // Registers for control and operation
+  logic in_progress;
+  uword num_input_rows, num_input_columns, num_weight_rows, num_weight_columns;
+  logic reuse_inputs, reuse_weights, save_outputs, use_bias, use_sum, activation_select;
+  uword shift_amount, base_address, result_address;
+  uword computation_cycles, current_i, request_addr, last_request_addr;
+  logic [OUTPUT_DATA_WIDTH-1:0] sums[SIZE], bias[SIZE];
+  logic [OUTPUT_DATA_WIDTH-1:0] results[SIZE];
+  uword output_counter;
 
-  logic [OUTPUT_DATA_WIDTH-1:0] sums[SIZE];
-  logic [OUTPUT_DATA_WIDTH-1:0] bias[SIZE];
-
-  // Prepare for new calculation and reset
-  always_ff @(posedge clk or negedge rst_n) begin : set_up
-
-    if (!rsr_n) begin
+  // Unified always_ff block for state transitions and operations
+  always_ff @(posedge clk or negedge rst_n) begin
+    if (!rst_n) begin
+      // Reset logic
       in_progress <= 0;
+      state <= IDLE;
 
       num_input_rows <= '0;
       num_input_columns <= '0;
@@ -120,275 +115,242 @@ module hs_npu_memory_ordering
       use_bias <= 0;
       use_sum <= 0;
 
-      //operation_cycles <= 0;
-      state <= IDLE;
-      computation_cycles <= '0;
-
       current_i <= 0;
-      current_j <= 0;
-
-      sums <= '0;
-      bias <= '0;
-
-    end
-
-    // Flop all layer signal values
-    if (!in_progress && exec_valid_i) begin
-
-      in_progress <= 1;
-
-      num_input_rows <= num_input_rows_in;
-      num_input_columns <= num_input_columns_in;
-      num_weight_rows <= num_weight_rows_in;
-      num_weight_columns <= num_weight_columns_in;
-
-      reuse_inputs <= reuse_inputs_in;
-      reuse_weights <= reuse_weights_in;
-      save_outputs <= save_outputs_in;
-      shift_amount <= shift_amount_in;
-      activation_select <= activation_select_in;
-      base_address <= base_address_in;
-      result_address <= result_address_in;
-      use_bias <= use_bias_in;
-      use_sum <= use_sum_in;
-
       computation_cycles <= '0;
+      last_request_addr <= -1;
+      request_addr <= '0;
+      output_counter <= 0;
 
-      current_i <= 0;
-      current_j <= 0;
-
-      // We always start with the weights
-      //operation_cycles <= 1;
-      state <= LOADING_WEIGHTS;
-    end
-  end
-
-
-  always_ff @(posedge clk) begin : trivial_cases
-
-    if (in_progress) begin
-
-      if (reuse_weights && state == LOADING_WEIGHTS) begin
-        state <= LOADING_INPUTS;
+      for (int i = 0; i < SIZE; i++) begin
+        sums[i] <= '0;
+        bias[i] <= '0;
+        results[i] <= '0;
       end
+    end else begin
+      // Flop control signals and progress
+      case (state)
+        IDLE: begin
+          if (exec_valid_i && !in_progress) begin
+            // Capture the layer control signals
+            in_progress <= 1;
+            num_input_rows <= num_input_rows_in;
+            num_input_columns <= num_input_columns_in;
+            num_weight_rows <= num_weight_rows_in;
+            num_weight_columns <= num_weight_columns_in;
 
-      // Input has no trivial case, it will always have to be moved o loaded
-      if (reuse_inputs && state == LOADING_INPUTS) begin
-        output_fifo_ready_o <= 1;
-      end
+            reuse_inputs <= reuse_inputs_in;
+            reuse_weights <= reuse_weights_in;
+            save_outputs <= save_outputs_in;
+            shift_amount <= shift_amount_in;
+            activation_select <= activation_select_in;
+            base_address <= base_address_in;
+            result_address <= result_address_in;
+            use_bias <= use_bias_in;
+            use_sum <= use_sum_in;
 
-      if (!use_bias && state == LOADING_BIAS) begin
-        bias <= '0;
-        current_i <= 0;
-        current_j <= 0;
-        state <= LOADING_SUMS;
-      end
-
-      if (!use_sum && state == LOADING_SUMS) begin
-        sums  <= '0;
-        state <= READY_TO_COMPUTE;
-      end
-    end
-  end
-
-
-  // Keep asking for data
-  assign mem_read_ready_o = state == LOADING_WEIGHTS || state == LOADING_INPUTS || state == LOADING_BIAS || state == LOADING_SUMS;
-
-  logic moving_inputs;
-  assign moving_inputs = state == LOADING_INPUTS && reuse_inputs;
-
-  always_ff @(posedge clk) begin : loading_loop
-
-    // Flop all layer signal values
-    if (in_progress) begin
-
-      // Check if memory has answered our request
-      if (mem_valid_i || moving_inputs) begin
-
-        if (current_i < num_weight_rows) begin
-          // Iterate over memory_data_in to extract weights
-          for (int bundle_idx = 0; bundle_idx < WORDS_PER_LINE; bundle_idx++) begin
-            for (
-                int weight_idx = 0; weight_idx < 4; weight_idx++
-            ) begin  // int8 weights are enforced here
-              // Extract each 8-bit weight from memory_data_in and load into weight FIFO
-              output_weights[weight_idx + (bundle_idx * 4)] <= memory_data_in[bundle_idx][8 * weight_idx +: 8];
-            end
-          end
-        end else begin
-          output_weights <= '0;
-        end
-
-        if (!reuse_inputs) begin
-          // Iterate over memory_data_in to extract input
-          for (int bundle_idx = 0; bundle_idx < WORDS_PER_LINE; bundle_idx++) begin
-            for (
-                int input_idx = 0; input_idx < 4; input_idx++
-            ) begin  // int8 inputs are enforced here
-              // Extract each 8-bit input from memory_data_in and load into input FIFO
-              output_inputs[input_idx+(bundle_idx*4)] <= memory_data_in[bundle_idx][8*bundle_idx+:8];
-            end
-          end
-        end else begin
-          // Iterate over past_result to extract input
-          for (
-              int input_idx = 0; input_idx < SIZE; input_idx++
-          ) begin  // int8 inputs are enforced here
-            output_inputs[SIZE-num_input_columns+input_idx] <= inference_result[input_idx];
-          end
-        end
-
-        if (state == LOADING_WEIGHTS) begin
-          if (current_i >= num_weight_rows) begin
             current_i <= 0;
-            //current_j <= 0;
-            weight_fifo_valid_o <= 0;
-            state <= LOADING_INPUTS;
-            // Here one could set the enable signals for weights to start loading.
-            // One would have to independently track a SIZE amount of cycles before turing it
-            // down again, failing to do so would overwrite weights and corrupt the result
-            // This is why it is handled whitin the computing state below, even tho this is a SIZE
-            // amount of cycles lost. Since for this application SIZE=8, the loss is prefered to favor order.
-          end else begin
+            computation_cycles <= 0;
+            request_addr <= base_address_in;
+            output_counter <= 0;
+            state <= LOADING_WEIGHTS;
+          end
+        end
+
+        LOADING_WEIGHTS: begin
+          if (mem_valid_i) begin
+            // Load weights into output_weights
+            for (int bundle_idx = 0; bundle_idx < WORDS_PER_LINE; bundle_idx++) begin
+              for (int weight_idx = 0; weight_idx < 4; weight_idx++) begin
+                output_weights[weight_idx+(bundle_idx*4)] <= {
+                  {8{memory_data_in[bundle_idx][8*weight_idx+7]}},
+                  memory_data_in[bundle_idx][8*weight_idx+:8]
+                };
+              end
+            end
             weight_fifo_valid_o <= 1;
             current_i <= current_i + 1;
-            //current_j <= current_j + (4 * WORDS_PER_LINE);
+            last_request_addr <= request_addr;
+            request_addr <= request_addr + (4 * WORDS_PER_LINE);
+          end else begin
+            weight_fifo_valid_o <= 0;
+          end
+          if (current_i > num_weight_rows) begin
+            state <= LOADING_INPUTS;
+            current_i <= 0;
+            weight_fifo_valid_o <= 0;
           end
         end
 
-
-        if (state == LOADING_INPUTS) begin
-          if (current_i >= num_input_rows) begin
-            current_i <= 0;
-            input_fifo_valid_o <= 0;
-            if (reuse_inputs) output_fifo_ready_o <= 0;
-            state <= LOADING_BIAS;
-          end else begin
+        LOADING_INPUTS: begin
+          if (mem_valid_i || reuse_inputs) begin
+            if (!reuse_inputs) begin
+              // Load inputs from memory
+              for (int bundle_idx = 0; bundle_idx < WORDS_PER_LINE; bundle_idx++) begin
+                for (int input_idx = 0; input_idx < 4; input_idx++) begin
+                  output_inputs[input_idx+(bundle_idx*4)] <= {
+                    {8{memory_data_in[bundle_idx][8*input_idx+7]}},
+                    memory_data_in[bundle_idx][8*input_idx+:8]
+                  };
+                end
+              end
+              last_request_addr <= request_addr;
+              request_addr <= request_addr + (4 * WORDS_PER_LINE);
+            end else begin
+              // Load inputs from past inference results
+              for (int input_idx = 0; input_idx < SIZE; input_idx++) begin
+                output_inputs[SIZE - num_input_columns + input_idx] <= inference_result[input_idx][15:0];
+              end
+            end
             input_fifo_valid_o <= 1;
             current_i <= current_i + 1;
-            //current_j <= current_j + (4 * WORDS_PER_LINE);
-          end
-        end
-
-        if (state == LOADING_BIAS) begin
-          if (current_i < num_weight_columns) begin // Because the number of colums in the weights will always match the number of biases
-            // Iterate over memory_data_in to extract bias
-            for (int bundle_idx = 0; bundle_idx < WORDS_PER_LINE; bundle_idx++) begin
-              bias[current_i] <= memory_data_in[bundle_idx];
-            end
           end else begin
-            bias[current_i] <= '0;
+            input_fifo_valid_o <= 0;
           end
-          if (current_i >= SIZE) begin
+          if (current_i >= num_input_rows) begin
+            state <= LOADING_BIAS;
             current_i <= 0;
-            bias_enable <= 1;
-            state <= LOADING_SUMS;
-          end else current_i <= current_i + WORDS_PER_LINE;
+            input_fifo_valid_o <= 0;
+          end
         end
 
-        if (state == LOADING_SUMS) begin
-          if (current_i < num_weight_columns) begin // Because the number of colums in the weights will always match the number of sums
-            // Iterate over memory_data_in to extract sums
-            for (int bundle_idx = 0; bundle_idx < WORDS_PER_LINE; bundle_idx++) begin
-              sums[current_i] <= memory_data_in[bundle_idx];
+        LOADING_BIAS: begin
+          if (use_bias) begin
+            if (mem_valid_i && current_i < SIZE) begin
+              for (int bundle_idx = 0; bundle_idx < WORDS_PER_LINE; bundle_idx++) begin
+                bias[current_i+bundle_idx] <= memory_data_in[bundle_idx];
+              end
+              current_i <= current_i + WORDS_PER_LINE;
+              last_request_addr <= request_addr;
+              request_addr <= request_addr + (4 * WORDS_PER_LINE);
+            end else begin
+              if (current_i >= SIZE) begin
+                state <= LOADING_SUMS;
+                current_i <= 0;
+              end
             end
           end else begin
-            sums[current_i] <= '0;
+            // Skip loading bias if not in use
+            for (int i = 0; i < SIZE; i++) begin
+              bias[i] <= '0;
+            end
+            state <= LOADING_SUMS;
           end
-          if (current_i >= SIZE) begin
-            bias_enable <= 0;
-            mem_read_ready_o <= 0;
-            if (!reuse_weights)
-              weight_enable <= 1;  // Start loading weights into the systolic array
-            flush_output_fifos <= 1;
+        end
+
+        LOADING_SUMS: begin
+          if (use_sum) begin
+            if (mem_valid_i && current_i < SIZE) begin
+              for (int bundle_idx = 0; bundle_idx < WORDS_PER_LINE; bundle_idx++) begin
+                sums[current_i+bundle_idx] <= memory_data_in[bundle_idx];
+              end
+              current_i <= current_i + WORDS_PER_LINE;
+              last_request_addr <= request_addr;
+              request_addr <= request_addr + (4 * WORDS_PER_LINE);
+            end else begin
+              if (current_i >= SIZE) begin
+                state <= READY_TO_COMPUTE;
+              end
+            end
+          end else begin
+            // Skip loading sums if not in use
+            for (int i = 0; i < SIZE; i++) begin
+              sums[i] <= '0;
+            end
             state <= READY_TO_COMPUTE;
-          end else current_i <= current_i + WORDS_PER_LINE;
-        end
-
-        // Increment address
-        request_address <= request_address + (4 * WORDS_PER_LINE);
-
-      end else begin
-        weight_fifo_valid_o <= 0;
-        input_fifo_valid_o  <= 0;
-      end
-    end
-  end
-
-  logic weights_loaded;
-  // Viligamos ejecucion teniendo en cuenta los timings. Aqui se puede mandar un flush a cualquier dato basura que se
-  // hay pedido en la ultima iteracion
-  always_ff @(posedge clk) begin : execution
-
-    if (in_progress && state == READY_TO_COMPUTE) begin
-
-      flush_output_fifos <= 0;
-
-      computation_cycles <= computation_cycles + 1;
-
-      if (computation_cycles == SIZE) begin
-        weight_enable <= 0;
-        start_input_gatekeeper <= 1;
-        weights_loaded <= 1;
-      end
-
-      if (start_input_gatekeeper) start_input_gatekeeper <= 0;
-
-      if (computation_cycles == 2 * SIZE) begin
-        start_output_gatekeeper <= 1;
-      end
-
-      if (start_output_gatekeeper) start_output_gatekeeper <= 0;
-
-      if (computation_cycles == 3 * SIZE + num_input_rows) begin
-        flush_weight_fifos <= 1;
-        flush_input_fifos  <= 1;
-        if (save_outputs) begin
-          mem_write_valid_o <= 1;
-          output_fifo_ready_o <= 1;
-          current_i <= 0;
-        end
-        state <= SAVING;
-      end
-    end
-  end
-
-  // Cerramos, guardamos resultados y quedamos en modo de espera
-
-  always_ff @(posedge clk) begin : saving
-
-    if (in_progress && state == SAVING) begin
-
-      flush_weight_fifos <= 0;
-      flush_input_fifos  <= 0;
-
-      if (!save_outputs) begin
-        state <= IDLE;
-        in_progress <= 0;
-      end else begin
-        // Iterate over past_result to extract input
-        if (mem_valid_i) begin
-          for (int output_idx = 0; output_idx < SIZE; output_idx++) begin
-            memory_data_out[output_idx] <= inference_result[output_idx];
           end
-          output_fifo_ready_o <= 1;
-          current_i <= current_i + 1;
-        end else begin
-          output_fifo_ready_o <= 0;
         end
-      end
 
-      if (current_i >= num_input_rows) begin
-        output_fifo_ready_o <= 0;
-        output_fifo_reread <= 1;
-        state <= IDLE;
-      end
+        READY_TO_COMPUTE: begin
+          computation_cycles <= computation_cycles + 1;
+
+          if (computation_cycles == 0) begin
+            weight_enable <= 1;
+          end
+
+          if (computation_cycles == SIZE + 1) begin
+            weight_enable <= 0;
+            start_input_gatekeeper <= 1;
+          end
+
+          if (computation_cycles == SIZE + 2) begin
+            start_input_gatekeeper <= 0;
+          end
+
+          if (computation_cycles == 2 * SIZE + 1) begin
+            start_output_gatekeeper <= 1;
+          end
+
+          if (computation_cycles == 2 * SIZE + 2) begin
+            start_output_gatekeeper <= 0;
+          end
+
+          if (computation_cycles == 3 * SIZE + num_input_rows + 1) begin
+            request_addr <= result_address;
+            last_request_addr <= -1;
+            current_i <= -1;
+            state <= SAVING;
+          end
+        end
+
+        SAVING: begin
+          // Save the final results into memory or CPU, based on save_outputs
+          if (save_outputs) begin
+            if (current_i == -1) begin
+              for (int idx = 0; idx < SIZE; idx++) begin
+                results[idx]   <= {{16{inference_result[idx][15]}}, inference_result[idx]};
+                output_counter <= output_counter + 1;
+                current_i <= 0;
+              end
+            end else begin
+              if (mem_ready_i && current_i < SIZE) begin
+                // Logic to save output results
+                for (int bundle_idx = 0; bundle_idx < WORDS_PER_LINE; bundle_idx++) begin
+                  memory_data_out[bundle_idx] <= results[current_i+bundle_idx];
+                end
+                last_request_addr <= request_addr;
+                current_i <= current_i + WORDS_PER_LINE;
+                request_addr <= request_addr + (4 * WORDS_PER_LINE);
+              end
+              if (current_i >= SIZE) begin
+                current_i <= -1;
+              end
+            end
+            if (output_counter >= num_input_rows) begin
+              state <= IDLE;
+              in_progress <= 0;
+            end
+          end else begin
+            // No save required, return to IDLE
+            state <= IDLE;
+            in_progress <= 0;
+          end
+        end
+
+        default: state <= IDLE;
+      endcase
     end
   end
 
-  assign activation_select_out = activation_select_in;
+  // Memory interface logic
+  assign request_address = request_addr;
+
+  // Input/output ready/valid signals
+  assign exec_ready_o = (state == IDLE);
+  assign mem_read_ready_o = (state == LOADING_WEIGHTS || state == LOADING_INPUTS || state == LOADING_BIAS || state == LOADING_SUMS) && last_request_addr != request_addr;
+  assign mem_write_valid_o = (state == SAVING && last_request_addr != request_addr);
+  assign flush_input_fifos = (state == SAVING);
+  assign flush_weight_fifos = (state == SAVING);
+  //assign flush_output_fifos = (state == SAVING);
+
+  assign output_fifo_ready_o = (state == SAVING && current_i == -1);
+  //assign output_fifo_reread = (state == SAVING && save_outputs);
+
+  assign activation_select_out = activation_select;
+  assign shift_amount_out = shift_amount;
+  assign bias_enable = (state == LOADING_BIAS);
   assign enable_cycles_gatekeeper = num_input_rows;
-  assign exec_ready_o = !in_progress && state == IDLE;
+
+  assign output_bias = bias;
+  assign output_sums = sums;
 
 endmodule

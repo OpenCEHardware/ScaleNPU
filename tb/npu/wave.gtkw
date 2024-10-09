@@ -1,0 +1,640 @@
+[*]
+[*] GTKWave Analyzer v3.4.0 (w)1999-2022 BSI
+[*] Wed Oct  9 06:26:50 2024
+[*]
+[dumpfile] "/home/jachm/Repos/SCALE-NPU/build/tb_hs_npu/test-cff7605b/dump.vcd"
+[dumpfile_mtime] "Wed Oct  9 06:25:15 2024"
+[dumpfile_size] 412529
+[savefile] "/home/jachm/Repos/SCALE-NPU/tb/npu/wave.gtkw"
+[timestart] 1077
+[size] 1920 985
+[pos] -1 -1
+*-5.400000 1200 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+[treeopen] hs_npu.
+[treeopen] hs_npu.inference.gen_fifo_output[1].
+[treeopen] hs_npu.inference.gen_fifo_output[2].
+[treeopen] hs_npu.inference.gen_fifo_output[7].
+[treeopen] hs_npu.inference.mm_unit.systolic_array.gen_col[0].gen_row[0].
+[treeopen] hs_npu.inference.mm_unit.systolic_array.gen_col[0].gen_row[1].
+[treeopen] hs_npu.inference.mm_unit.systolic_array.gen_col[0].gen_row[2].
+[treeopen] hs_npu.inference.mm_unit.systolic_array.gen_col[0].gen_row[3].
+[treeopen] hs_npu.inference.mm_unit.systolic_array.gen_col[0].gen_row[4].
+[treeopen] hs_npu.inference.mm_unit.systolic_array.gen_col[0].gen_row[5].
+[treeopen] hs_npu.inference.mm_unit.systolic_array.gen_col[0].gen_row[6].
+[treeopen] hs_npu.inference.mm_unit.systolic_array.gen_col[0].gen_row[7].
+[treeopen] hs_npu.inference.mm_unit.systolic_array.gen_col[1].gen_row[0].
+[treeopen] hs_npu.inference.mm_unit.systolic_array.gen_col[1].gen_row[1].
+[treeopen] hs_npu.inference.mm_unit.systolic_array.gen_col[1].gen_row[2].
+[treeopen] hs_npu.inference.mm_unit.systolic_array.gen_col[3].gen_row[0].
+[treeopen] hs_npu.inference.mm_unit.systolic_array.gen_col[7].gen_row[0].
+[treeopen] hs_npu.inference.mm_unit.systolic_array.gen_col[7].gen_row[1].
+[treeopen] hs_npu.inference.mm_unit.systolic_array.gen_col[7].gen_row[7].
+[sst_width] 434
+[signals_width] 319
+[sst_expanded] 1
+[sst_vpaned_height] 486
+@28
+activation_select_in
+@22
+base_address_in[31:0]
+@28
+clk
+exec_ready_o
+exec_valid_i
+mem_read_ready_o
+mem_valid_i
+mem_write_valid_o
+@22
+memory_data_in[0][31:0]
+memory_data_in[1][31:0]
+memory_data_out[0][31:0]
+memory_data_out[1][31:0]
+num_input_columns_in[31:0]
+num_input_rows_in[31:0]
+num_weight_columns_in[31:0]
+num_weight_rows_in[31:0]
+request_address[31:0]
+result_address_in[31:0]
+@28
+reuse_inputs_in
+reuse_weights_in
+rst_n
+save_outputs_in
+@22
+shift_amount_in[31:0]
+@28
+use_bias_in
+[color] 3
+use_sum_in
+[color] 3
+hs_npu.memory_ordering.activation_select
+[color] 3
+hs_npu.memory_ordering.reuse_inputs
+[color] 3
+hs_npu.memory_ordering.reuse_weights
+[color] 3
+hs_npu.memory_ordering.save_outputs
+@22
+[color] 3
+hs_npu.memory_ordering.shift_amount_in[31:0]
+[color] 3
+hs_npu.memory_ordering.shift_amount_out[31:0]
+@28
+[color] 3
+hs_npu.memory_ordering.state[2:0]
+[color] 3
+hs_npu.memory_ordering.use_bias
+[color] 3
+hs_npu.memory_ordering.use_sum
+[color] 3
+hs_npu.memory_ordering.weight_enable
+@24
+[color] 3
+hs_npu.memory_ordering.request_address[31:0]
+[color] 3
+hs_npu.memory_ordering.request_addr[31:0]
+@28
+hs_npu.memory_ordering.mem_read_ready_o
+@22
+[color] 1
+hs_npu.memory_data_in[0][31:0]
+[color] 1
+hs_npu.memory_data_in[1][31:0]
+@420
+hs_npu.memory_ordering.output_weights[0][15:0]
+hs_npu.memory_ordering.output_weights[1][15:0]
+hs_npu.memory_ordering.output_weights[2][15:0]
+hs_npu.memory_ordering.output_weights[3][15:0]
+hs_npu.memory_ordering.output_weights[4][15:0]
+hs_npu.memory_ordering.output_weights[5][15:0]
+hs_npu.memory_ordering.output_weights[6][15:0]
+hs_npu.memory_ordering.output_weights[7][15:0]
+@28
+hs_npu.clk
+@420
+[color] 7
+hs_npu.inference.weight_matrix_row[0][15:0]
+[color] 7
+hs_npu.inference.weight_matrix_row[1][15:0]
+[color] 7
+hs_npu.inference.weight_matrix_row[2][15:0]
+[color] 7
+hs_npu.inference.weight_matrix_row[3][15:0]
+[color] 7
+hs_npu.inference.weight_matrix_row[4][15:0]
+[color] 7
+hs_npu.inference.weight_matrix_row[5][15:0]
+[color] 7
+hs_npu.inference.weight_matrix_row[6][15:0]
+[color] 7
+hs_npu.inference.weight_matrix_row[7][15:0]
+@28
+hs_npu.weight_fifo_valid
+hs_npu.mem_valid_i
+@420
+hs_npu.inference.mm_unit.gen_fifo_weight[0].weight_fifo.fifo[0][15:0]
+hs_npu.inference.mm_unit.gen_fifo_weight[0].weight_fifo.fifo[1][15:0]
+hs_npu.inference.mm_unit.gen_fifo_weight[0].weight_fifo.fifo[2][15:0]
+hs_npu.inference.mm_unit.gen_fifo_weight[0].weight_fifo.fifo[3][15:0]
+hs_npu.inference.mm_unit.gen_fifo_weight[0].weight_fifo.fifo[4][15:0]
+hs_npu.inference.mm_unit.gen_fifo_weight[0].weight_fifo.fifo[5][15:0]
+hs_npu.inference.mm_unit.gen_fifo_weight[0].weight_fifo.fifo[6][15:0]
+hs_npu.inference.mm_unit.gen_fifo_weight[0].weight_fifo.fifo[7][15:0]
+hs_npu.inference.mm_unit.gen_fifo_weight[1].weight_fifo.fifo[0][15:0]
+hs_npu.inference.mm_unit.gen_fifo_weight[1].weight_fifo.fifo[1][15:0]
+hs_npu.inference.mm_unit.gen_fifo_weight[1].weight_fifo.fifo[2][15:0]
+hs_npu.inference.mm_unit.gen_fifo_weight[1].weight_fifo.fifo[3][15:0]
+hs_npu.inference.mm_unit.gen_fifo_weight[1].weight_fifo.fifo[4][15:0]
+hs_npu.inference.mm_unit.gen_fifo_weight[1].weight_fifo.fifo[5][15:0]
+hs_npu.inference.mm_unit.gen_fifo_weight[1].weight_fifo.fifo[6][15:0]
+hs_npu.inference.mm_unit.gen_fifo_weight[1].weight_fifo.fifo[7][15:0]
+hs_npu.inference.mm_unit.gen_fifo_weight[7].weight_fifo.fifo[0][15:0]
+hs_npu.inference.mm_unit.gen_fifo_weight[7].weight_fifo.fifo[1][15:0]
+hs_npu.inference.mm_unit.gen_fifo_weight[7].weight_fifo.fifo[2][15:0]
+hs_npu.inference.mm_unit.gen_fifo_weight[7].weight_fifo.fifo[3][15:0]
+hs_npu.inference.mm_unit.gen_fifo_weight[7].weight_fifo.fifo[4][15:0]
+hs_npu.inference.mm_unit.gen_fifo_weight[7].weight_fifo.fifo[5][15:0]
+hs_npu.inference.mm_unit.gen_fifo_weight[7].weight_fifo.fifo[6][15:0]
+hs_npu.inference.mm_unit.gen_fifo_weight[7].weight_fifo.fifo[7][15:0]
+@28
+hs_npu.weight_enable
+@22
+[color] 1
+hs_npu.memory_data_in[0][31:0]
+[color] 1
+hs_npu.memory_data_in[1][31:0]
+@28
+mem_valid_i
+[color] 3
+hs_npu.memory_ordering.state[2:0]
+@420
+hs_npu.memory_ordering.output_inputs[0][15:0]
+hs_npu.memory_ordering.output_inputs[1][15:0]
+hs_npu.memory_ordering.output_inputs[2][15:0]
+hs_npu.memory_ordering.output_inputs[3][15:0]
+hs_npu.memory_ordering.output_inputs[4][15:0]
+hs_npu.memory_ordering.output_inputs[5][15:0]
+hs_npu.memory_ordering.output_inputs[6][15:0]
+hs_npu.memory_ordering.output_inputs[7][15:0]
+[color] 3
+hs_npu.inference.input_matrix_row[0][15:0]
+[color] 3
+hs_npu.inference.input_matrix_row[1][15:0]
+[color] 3
+hs_npu.inference.input_matrix_row[2][15:0]
+[color] 3
+hs_npu.inference.input_matrix_row[3][15:0]
+[color] 3
+hs_npu.inference.input_matrix_row[4][15:0]
+[color] 3
+hs_npu.inference.input_matrix_row[5][15:0]
+[color] 3
+hs_npu.inference.input_matrix_row[6][15:0]
+[color] 3
+hs_npu.inference.input_matrix_row[7][15:0]
+@28
+hs_npu.clk
+@22
+hs_npu.memory_ordering.current_i[31:0]
+@28
+hs_npu.input_fifo_valid
+@22
+hs_npu.inference.mm_unit.gen_fifo_gatekeeper_input[0].input_fifo.write_ptr[3:0]
+@420
+[color] 7
+hs_npu.inference.mm_unit.gen_fifo_gatekeeper_input[0].input_fifo.fifo[0][15:0]
+[color] 7
+hs_npu.inference.mm_unit.gen_fifo_gatekeeper_input[0].input_fifo.fifo[1][15:0]
+[color] 7
+hs_npu.inference.mm_unit.gen_fifo_gatekeeper_input[0].input_fifo.fifo[2][15:0]
+[color] 7
+hs_npu.inference.mm_unit.gen_fifo_gatekeeper_input[0].input_fifo.fifo[3][15:0]
+[color] 7
+hs_npu.inference.mm_unit.gen_fifo_gatekeeper_input[0].input_fifo.fifo[4][15:0]
+[color] 7
+hs_npu.inference.mm_unit.gen_fifo_gatekeeper_input[0].input_fifo.fifo[5][15:0]
+[color] 7
+hs_npu.inference.mm_unit.gen_fifo_gatekeeper_input[0].input_fifo.fifo[6][15:0]
+[color] 7
+hs_npu.inference.mm_unit.gen_fifo_gatekeeper_input[0].input_fifo.fifo[7][15:0]
+[color] 7
+hs_npu.inference.mm_unit.gen_fifo_gatekeeper_input[0].input_fifo.fifo[8][15:0]
+[color] 7
+hs_npu.inference.mm_unit.gen_fifo_gatekeeper_input[0].input_fifo.fifo[9][15:0]
+[color] 7
+hs_npu.inference.mm_unit.gen_fifo_gatekeeper_input[1].input_fifo.fifo[0][15:0]
+[color] 7
+hs_npu.inference.mm_unit.gen_fifo_gatekeeper_input[1].input_fifo.fifo[1][15:0]
+[color] 7
+hs_npu.inference.mm_unit.gen_fifo_gatekeeper_input[1].input_fifo.fifo[2][15:0]
+[color] 7
+hs_npu.inference.mm_unit.gen_fifo_gatekeeper_input[1].input_fifo.fifo[3][15:0]
+[color] 7
+hs_npu.inference.mm_unit.gen_fifo_gatekeeper_input[1].input_fifo.fifo[4][15:0]
+[color] 7
+hs_npu.inference.mm_unit.gen_fifo_gatekeeper_input[1].input_fifo.fifo[5][15:0]
+[color] 7
+hs_npu.inference.mm_unit.gen_fifo_gatekeeper_input[1].input_fifo.fifo[6][15:0]
+[color] 7
+hs_npu.inference.mm_unit.gen_fifo_gatekeeper_input[1].input_fifo.fifo[7][15:0]
+[color] 7
+hs_npu.inference.mm_unit.gen_fifo_gatekeeper_input[1].input_fifo.fifo[8][15:0]
+[color] 7
+hs_npu.inference.mm_unit.gen_fifo_gatekeeper_input[1].input_fifo.fifo[9][15:0]
+[color] 7
+hs_npu.inference.mm_unit.gen_fifo_gatekeeper_input[2].input_fifo.fifo[0][15:0]
+[color] 7
+hs_npu.inference.mm_unit.gen_fifo_gatekeeper_input[2].input_fifo.fifo[1][15:0]
+[color] 7
+hs_npu.inference.mm_unit.gen_fifo_gatekeeper_input[2].input_fifo.fifo[2][15:0]
+[color] 7
+hs_npu.inference.mm_unit.gen_fifo_gatekeeper_input[2].input_fifo.fifo[3][15:0]
+[color] 7
+hs_npu.inference.mm_unit.gen_fifo_gatekeeper_input[2].input_fifo.fifo[4][15:0]
+[color] 7
+hs_npu.inference.mm_unit.gen_fifo_gatekeeper_input[2].input_fifo.fifo[5][15:0]
+[color] 7
+hs_npu.inference.mm_unit.gen_fifo_gatekeeper_input[2].input_fifo.fifo[6][15:0]
+[color] 7
+hs_npu.inference.mm_unit.gen_fifo_gatekeeper_input[2].input_fifo.fifo[7][15:0]
+[color] 7
+hs_npu.inference.mm_unit.gen_fifo_gatekeeper_input[2].input_fifo.fifo[8][15:0]
+[color] 7
+hs_npu.inference.mm_unit.gen_fifo_gatekeeper_input[2].input_fifo.fifo[9][15:0]
+[color] 7
+hs_npu.inference.mm_unit.gen_fifo_gatekeeper_input[3].input_fifo.fifo[0][15:0]
+[color] 7
+hs_npu.inference.mm_unit.gen_fifo_gatekeeper_input[3].input_fifo.fifo[1][15:0]
+[color] 7
+hs_npu.inference.mm_unit.gen_fifo_gatekeeper_input[3].input_fifo.fifo[2][15:0]
+[color] 7
+hs_npu.inference.mm_unit.gen_fifo_gatekeeper_input[3].input_fifo.fifo[3][15:0]
+[color] 7
+hs_npu.inference.mm_unit.gen_fifo_gatekeeper_input[3].input_fifo.fifo[4][15:0]
+[color] 7
+hs_npu.inference.mm_unit.gen_fifo_gatekeeper_input[3].input_fifo.fifo[5][15:0]
+[color] 7
+hs_npu.inference.mm_unit.gen_fifo_gatekeeper_input[3].input_fifo.fifo[6][15:0]
+[color] 7
+hs_npu.inference.mm_unit.gen_fifo_gatekeeper_input[3].input_fifo.fifo[7][15:0]
+[color] 7
+hs_npu.inference.mm_unit.gen_fifo_gatekeeper_input[3].input_fifo.fifo[8][15:0]
+[color] 7
+hs_npu.inference.mm_unit.gen_fifo_gatekeeper_input[3].input_fifo.fifo[9][15:0]
+@28
+hs_npu.clk
+hs_npu.mem_valid_i
+[color] 3
+hs_npu.memory_ordering.state[2:0]
+@22
+hs_npu.memory_ordering.current_i[31:0]
+hs_npu.request_address[31:0]
+[color] 1
+hs_npu.memory_data_in[0][31:0]
+[color] 1
+hs_npu.memory_data_in[1][31:0]
+hs_npu.memory_ordering.current_i[31:0]
+@420
+hs_npu.memory_ordering.bias[0][31:0]
+hs_npu.memory_ordering.bias[1][31:0]
+hs_npu.memory_ordering.bias[2][31:0]
+hs_npu.memory_ordering.bias[3][31:0]
+hs_npu.memory_ordering.bias[4][31:0]
+hs_npu.memory_ordering.bias[5][31:0]
+hs_npu.memory_ordering.bias[6][31:0]
+hs_npu.memory_ordering.bias[7][31:0]
+@28
+hs_npu.bias_enable
+@420
+[color] 2
+hs_npu.inference.gen_inference_pipeline[0].accumulator.bias[31:0]
+[color] 2
+hs_npu.inference.gen_inference_pipeline[1].accumulator.bias[31:0]
+[color] 2
+hs_npu.inference.gen_inference_pipeline[2].accumulator.bias[31:0]
+[color] 2
+hs_npu.inference.gen_inference_pipeline[3].accumulator.bias[31:0]
+[color] 2
+hs_npu.inference.gen_inference_pipeline[4].accumulator.bias[31:0]
+[color] 2
+hs_npu.inference.gen_inference_pipeline[5].accumulator.bias[31:0]
+[color] 2
+hs_npu.inference.gen_inference_pipeline[6].accumulator.bias[31:0]
+[color] 2
+hs_npu.inference.gen_inference_pipeline[7].accumulator.bias[31:0]
+@28
+hs_npu.memory_ordering.mem_valid_i
+hs_npu.clk
+@420
+hs_npu.memory_ordering.sums[0][31:0]
+hs_npu.memory_ordering.sums[1][31:0]
+hs_npu.memory_ordering.sums[2][31:0]
+hs_npu.memory_ordering.sums[3][31:0]
+hs_npu.memory_ordering.sums[4][31:0]
+hs_npu.memory_ordering.sums[5][31:0]
+hs_npu.memory_ordering.sums[6][31:0]
+hs_npu.memory_ordering.sums[7][31:0]
+[color] 2
+hs_npu.inference.mm_unit.input_sums[0][31:0]
+[color] 2
+hs_npu.inference.mm_unit.input_sums[1][31:0]
+[color] 2
+hs_npu.inference.mm_unit.input_sums[2][31:0]
+[color] 2
+hs_npu.inference.mm_unit.input_sums[3][31:0]
+[color] 2
+hs_npu.inference.mm_unit.input_sums[4][31:0]
+[color] 2
+hs_npu.inference.mm_unit.input_sums[5][31:0]
+[color] 2
+hs_npu.inference.mm_unit.input_sums[6][31:0]
+[color] 2
+hs_npu.inference.mm_unit.input_sums[7][31:0]
+@28
+hs_npu.inference.enable_weights
+@24
+hs_npu.inference.mm_unit.gen_fifo_weight[0].weight_fifo.read_ptr[2:0]
+@28
+hs_npu.inference.mm_unit.gen_fifo_weight[0].weight_fifo.flush
+hs_npu.inference.mm_unit.gen_fifo_weight[0].weight_fifo.valid_i
+hs_npu.inference.mm_unit.gen_fifo_weight[0].weight_fifo.valid_o
+@22
+hs_npu.inference.mm_unit.gen_fifo_weight[0].weight_fifo.fifo[0][15:0]
+hs_npu.inference.mm_unit.gen_fifo_weight[0].weight_fifo.fifo[1][15:0]
+hs_npu.inference.mm_unit.gen_fifo_weight[0].weight_fifo.fifo[2][15:0]
+hs_npu.inference.mm_unit.gen_fifo_weight[0].weight_fifo.fifo[3][15:0]
+hs_npu.inference.mm_unit.gen_fifo_weight[0].weight_fifo.fifo[4][15:0]
+hs_npu.inference.mm_unit.gen_fifo_weight[0].weight_fifo.fifo[5][15:0]
+hs_npu.inference.mm_unit.gen_fifo_weight[0].weight_fifo.fifo[6][15:0]
+hs_npu.inference.mm_unit.gen_fifo_weight[0].weight_fifo.fifo[7][15:0]
+hs_npu.inference.mm_unit.gen_fifo_weight[1].weight_fifo.fifo[0][15:0]
+hs_npu.inference.mm_unit.gen_fifo_weight[1].weight_fifo.fifo[1][15:0]
+hs_npu.inference.mm_unit.gen_fifo_weight[1].weight_fifo.fifo[2][15:0]
+hs_npu.inference.mm_unit.gen_fifo_weight[1].weight_fifo.fifo[3][15:0]
+hs_npu.inference.mm_unit.gen_fifo_weight[1].weight_fifo.fifo[4][15:0]
+hs_npu.inference.mm_unit.gen_fifo_weight[1].weight_fifo.fifo[5][15:0]
+hs_npu.inference.mm_unit.gen_fifo_weight[1].weight_fifo.fifo[6][15:0]
+hs_npu.inference.mm_unit.gen_fifo_weight[1].weight_fifo.fifo[7][15:0]
+hs_npu.inference.mm_unit.gen_fifo_weight[7].weight_fifo.fifo[0][15:0]
+hs_npu.inference.mm_unit.gen_fifo_weight[7].weight_fifo.fifo[1][15:0]
+hs_npu.inference.mm_unit.gen_fifo_weight[7].weight_fifo.fifo[2][15:0]
+hs_npu.inference.mm_unit.gen_fifo_weight[7].weight_fifo.fifo[3][15:0]
+hs_npu.inference.mm_unit.gen_fifo_weight[7].weight_fifo.fifo[4][15:0]
+hs_npu.inference.mm_unit.gen_fifo_weight[7].weight_fifo.fifo[5][15:0]
+hs_npu.inference.mm_unit.gen_fifo_weight[7].weight_fifo.fifo[6][15:0]
+hs_npu.inference.mm_unit.gen_fifo_weight[7].weight_fifo.fifo[7][15:0]
+@28
+hs_npu.clk
+[color] 5
+hs_npu.inference.enable_weights
+@420
+hs_npu.inference.mm_unit.systolic_array.matrixB[0][15:0]
+hs_npu.inference.mm_unit.systolic_array.matrixB[1][15:0]
+hs_npu.inference.mm_unit.systolic_array.matrixB[2][15:0]
+hs_npu.inference.mm_unit.systolic_array.matrixB[3][15:0]
+hs_npu.inference.mm_unit.systolic_array.matrixB[4][15:0]
+hs_npu.inference.mm_unit.systolic_array.matrixB[5][15:0]
+hs_npu.inference.mm_unit.systolic_array.matrixB[6][15:0]
+hs_npu.inference.mm_unit.systolic_array.matrixB[7][15:0]
+@22
+hs_npu.inference.mm_unit.systolic_array.gen_col[0].gen_row[0].mac_unit.a_in[15:0]
+@420
+[color] 1
+hs_npu.inference.mm_unit.systolic_array.gen_col[0].gen_row[0].mac_unit.b_ff[15:0]
+[color] 1
+hs_npu.inference.mm_unit.systolic_array.gen_col[0].gen_row[1].mac_unit.b_ff[15:0]
+[color] 1
+hs_npu.inference.mm_unit.systolic_array.gen_col[0].gen_row[2].mac_unit.b_ff[15:0]
+@22
+hs_npu.inference.mm_unit.systolic_array.gen_col[0].gen_row[3].mac_unit.a_in[15:0]
+@420
+[color] 1
+hs_npu.inference.mm_unit.systolic_array.gen_col[0].gen_row[3].mac_unit.b_ff[15:0]
+@22
+hs_npu.inference.mm_unit.systolic_array.gen_col[0].gen_row[4].mac_unit.a_in[15:0]
+@420
+[color] 5
+hs_npu.inference.mm_unit.systolic_array.gen_col[0].gen_row[4].mac_unit.b_ff[15:0]
+[color] 5
+hs_npu.inference.mm_unit.systolic_array.gen_col[0].gen_row[5].mac_unit.b_ff[15:0]
+[color] 5
+hs_npu.inference.mm_unit.systolic_array.gen_col[0].gen_row[6].mac_unit.b_ff[15:0]
+[color] 5
+hs_npu.inference.mm_unit.systolic_array.gen_col[0].gen_row[7].mac_unit.b_ff[15:0]
+[color] 3
+hs_npu.inference.mm_unit.systolic_array.matrixA[0][15:0]
+[color] 3
+hs_npu.inference.mm_unit.systolic_array.matrixA[1][15:0]
+[color] 3
+hs_npu.inference.mm_unit.systolic_array.matrixA[2][15:0]
+[color] 3
+hs_npu.inference.mm_unit.systolic_array.matrixA[3][15:0]
+[color] 3
+hs_npu.inference.mm_unit.systolic_array.matrixA[4][15:0]
+[color] 3
+hs_npu.inference.mm_unit.systolic_array.matrixA[5][15:0]
+[color] 3
+hs_npu.inference.mm_unit.systolic_array.matrixA[6][15:0]
+[color] 3
+hs_npu.inference.mm_unit.systolic_array.matrixA[7][15:0]
+@28
+hs_npu.inference.mm_unit.systolic_array.gen_col[0].gen_row[0].mac_unit.clk
+hs_npu.inference.mm_unit.systolic_array.gen_col[0].gen_row[0].mac_unit.enable_in
+@22
+hs_npu.inference.mm_unit.systolic_array.gen_col[0].gen_row[0].mac_unit.result[31:0]
+hs_npu.inference.mm_unit.systolic_array.gen_col[0].gen_row[0].mac_unit.sum[31:0]
+@28
+hs_npu.inference.mm_unit.start_input_gatekeeper
+hs_npu.inference.mm_unit.gen_fifo_gatekeeper_input[0].input_gatekeeper.active
+@420
+hs_npu.inference.mm_unit.gen_fifo_gatekeeper_input[0].input_gatekeeper.enable_cycles[31:0]
+hs_npu.inference.mm_unit.gen_fifo_gatekeeper_input[0].input_gatekeeper.input_data[15:0]
+hs_npu.inference.mm_unit.gen_fifo_gatekeeper_input[0].input_gatekeeper.output_data[15:0]
+@28
+hs_npu.inference.mm_unit.gen_fifo_gatekeeper_input[0].input_gatekeeper.start_in
+hs_npu.inference.mm_unit.gen_fifo_gatekeeper_input[0].input_gatekeeper.start_out
+hs_npu.inference.mm_unit.gen_fifo_gatekeeper_output[0].gatekeeper_out.clk
+hs_npu.inference.mm_unit.gen_fifo_gatekeeper_output[0].gatekeeper_out.active
+@420
+hs_npu.inference.mm_unit.gen_fifo_gatekeeper_output[0].gatekeeper_out.enable_cycles[31:0]
+hs_npu.inference.mm_unit.gen_fifo_gatekeeper_output[0].gatekeeper_out.enable_cycles_in[31:0]
+hs_npu.inference.mm_unit.gen_fifo_gatekeeper_output[0].gatekeeper_out.input_data[31:0]
+hs_npu.inference.mm_unit.gen_fifo_gatekeeper_output[0].gatekeeper_out.output_data[31:0]
+@28
+hs_npu.inference.mm_unit.gen_fifo_gatekeeper_output[0].gatekeeper_out.rst_n
+hs_npu.inference.mm_unit.gen_fifo_gatekeeper_output[0].gatekeeper_out.start_in
+hs_npu.inference.mm_unit.gen_fifo_gatekeeper_output[0].gatekeeper_out.start_out
+@420
+[color] 2
+hs_npu.inference.mm_unit.output_systolic[0][31:0]
+[color] 2
+hs_npu.inference.mm_unit.output_systolic[1][31:0]
+[color] 2
+hs_npu.inference.mm_unit.output_systolic[2][31:0]
+[color] 2
+hs_npu.inference.mm_unit.output_systolic[3][31:0]
+[color] 2
+hs_npu.inference.mm_unit.output_systolic[4][31:0]
+[color] 2
+hs_npu.inference.mm_unit.output_systolic[5][31:0]
+[color] 2
+hs_npu.inference.mm_unit.output_systolic[6][31:0]
+[color] 2
+hs_npu.inference.mm_unit.output_systolic[7][31:0]
+@28
+hs_npu.start_output_gatekeeper
+@420
+[color] 5
+hs_npu.inference.gen_inference_pipeline[0].accumulator.bias[31:0]
+[color] 5
+hs_npu.inference.gen_inference_pipeline[0].accumulator.result[31:0]
+[color] 5
+hs_npu.inference.gen_inference_pipeline[1].accumulator.bias[31:0]
+[color] 5
+hs_npu.inference.gen_inference_pipeline[1].accumulator.result[31:0]
+[color] 5
+hs_npu.inference.gen_inference_pipeline[2].accumulator.bias[31:0]
+[color] 5
+hs_npu.inference.gen_inference_pipeline[2].accumulator.result[31:0]
+[color] 5
+hs_npu.inference.gen_inference_pipeline[3].accumulator.bias[31:0]
+[color] 5
+hs_npu.inference.gen_inference_pipeline[3].accumulator.result[31:0]
+[color] 5
+hs_npu.inference.gen_inference_pipeline[4].accumulator.bias[31:0]
+[color] 5
+hs_npu.inference.gen_inference_pipeline[4].accumulator.result[31:0]
+[color] 5
+hs_npu.inference.gen_inference_pipeline[5].accumulator.bias[31:0]
+[color] 5
+hs_npu.inference.gen_inference_pipeline[5].accumulator.result[31:0]
+[color] 5
+hs_npu.inference.gen_inference_pipeline[6].accumulator.bias[31:0]
+[color] 5
+hs_npu.inference.gen_inference_pipeline[6].accumulator.result[31:0]
+[color] 5
+hs_npu.inference.gen_inference_pipeline[7].accumulator.bias[31:0]
+[color] 5
+hs_npu.inference.gen_inference_pipeline[7].accumulator.result[31:0]
+hs_npu.inference.gen_inference_pipeline[0].activation.input_data[31:0]
+@28
+hs_npu.inference.gen_inference_pipeline[0].activation.relu_en
+@420
+hs_npu.inference.gen_inference_pipeline[0].activation.relu_result[31:0]
+hs_npu.inference.gen_inference_pipeline[0].activation.shift_amount[31:0]
+@28
+hs_npu.inference.mm_unit.systolic_array.gen_col[0].gen_row[0].mac_unit.clk
+@420
+[color] 1
+hs_npu.inference.gen_inference_pipeline[0].activation.result[15:0]
+[color] 1
+hs_npu.inference.gen_inference_pipeline[1].activation.result[15:0]
+[color] 1
+hs_npu.inference.gen_inference_pipeline[2].activation.result[15:0]
+[color] 1
+hs_npu.inference.gen_inference_pipeline[3].activation.result[15:0]
+[color] 1
+hs_npu.inference.gen_inference_pipeline[4].activation.result[15:0]
+[color] 1
+hs_npu.inference.gen_inference_pipeline[5].activation.result[15:0]
+[color] 1
+hs_npu.inference.gen_inference_pipeline[6].activation.result[15:0]
+[color] 1
+hs_npu.inference.gen_inference_pipeline[7].activation.result[15:0]
+@28
+hs_npu.mem_read_ready_o
+@420
+[color] 6
+hs_npu.inference.gen_fifo_output[0].output_fifo.fifo[0][15:0]
+[color] 6
+hs_npu.inference.gen_fifo_output[0].output_fifo.fifo[1][15:0]
+[color] 6
+hs_npu.inference.gen_fifo_output[0].output_fifo.fifo[2][15:0]
+[color] 6
+hs_npu.inference.gen_fifo_output[0].output_fifo.fifo[3][15:0]
+[color] 6
+hs_npu.inference.gen_fifo_output[0].output_fifo.fifo[4][15:0]
+[color] 6
+hs_npu.inference.gen_fifo_output[1].output_fifo.fifo[0][15:0]
+[color] 6
+hs_npu.inference.gen_fifo_output[1].output_fifo.fifo[1][15:0]
+[color] 6
+hs_npu.inference.gen_fifo_output[1].output_fifo.fifo[2][15:0]
+[color] 6
+hs_npu.inference.gen_fifo_output[1].output_fifo.fifo[3][15:0]
+[color] 6
+hs_npu.inference.gen_fifo_output[1].output_fifo.fifo[4][15:0]
+[color] 6
+hs_npu.inference.gen_fifo_output[2].output_fifo.fifo[0][15:0]
+[color] 6
+hs_npu.inference.gen_fifo_output[2].output_fifo.fifo[1][15:0]
+[color] 6
+hs_npu.inference.gen_fifo_output[2].output_fifo.fifo[2][15:0]
+[color] 6
+hs_npu.inference.gen_fifo_output[2].output_fifo.fifo[3][15:0]
+[color] 6
+hs_npu.inference.gen_fifo_output[2].output_fifo.fifo[4][15:0]
+[color] 6
+hs_npu.inference.gen_fifo_output[7].output_fifo.fifo[0][15:0]
+[color] 6
+hs_npu.inference.gen_fifo_output[7].output_fifo.fifo[1][15:0]
+[color] 6
+hs_npu.inference.gen_fifo_output[7].output_fifo.fifo[2][15:0]
+[color] 6
+hs_npu.inference.gen_fifo_output[7].output_fifo.fifo[3][15:0]
+[color] 6
+hs_npu.inference.gen_fifo_output[7].output_fifo.fifo[4][15:0]
+@28
+[color] 3
+hs_npu.memory_ordering.state[2:0]
+@420
+[color] 3
+hs_npu.inference.inference_result[0][15:0]
+[color] 3
+hs_npu.inference.inference_result[1][15:0]
+[color] 3
+hs_npu.inference.inference_result[2][15:0]
+[color] 3
+hs_npu.inference.inference_result[3][15:0]
+[color] 3
+hs_npu.inference.inference_result[4][15:0]
+[color] 3
+hs_npu.inference.inference_result[5][15:0]
+[color] 3
+hs_npu.inference.inference_result[6][15:0]
+[color] 3
+hs_npu.inference.inference_result[7][15:0]
+hs_npu.memory_ordering.inference_result[0][15:0]
+hs_npu.memory_ordering.inference_result[1][15:0]
+hs_npu.memory_ordering.inference_result[2][15:0]
+hs_npu.memory_ordering.inference_result[3][15:0]
+hs_npu.memory_ordering.inference_result[4][15:0]
+hs_npu.memory_ordering.inference_result[5][15:0]
+hs_npu.memory_ordering.inference_result[6][15:0]
+hs_npu.memory_ordering.inference_result[7][15:0]
+@28
+hs_npu.inference.gen_fifo_output[0].output_fifo.clk_core
+@22
+hs_npu.memory_ordering.current_i[31:0]
+@421
+[color] 1
+hs_npu.memory_ordering.memory_data_out[0][31:0]
+@420
+[color] 1
+hs_npu.memory_ordering.memory_data_out[1][31:0]
+@28
+hs_npu.memory_ordering.mem_ready_i
+hs_npu.memory_ordering.mem_write_valid_o
+@420
+hs_npu.memory_ordering.results[0][31:0]
+hs_npu.memory_ordering.results[1][31:0]
+hs_npu.memory_ordering.results[2][31:0]
+hs_npu.memory_ordering.results[3][31:0]
+hs_npu.memory_ordering.results[4][31:0]
+hs_npu.memory_ordering.results[5][31:0]
+hs_npu.memory_ordering.results[6][31:0]
+hs_npu.memory_ordering.results[7][31:0]
+@28
+hs_npu.memory_ordering.mem_read_ready_o
+[pattern_trace] 1
+[pattern_trace] 0

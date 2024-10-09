@@ -1,1 +1,1 @@
-subdirs := fifo_keeper systolic mm_unit inference
+subdirs := fifo_keeper systolic mm_unit inference npu
