@@ -17,6 +17,7 @@ module hs_npu_memory_ordering
     input  mem_ready_i,
     output mem_read_ready_o,
     output mem_write_valid_o,
+    output mem_reset,
 
     // Input and weight matrices dimensions from CPU
     input uword num_input_rows_in,
@@ -156,13 +157,13 @@ module hs_npu_memory_ordering
             request_addr <= base_address_in;
             output_counter <= 0;
             write_valid_aux <= 0;
-            state <= LOADING_WEIGHTS;
             read_ready_aux <= 1;
+            state <= LOADING_WEIGHTS;
           end
         end
 
         LOADING_WEIGHTS: begin
-          if (mem_valid_i) begin
+          if (mem_valid_i && current_i <= num_weight_rows) begin
             // Load weights into output_weights
             for (int bundle_idx = 0; bundle_idx < WORDS_PER_LINE; bundle_idx++) begin
               for (int weight_idx = 0; weight_idx < 4; weight_idx++) begin
@@ -174,10 +175,13 @@ module hs_npu_memory_ordering
             end
             weight_fifo_valid_o <= 1;
             current_i <= current_i + 1;
-            last_request_addr <= request_addr;
             request_addr <= request_addr + (4 * WORDS_PER_LINE);
           end else begin
             weight_fifo_valid_o <= 0;
+            if (current_i == 0) begin
+              current_i <= current_i + 1;
+              request_addr <= request_addr + (4 * WORDS_PER_LINE);
+            end
           end
           if (current_i > num_weight_rows) begin
             state <= LOADING_INPUTS;
@@ -200,7 +204,6 @@ module hs_npu_memory_ordering
                   };
                 end
               end
-              last_request_addr <= request_addr;
               request_addr <= request_addr + (4 * WORDS_PER_LINE);
             end else begin
               // Load inputs from past inference results
@@ -240,7 +243,7 @@ module hs_npu_memory_ordering
                 else read_ready_aux <= 1;
               end
             end
-            if (current_i == SIZE - WORDS_PER_LINE) read_ready_aux <= 0;
+            if (current_i == SIZE - WORDS_PER_LINE && !use_sum) read_ready_aux <= 0;
           end else begin
             // Skip loading bias if not in use
             for (int i = 0; i < SIZE; i++) begin
@@ -283,20 +286,20 @@ module hs_npu_memory_ordering
             weight_enable <= 1;
           end
 
-          if (computation_cycles == SIZE + 1) begin
+          if (computation_cycles == SIZE) begin
             weight_enable <= 0;
             start_input_gatekeeper <= 1;
           end
 
-          if (computation_cycles == SIZE + 2) begin
+          if (computation_cycles == SIZE + 1) begin
             start_input_gatekeeper <= 0;
           end
 
-          if (computation_cycles == 2 * SIZE + 1) begin
+          if (computation_cycles == 2 * SIZE) begin
             start_output_gatekeeper <= 1;
           end
 
-          if (computation_cycles == 2 * SIZE + 2) begin
+          if (computation_cycles == 2 * SIZE + 1) begin
             start_output_gatekeeper <= 0;
           end
 
@@ -358,14 +361,15 @@ module hs_npu_memory_ordering
 
   // Input/output ready/valid signals
   assign exec_ready_o = (state == IDLE);
-  assign mem_read_ready_o = (state == LOADING_WEIGHTS || state == LOADING_INPUTS || state == LOADING_BIAS || state == LOADING_SUMS) && read_ready_aux;
+  assign mem_read_ready_o = ( state == LOADING_WEIGHTS || state == LOADING_INPUTS && !reuse_inputs || state == LOADING_BIAS || state == LOADING_SUMS) && read_ready_aux;
   assign mem_write_valid_o = (state == SAVING && current_i != -1 && output_counter <= num_input_rows && write_valid_aux);
   assign flush_input_fifos = (state == SAVING);
   assign flush_weight_fifos = (state == SAVING);
-  //assign flush_output_fifos = (state == SAVING);
+  assign flush_output_fifos = (state == LOADING_BIAS);
+  assign mem_reset = (state == IDLE);
 
-  assign output_fifo_ready_o = (state == SAVING && current_i == -1);
-  //assign output_fifo_reread = (state == SAVING && save_outputs);
+  assign output_fifo_ready_o = ((state == SAVING && current_i == -1) || (state == LOADING_INPUTS && reuse_inputs) || (state == LOADING_WEIGHTS && current_i > num_weight_rows && reuse_inputs));
+  assign output_fifo_reread = (state == IDLE);
 
   assign activation_select_out = activation_select;
   assign shift_amount_out = shift_amount;

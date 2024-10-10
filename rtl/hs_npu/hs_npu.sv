@@ -64,6 +64,8 @@ module hs_npu
     logic weight_fifo_valid, input_fifo_valid;
     logic bias_enable;
     logic mem_ready_i;
+    logic mem_reset;
+
 
     // Instantiate hs_npu_memory_ordering
     hs_npu_memory_ordering #(
@@ -81,6 +83,7 @@ module hs_npu
         .mem_ready_i(mem_ready_i),
         .mem_read_ready_o(mem_read_ready_o),
         .mem_write_valid_o(mem_write_valid_o),
+        .mem_reset(mem_reset),
         .num_input_rows_in(num_input_rows_in),
         .num_input_columns_in(num_input_columns_in),
         .num_weight_rows_in(num_weight_rows_in),
