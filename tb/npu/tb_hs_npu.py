@@ -59,9 +59,10 @@ def get_data(address):
     # -----------
 
     # Fetch 4 consecutive bytes from the memory starting at the given address
-    if address + 3 >= len(memory):
+    if address >= len(memory):
+        print(f"Address {hex(address)} out of bounds")
         print(f"Address {address} out of bounds")
-        return(0)
+        return(-1)
     
     # Get the 4 bytes
     bytes_data = memory[address:address + 4]
@@ -83,23 +84,27 @@ def get_data(address):
 async def memory_read_dummy(dut):
     while True:
         await RisingEdge(dut.clk)
+        dut.mem_valid_i.value = 0
         if (dut.mem_read_ready_o.value):
-            dut.mem_valid_i.value = 0
-            dut.memory_data_in[0].value = get_data(dut.request_address.value.signed_integer)
-            dut.memory_data_in[1].value = get_data(dut.request_address.value.signed_integer + 4)
-            await ClockCycles(dut.clk, random.randint(1,4)) # IMPORTANT, memory should take at least 1 cycle to answer
+            value1 = get_data(dut.request_address.value.signed_integer)
+            value2 = get_data(dut.request_address.value.signed_integer + 4)
+            dut.memory_data_in[0].value = value1
+            dut.memory_data_in[1].value = value2
+            print(f"Addresses {hex(dut.request_address.value)} to {hex(dut.request_address.value + 3) }, have been read. Returned {value1}")
+            print(f"Addresses {hex(dut.request_address.value + 4)} to {hex(dut.request_address.value + 4 + 3)}, have been read. Returned {value2}")
+            await ClockCycles(dut.clk, random.randint(5,10)) # IMPORTANT, memory should take at least 1 cycle to answer
             dut.mem_valid_i.value = 1
 
 @cocotb.coroutine
 async def memory_write_dummy(dut):
     while True:
         await RisingEdge(dut.clk)
-        if (dut.mem_write_valid_o.value):
+        if (dut.mem_write_valid_o.value and dut.mem_ready_i.value):
             dut.mem_ready_i.value = 0
-            await ClockCycles(dut.clk, random.randint(1,4)) # IMPORTANT, memory should take at least 1 cycle to answer
+            print(f"{dut.memory_data_out[0].value.signed_integer} has been written to address {hex(dut.request_address.value)}")
+            print(f"{dut.memory_data_out[1].value.signed_integer} has been written to address {hex(dut.request_address.value + 4)}")
+            await ClockCycles(dut.clk, random.randint(5,10)) # IMPORTANT, memory should take at least 1 cycle to answer
             dut.mem_ready_i.value = 1
-            print(f"{dut.memory_data_out[0].value.signed_integer} has been written to {dut.request_address.value.signed_integer}")
-            print(f"{dut.memory_data_out[1].value.signed_integer} has been written to {dut.request_address.value.signed_integer + 4}")
 
 
 @cocotb.test()
@@ -117,6 +122,8 @@ async def hs_npu_test(dut):
     await ClockCycles(dut.clk, 5)
     dut.rst_n.value = 1
 
+    dut.mem_ready_i.value = 1
+
     dut.num_input_rows_in.value = 4;
     dut.num_input_columns_in.value = 4;
     dut.num_weight_rows_in.value = 4;
@@ -128,7 +135,8 @@ async def hs_npu_test(dut):
     dut.use_bias_in.value = 1;
     dut.use_sum_in.value = 1;
     dut.shift_amount_in.value = 7;
-    dut.activation_select_in.value = 0;
+    #dut.shift_amount_in.value = 0;
+    dut.activation_select_in.value = 1;
     dut.base_address_in.value = 0;
     dut.result_address_in.value = 100;
 
@@ -137,4 +145,4 @@ async def hs_npu_test(dut):
     dut.exec_valid_i.value = 0;
 
 
-    await ClockCycles(dut.clk, 160)
+    await ClockCycles(dut.clk, 500)

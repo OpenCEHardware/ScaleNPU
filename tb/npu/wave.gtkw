@@ -1,15 +1,15 @@
 [*]
 [*] GTKWave Analyzer v3.4.0 (w)1999-2022 BSI
-[*] Wed Oct  9 06:26:50 2024
+[*] Thu Oct 10 02:24:12 2024
 [*]
 [dumpfile] "/home/jachm/Repos/SCALE-NPU/build/tb_hs_npu/test-cff7605b/dump.vcd"
-[dumpfile_mtime] "Wed Oct  9 06:25:15 2024"
-[dumpfile_size] 412529
+[dumpfile_mtime] "Thu Oct 10 02:22:11 2024"
+[dumpfile_size] 730009
 [savefile] "/home/jachm/Repos/SCALE-NPU/tb/npu/wave.gtkw"
-[timestart] 1077
+[timestart] 2280
 [size] 1920 985
 [pos] -1 -1
-*-5.400000 1200 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+*-5.400000 2150 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
 [treeopen] hs_npu.
 [treeopen] hs_npu.inference.gen_fifo_output[1].
 [treeopen] hs_npu.inference.gen_fifo_output[2].
@@ -32,7 +32,7 @@
 [sst_width] 434
 [signals_width] 319
 [sst_expanded] 1
-[sst_vpaned_height] 486
+[sst_vpaned_height] 341
 @28
 activation_select_in
 @22
@@ -163,8 +163,12 @@ hs_npu.weight_enable
 hs_npu.memory_data_in[0][31:0]
 [color] 1
 hs_npu.memory_data_in[1][31:0]
+hs_npu.memory_ordering.request_addr[31:0]
 @28
 mem_valid_i
+@22
+hs_npu.memory_ordering.current_i[31:0]
+@28
 [color] 3
 hs_npu.memory_ordering.state[2:0]
 @420
@@ -286,6 +290,7 @@ hs_npu.clk
 hs_npu.mem_valid_i
 [color] 3
 hs_npu.memory_ordering.state[2:0]
+hs_npu.memory_ordering.mem_read_ready_o
 @22
 hs_npu.memory_ordering.current_i[31:0]
 hs_npu.request_address[31:0]
@@ -325,6 +330,19 @@ hs_npu.inference.gen_inference_pipeline[7].accumulator.bias[31:0]
 @28
 hs_npu.memory_ordering.mem_valid_i
 hs_npu.clk
+[color] 3
+hs_npu.memory_ordering.state[2:0]
+hs_npu.mem_ready_i
+hs_npu.mem_read_ready_o
+hs_npu.memory_ordering.read_ready_aux
+@22
+hs_npu.memory_ordering.request_addr[31:0]
+hs_npu.memory_ordering.current_i[31:0]
+[color] 1
+hs_npu.memory_data_in[0][31:0]
+[color] 1
+hs_npu.memory_data_in[1][31:0]
+hs_npu.request_address[31:0]
 @420
 hs_npu.memory_ordering.sums[0][31:0]
 hs_npu.memory_ordering.sums[1][31:0]
@@ -440,6 +458,7 @@ hs_npu.inference.mm_unit.systolic_array.matrixA[7][15:0]
 @28
 hs_npu.inference.mm_unit.systolic_array.gen_col[0].gen_row[0].mac_unit.clk
 hs_npu.inference.mm_unit.systolic_array.gen_col[0].gen_row[0].mac_unit.enable_in
+hs_npu.mem_read_ready_o
 @22
 hs_npu.inference.mm_unit.systolic_array.gen_col[0].gen_row[0].mac_unit.result[31:0]
 hs_npu.inference.mm_unit.systolic_array.gen_col[0].gen_row[0].mac_unit.sum[31:0]
@@ -616,17 +635,19 @@ hs_npu.memory_ordering.inference_result[7][15:0]
 hs_npu.inference.gen_fifo_output[0].output_fifo.clk_core
 @22
 hs_npu.memory_ordering.current_i[31:0]
-@421
-[color] 1
-hs_npu.memory_ordering.memory_data_out[0][31:0]
 @420
 [color] 1
+hs_npu.memory_ordering.memory_data_out[0][31:0]
+[color] 1
 hs_npu.memory_ordering.memory_data_out[1][31:0]
+@22
+hs_npu.memory_ordering.output_counter[31:0]
 @28
 hs_npu.memory_ordering.mem_ready_i
 hs_npu.memory_ordering.mem_write_valid_o
-@420
+@421
 hs_npu.memory_ordering.results[0][31:0]
+@420
 hs_npu.memory_ordering.results[1][31:0]
 hs_npu.memory_ordering.results[2][31:0]
 hs_npu.memory_ordering.results[3][31:0]
@@ -635,6 +656,16 @@ hs_npu.memory_ordering.results[5][31:0]
 hs_npu.memory_ordering.results[6][31:0]
 hs_npu.memory_ordering.results[7][31:0]
 @28
-hs_npu.memory_ordering.mem_read_ready_o
+mem_read_ready_o
+mem_valid_i
+mem_write_valid_o
+@22
+memory_data_in[0][31:0]
+memory_data_in[1][31:0]
+memory_data_out[0][31:0]
+memory_data_out[1][31:0]
+@28
+hs_npu.mem_read_ready_o
+hs_npu.memory_ordering.read_ready_aux
 [pattern_trace] 1
 [pattern_trace] 0
