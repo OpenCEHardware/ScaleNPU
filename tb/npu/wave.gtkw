@@ -1,15 +1,15 @@
 [*]
 [*] GTKWave Analyzer v3.4.0 (w)1999-2022 BSI
-[*] Thu Oct 10 21:37:50 2024
+[*] Thu Oct 10 21:43:30 2024
 [*]
 [dumpfile] "/home/jachm/Repos/SCALE-NPU/build/tb_hs_npu/test-cff7605b/dump.vcd"
 [dumpfile_mtime] "Thu Oct 10 21:37:13 2024"
 [dumpfile_size] 1332093
 [savefile] "/home/jachm/Repos/SCALE-NPU/tb/npu/wave.gtkw"
-[timestart] 6595
+[timestart] 5950
 [size] 1920 985
 [pos] -1 -1
-*-5.400000 6695 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+*-5.400000 6070 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
 [treeopen] hs_npu.
 [treeopen] hs_npu.inference.
 [treeopen] hs_npu.inference.gen_fifo_output[1].
@@ -100,8 +100,9 @@ hs_npu.memory_ordering.request_address[31:0]
 @22
 [color] 3
 hs_npu.memory_ordering.request_addr[31:0]
-@28
+@29
 hs_npu.memory_ordering.mem_read_ready_o
+@28
 hs_npu.mem_valid_i
 hs_npu.mem_reset
 @420
@@ -695,7 +696,7 @@ hs_npu.memory_ordering.inference_result[4][15:0]
 hs_npu.memory_ordering.inference_result[5][15:0]
 hs_npu.memory_ordering.inference_result[6][15:0]
 hs_npu.memory_ordering.inference_result[7][15:0]
-@29
+@28
 hs_npu.inference.gen_fifo_output[0].output_fifo.clk_core
 @22
 hs_npu.memory_ordering.current_i[31:0]

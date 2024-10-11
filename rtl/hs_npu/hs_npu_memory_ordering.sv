@@ -88,8 +88,8 @@ module hs_npu_memory_ordering
   logic in_progress;
   uword num_input_rows, num_input_columns, num_weight_rows, num_weight_columns;
   logic reuse_inputs, reuse_weights, save_outputs, use_bias, use_sum, activation_select;
-  uword shift_amount, base_address, result_address;
-  uword computation_cycles, current_i, request_addr, last_request_addr;
+  uword shift_amount, result_address;
+  uword computation_cycles, current_i, request_addr;
   logic write_valid_aux, read_ready_aux;
   logic [OUTPUT_DATA_WIDTH-1:0] sums[SIZE], bias[SIZE];
   logic [OUTPUT_DATA_WIDTH-1:0] results[SIZE];
@@ -112,14 +112,12 @@ module hs_npu_memory_ordering
       save_outputs <= 0;
       shift_amount <= 0;
       activation_select <= 0;
-      base_address <= '0;
       result_address <= '0;
       use_bias <= 0;
       use_sum <= 0;
 
       current_i <= 0;
       computation_cycles <= '0;
-      last_request_addr <= -1;
       request_addr <= '0;
       output_counter <= 0;
       write_valid_aux <= 0;
@@ -147,7 +145,6 @@ module hs_npu_memory_ordering
             save_outputs <= save_outputs_in;
             shift_amount <= shift_amount_in;
             activation_select <= activation_select_in;
-            base_address <= base_address_in;
             result_address <= result_address_in;
             use_bias <= use_bias_in;
             use_sum <= use_sum_in;
@@ -163,7 +160,7 @@ module hs_npu_memory_ordering
         end
 
         LOADING_WEIGHTS: begin
-          if (mem_valid_i && current_i <= num_weight_rows) begin
+          if (mem_valid_i && current_i <= num_weight_rows && !reuse_weights) begin
             // Load weights into output_weights
             for (int bundle_idx = 0; bundle_idx < WORDS_PER_LINE; bundle_idx++) begin
               for (int weight_idx = 0; weight_idx < 4; weight_idx++) begin
@@ -178,12 +175,19 @@ module hs_npu_memory_ordering
             request_addr <= request_addr + (4 * WORDS_PER_LINE);
           end else begin
             weight_fifo_valid_o <= 0;
-            if (current_i == 0) begin
+            if (current_i == 0 && !reuse_weights) begin
               current_i <= current_i + 1;
               request_addr <= request_addr + (4 * WORDS_PER_LINE);
             end
           end
           if (current_i > num_weight_rows) begin
+            state <= LOADING_INPUTS;
+            current_i <= 0;
+            weight_fifo_valid_o <= 0;
+            if (reuse_inputs) read_ready_aux <= 0;
+            else read_ready_aux <= 1;
+          end
+          if (reuse_weights) begin
             state <= LOADING_INPUTS;
             current_i <= 0;
             weight_fifo_valid_o <= 0;
@@ -262,7 +266,6 @@ module hs_npu_memory_ordering
                 sums[current_i+bundle_idx] <= memory_data_in[bundle_idx];
               end
               current_i <= current_i + WORDS_PER_LINE;
-              last_request_addr <= request_addr;
               request_addr <= request_addr + (4 * WORDS_PER_LINE);
             end else begin
               if (current_i == SIZE - WORDS_PER_LINE) read_ready_aux <= 0;
@@ -282,7 +285,7 @@ module hs_npu_memory_ordering
         READY_TO_COMPUTE: begin
           computation_cycles <= computation_cycles + 1;
 
-          if (computation_cycles == 0) begin
+          if (computation_cycles == 0 && !reuse_weights) begin
             weight_enable <= 1;
           end
 
@@ -305,7 +308,6 @@ module hs_npu_memory_ordering
 
           if (computation_cycles == 3 * SIZE + num_input_rows) begin
             request_addr <= result_address;
-            last_request_addr <= -1;
             current_i <= -1;
             state <= SAVING;
           end
@@ -327,7 +329,6 @@ module hs_npu_memory_ordering
                   memory_data_out[bundle_idx] <= results[current_i+bundle_idx];
                 end
                 write_valid_aux <= 1;
-                last_request_addr <= request_addr;
                 current_i <= current_i + WORDS_PER_LINE;
                 request_addr <= request_addr + (4 * WORDS_PER_LINE);
               end
