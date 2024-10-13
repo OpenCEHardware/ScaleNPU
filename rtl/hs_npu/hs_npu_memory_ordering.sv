@@ -10,14 +10,22 @@ module hs_npu_memory_ordering
     input logic clk,
     input logic rst_n,
 
+    // Executive control signals
     input  exec_valid_i,
     output exec_ready_o,
+    output finished,
 
+    // Memory control signals
     input  mem_valid_i,
     input  mem_ready_i,
     output mem_read_ready_o,
     output mem_write_valid_o,
     output mem_reset,
+
+    // Data matrices from memory
+    input  uword memory_data_in [WORDS_PER_LINE],
+    output uword memory_data_out[WORDS_PER_LINE],
+    output uword request_address,
 
     // Input and weight matrices dimensions from CPU
     input uword num_input_rows_in,
@@ -35,11 +43,6 @@ module hs_npu_memory_ordering
     input logic activation_select_in,
     input uword base_address_in,
     input uword result_address_in,
-
-    // Data matrices from memory
-    input  uword memory_data_in [WORDS_PER_LINE],
-    output uword memory_data_out[WORDS_PER_LINE],
-    output uword request_address,
 
     // Control signals for matrix multiplication unit and FIFOs
     output logic flush_input_fifos,
@@ -123,6 +126,8 @@ module hs_npu_memory_ordering
       write_valid_aux <= 0;
       read_ready_aux <= 0;
 
+      finished <= 0;
+
       for (int i = 0; i < SIZE; i++) begin
         sums[i] <= '0;
         bias[i] <= '0;
@@ -132,6 +137,7 @@ module hs_npu_memory_ordering
       // Flop control signals and progress
       case (state)
         IDLE: begin
+          finished <= 0;
           if (exec_valid_i && !in_progress) begin
             // Capture the layer control signals
             in_progress <= 1;
@@ -340,6 +346,7 @@ module hs_npu_memory_ordering
             if (output_counter > num_input_rows) begin
               state <= IDLE;
               in_progress <= 0;
+              finished <= 1;
             end
           end else begin
             // No save required, return to IDLE
@@ -349,6 +356,7 @@ module hs_npu_memory_ordering
             output_counter <= 0;
             write_valid_aux <= 0;
             in_progress <= 0;
+            finished <= 1;
           end
         end
 
@@ -364,10 +372,11 @@ module hs_npu_memory_ordering
   assign exec_ready_o = (state == IDLE);
   assign mem_read_ready_o = ( state == LOADING_WEIGHTS || state == LOADING_INPUTS && !reuse_inputs || state == LOADING_BIAS || state == LOADING_SUMS) && read_ready_aux;
   assign mem_write_valid_o = (state == SAVING && current_i != -1 && output_counter <= num_input_rows && write_valid_aux);
+  assign mem_reset = (state == IDLE);
+
   assign flush_input_fifos = (state == SAVING);
   assign flush_weight_fifos = (state == SAVING);
   assign flush_output_fifos = (state == LOADING_BIAS);
-  assign mem_reset = (state == IDLE);
 
   assign output_fifo_ready_o = ((state == SAVING && current_i == -1) || (state == LOADING_INPUTS && reuse_inputs) || (state == LOADING_WEIGHTS && current_i > num_weight_rows && reuse_inputs));
   assign output_fifo_reread = (state == IDLE);
