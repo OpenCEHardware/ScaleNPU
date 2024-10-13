@@ -1,0 +1,215 @@
+addrmap hs_npu_ctrlstatus_regs
+#(longint unsigned SCALE_NPU_VERSION_MAJOR = 1,
+  longint unsigned SCALE_NPU_VERSION_MINOR = 0)
+{
+    name = "Scale NPU Control and Status Registers";
+    desc = "Control and status registers for configuring the Scale NPU.";
+    
+    // Accelerator information
+    regfile {
+        name = "Accelerator Information";
+        desc = "Contains registers that provide architecture and implementation details of the accelerator.";
+
+        reg {
+            name = "Architecture ID";
+            desc = "Encodes the base microarchitecture of the accelerator.";
+
+            field {
+                hw = na; // Not accessible
+                sw = r;  // Read-only
+            } ID[31:0] = 0xB00B;
+        } ARCHID @ 0x0000;
+
+        reg {
+            name = "Implementation ID";
+            desc = "Provides a unique encoding of the version of the accelerator implementation.";
+
+            field {
+                hw = na;
+                sw = r;
+            } ID[31:0] = SCALE_NPU_VERSION_MAJOR << 8 | SCALE_NPU_VERSION_MINOR; // Major and minor version combined
+        } IMPID @ 0x0004;
+    
+    } NPUINFO @ 0x0000;
+
+    // Matrices dimensions
+    regfile {
+        name = "Matrix Dimensions";
+        desc = "Registers for specifying the dimensions of input and weight matrices.";
+
+        reg {
+            name = "Input Matrix Rows";
+            desc = "Number of rows in the input matrix.";
+
+            field {
+                sw = rw; // Read/write
+                hw = r;  // Read-only
+            } ROWS[7:0];  
+        } INROWS @ 0x0000;
+
+        reg {
+            name = "Input Matrix Columns";
+            desc = "Number of columns in the input matrix.";
+
+            field {
+                sw = rw;
+                hw = r;
+            } COLS[7:0];  
+        } INCOLS @ 0x0004;
+
+        reg {
+            name = "Weight Matrix Rows";
+            desc = "Number of rows in the weight matrix.";
+
+            field {
+                sw = rw;
+                hw = r;
+            } ROWS[7:0];  
+        } WGHTROWS @ 0x0008;
+
+        reg {
+            name = "Weight Matrix Columns";
+            desc = "Number of columns in the weight matrix.";
+
+            field {
+                sw = rw;
+                hw = r;
+            } COLS[7:0];  
+        } WGHTCOLS @ 0x000C;
+    
+    } DIMS @ 0x0008;
+
+    // Layer control flags
+    regfile {
+        name = "Layer Control Flags";
+        desc = "Registers for configuring control signals of a particular layer calculation.";
+
+        reg {
+            name = "Results as Input";
+            desc = "Flag to use the results of the previous layer calculation as the input matrix.";
+
+            field {
+                sw = rw;
+                hw = r;
+            } REUSE;
+        } REINPUTS @ 0x0000;
+
+        reg {
+            name = "Reuse Weights";
+            desc = "Flag to reuse the weights of the previous layer computation.";
+
+            field {
+                sw = rw;
+                hw = r;
+            } REUSE;
+        } REWEIGHTS @ 0x0004;
+
+        reg {
+            name = "Save Output";
+            desc = "Flag to save the output after layer computation.";
+
+            field {
+                sw = rw;
+                hw = r;
+            } SAVE;
+        } SAVEOUT @ 0x0008;
+
+        reg {
+            name = "Use Bias";
+            desc = "Flag to enable bias addition during computation.";
+
+            field {
+                sw = rw;
+                hw = r;
+            } USE;
+        } USEBIAS @ 0x000C;
+
+        reg {
+            name = "Use Summatory";
+            desc = "Flag to use summatory values for the results."; // This is used for matrices larger than the systolic array size
+
+            field {
+                sw = rw;
+                hw = r;
+            } USE;
+        } USESUMM @ 0x0010;
+
+        reg {
+            name = "Shift Amount";
+            desc = "Amount of shift for quantization.";
+
+            field {
+                sw = rw;
+                hw = r;
+            } AMOUNT[7:0];
+        } SHIFTAMT @ 0x0014;
+
+        reg {
+            name = "Activation Function Selection";
+            desc = "Selects the activation function to apply (0: None, 1: ReLU).";
+
+            field {
+                sw = rw;
+                hw = r;
+            } SELECT;
+        } ACTFN @ 0x0018;
+
+    } CTRL @ 0x0018;
+
+    // Memory Addresses
+    regfile {
+        name = "Memory Addresses";
+        desc = "Registers for setting the base memory address for matrix data and the result address.";
+
+        reg {
+            name = "Base Memory Address";
+            desc = "Base address in memory for matrix data.";
+
+            field {
+                sw = rw;
+                hw = r;
+            } ADDR[31:0];
+        } BASE @ 0x0000;
+
+        reg {
+            name = "Result Memory Address";
+            desc = "Memory address for storing the result.";
+
+            field {
+                sw = rw;
+                hw = r;
+            } ADDR[31:0];
+        } RESULT @ 0x0004;
+
+    } MEMADDRS @ 0x0034;
+
+    // Main control registers 
+    regfile {
+        name = "Main control registers";
+        desc = "Control registers to signal the start and end of an operation."; 
+
+        reg {
+            name = "Initialize";
+            desc = "Signals the NPU to start operation with the current register data.";
+
+            field {
+                sw   = w1;  // Software can only write '1'
+                hw   = na;  // Hardware can only clear
+                hwclr;
+                swmod;      // Notify hardware when written
+            } VALUE;
+        } INIT @ 0x0000;
+
+        reg {
+            name = "Exit code";
+            desc = "Exit code produced by the NPU once the operation finishes. UNUSED = 00, SUCCESS = 01, MEM_ERR = 10, CPU_ERR = 11";
+
+            field {
+                sw = r;
+                hw = w;
+            } CODE[1:0];
+        } EXITCODE @ 0x0004;
+
+    } MAINCTRL @ 0x003C;
+
+};

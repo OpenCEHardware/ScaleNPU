@@ -19,11 +19,6 @@ module hs_npu
     input  logic exec_valid_i,
     output logic exec_ready_o,
 
-    // Memory interface signals
-    input  logic mem_valid_i,
-    output logic mem_read_ready_o,
-    output logic mem_write_valid_o,
-
     // CPU input and weight matrix dimensions
     input uword num_input_rows_in,
     input uword num_input_columns_in,
@@ -41,12 +36,15 @@ module hs_npu
     input uword base_address_in,
     input uword result_address_in,
 
-    // Data matrices from memory
+    // Memory interface signals
+    input  logic mem_valid_i,
+    output logic mem_read_ready_o,
+    output logic mem_write_valid_o,
+
+    // Data  from/to memory
     input  uword memory_data_in[WORDS_PER_LINE],
     output uword memory_data_out[WORDS_PER_LINE],
     output uword request_address
-
-    // Final output result
 );
 
     // Internal signals connecting the memory ordering and inference modules
@@ -65,7 +63,6 @@ module hs_npu
     logic bias_enable;
     logic mem_ready_i;
     logic mem_reset;
-
 
     // Instantiate hs_npu_memory_ordering
     hs_npu_memory_ordering #(
