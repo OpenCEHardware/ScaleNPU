@@ -1,7 +1,7 @@
-cores := hs_npu hs_npu_pkg hs_npu_systolic hs_npu_fifo_keeper hs_npu_mm_unit hs_npu_accumulator hs_npu_inference hs_npu_memory_ordering
+cores := hs_npu hs_npu_pkg hs_npu_systolic hs_npu_fifo_keeper hs_npu_mm_unit hs_npu_accumulator hs_npu_inference hs_npu_memory_ordering hs_npu_ctrlstatus_regs hs_npu_executive hs_npu_memory_interface
 
 define core/hs_npu
-  $(this)/deps := hs_npu_memory_ordering hs_npu_inference
+  $(this)/deps := hs_npu_memory_ordering hs_npu_inference hs_npu_ctrlstatus_regs hs_npu_executive hs_npu_memory_interface
  
   $(this)/rtl_top := hs_npu
   $(this)/rtl_files := \
@@ -14,6 +14,31 @@ define core/hs_npu_memory_ordering
   $(this)/rtl_top := hs_npu_memory_ordering
   $(this)/rtl_files := \
     hs_npu_memory_ordering.sv
+endef
+
+define core/hs_npu_executive 
+  $(this)/deps := hs_npu_pkg hs_npu_ctrlstatus_regs
+
+  $(this)/rtl_top := hs_npu_executive
+  $(this)/rtl_files := \
+    hs_npu_executive.sv
+endef
+
+define core/hs_npu_ctrlstatus_regs
+  $(this)/hooks := regblock
+
+  $(this)/regblock_rdl := hs_npu_ctrlstatus_regs.rdl
+  $(this)/regblock_top := hs_npu_ctrlstatus_regs
+  $(this)/regblock_args := --default-reset arst_n
+  $(this)/regblock_cpuif := axi4-lite
+endef
+
+define core/hs_npu_memory_interface
+  $(this)/deps := hs_npu_pkg if_common
+
+  $(this)/rtl_top := hs_npu_memory_interface
+  $(this)/rtl_files := \
+    hs_npu_memory_interface.sv
 endef
 
 define core/hs_npu_inference

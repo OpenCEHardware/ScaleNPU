@@ -2,17 +2,16 @@ module hs_npu_memory_ordering
   import hs_npu_pkg::*;
 #(
     parameter int SIZE = 8,  // Number of rows and columns of the systolic array
-    parameter int BUFFER_SIZE = 16,  // Maximum number of inferences the system can hold
     parameter int OUTPUT_DATA_WIDTH = 32,
     parameter int INPUT_DATA_WIDTH = 16,
-    parameter int WORDS_PER_LINE = SIZE * 8 / 32  // SYS_SIZE x INT8 / WORD_LENGTH
+    parameter int BURST_SIZE = 2  // 2^2 --> 4 bytes -> 32 bit words per transfers
 ) (
     input logic clk,
     input logic rst_n,
 
     // Executive control signals
-    input  exec_valid_i,
     output exec_ready_o,
+    input  exec_valid_i,
     output finished,
 
     // Memory control signals
@@ -20,11 +19,11 @@ module hs_npu_memory_ordering
     input  mem_ready_i,
     output mem_read_ready_o,
     output mem_write_valid_o,
-    output mem_reset,
+    output mem_invalidate,
 
     // Data matrices from memory
-    input  uword memory_data_in [WORDS_PER_LINE],
-    output uword memory_data_out[WORDS_PER_LINE],
+    input  uword memory_data_in [BURST_SIZE],
+    output uword memory_data_out[BURST_SIZE],
     output uword request_address,
 
     // Input and weight matrices dimensions from CPU
@@ -47,14 +46,11 @@ module hs_npu_memory_ordering
     // Control signals for matrix multiplication unit and FIFOs
     output logic flush_input_fifos,
     output logic input_fifo_valid_o,
-    input  logic input_fifo_ready_i[SIZE],
 
     output logic flush_weight_fifos,
     output logic weight_fifo_valid_o,
-    input  logic weight_fifo_ready_i[SIZE],
 
     output logic flush_output_fifos,
-    input  logic output_fifo_valid_i[SIZE],
     output logic output_fifo_ready_o,
     output logic output_fifo_reread,
 
@@ -168,7 +164,7 @@ module hs_npu_memory_ordering
         LOADING_WEIGHTS: begin
           if (mem_valid_i && current_i <= num_weight_rows && !reuse_weights) begin
             // Load weights into output_weights
-            for (int bundle_idx = 0; bundle_idx < WORDS_PER_LINE; bundle_idx++) begin
+            for (int bundle_idx = 0; bundle_idx < BURST_SIZE; bundle_idx++) begin
               for (int weight_idx = 0; weight_idx < 4; weight_idx++) begin
                 output_weights[weight_idx+(bundle_idx*4)] <= {
                   {8{memory_data_in[bundle_idx][8*weight_idx+7]}},
@@ -178,12 +174,12 @@ module hs_npu_memory_ordering
             end
             weight_fifo_valid_o <= 1;
             current_i <= current_i + 1;
-            request_addr <= request_addr + (4 * WORDS_PER_LINE);
+            request_addr <= request_addr + (4 * BURST_SIZE);
           end else begin
             weight_fifo_valid_o <= 0;
             if (current_i == 0 && !reuse_weights) begin
               current_i <= current_i + 1;
-              request_addr <= request_addr + (4 * WORDS_PER_LINE);
+              request_addr <= request_addr + (4 * BURST_SIZE);
             end
           end
           if (current_i > num_weight_rows) begin
@@ -206,7 +202,7 @@ module hs_npu_memory_ordering
           if (mem_valid_i || reuse_inputs) begin
             if (!reuse_inputs) begin
               // Load inputs from memory
-              for (int bundle_idx = 0; bundle_idx < WORDS_PER_LINE; bundle_idx++) begin
+              for (int bundle_idx = 0; bundle_idx < BURST_SIZE; bundle_idx++) begin
                 for (int input_idx = 0; input_idx < 4; input_idx++) begin
                   output_inputs[input_idx+(bundle_idx*4)] <= {
                     {8{memory_data_in[bundle_idx][8*input_idx+7]}},
@@ -214,7 +210,7 @@ module hs_npu_memory_ordering
                   };
                 end
               end
-              request_addr <= request_addr + (4 * WORDS_PER_LINE);
+              request_addr <= request_addr + (4 * BURST_SIZE);
             end else begin
               // Load inputs from past inference results
               for (int input_idx = 0; input_idx < SIZE; input_idx++) begin
@@ -240,11 +236,11 @@ module hs_npu_memory_ordering
         LOADING_BIAS: begin
           if (use_bias) begin
             if (mem_valid_i && current_i < SIZE) begin
-              for (int bundle_idx = 0; bundle_idx < WORDS_PER_LINE; bundle_idx++) begin
+              for (int bundle_idx = 0; bundle_idx < BURST_SIZE; bundle_idx++) begin
                 bias[current_i+bundle_idx] <= memory_data_in[bundle_idx];
               end
-              current_i <= current_i + WORDS_PER_LINE;
-              request_addr <= request_addr + (4 * WORDS_PER_LINE);
+              current_i <= current_i + BURST_SIZE;
+              request_addr <= request_addr + (4 * BURST_SIZE);
             end else begin
               if (current_i >= SIZE) begin
                 state <= LOADING_SUMS;
@@ -253,7 +249,7 @@ module hs_npu_memory_ordering
                 else read_ready_aux <= 1;
               end
             end
-            if (current_i == SIZE - WORDS_PER_LINE && !use_sum) read_ready_aux <= 0;
+            if (current_i == SIZE - BURST_SIZE && !use_sum) read_ready_aux <= 0;
           end else begin
             // Skip loading bias if not in use
             for (int i = 0; i < SIZE; i++) begin
@@ -268,13 +264,13 @@ module hs_npu_memory_ordering
         LOADING_SUMS: begin
           if (use_sum) begin
             if (mem_valid_i && current_i < SIZE) begin
-              for (int bundle_idx = 0; bundle_idx < WORDS_PER_LINE; bundle_idx++) begin
+              for (int bundle_idx = 0; bundle_idx < BURST_SIZE; bundle_idx++) begin
                 sums[current_i+bundle_idx] <= memory_data_in[bundle_idx];
               end
-              current_i <= current_i + WORDS_PER_LINE;
-              request_addr <= request_addr + (4 * WORDS_PER_LINE);
+              current_i <= current_i + BURST_SIZE;
+              request_addr <= request_addr + (4 * BURST_SIZE);
             end else begin
-              if (current_i == SIZE - WORDS_PER_LINE) read_ready_aux <= 0;
+              if (current_i == SIZE - BURST_SIZE) read_ready_aux <= 0;
               if (current_i >= SIZE) begin
                 state <= READY_TO_COMPUTE;
               end
@@ -331,12 +327,12 @@ module hs_npu_memory_ordering
             end else begin
               if (mem_ready_i && current_i <= SIZE) begin
                 // Logic to save output results
-                for (int bundle_idx = 0; bundle_idx < WORDS_PER_LINE; bundle_idx++) begin
+                for (int bundle_idx = 0; bundle_idx < BURST_SIZE; bundle_idx++) begin
                   memory_data_out[bundle_idx] <= results[current_i+bundle_idx];
                 end
                 write_valid_aux <= 1;
-                current_i <= current_i + WORDS_PER_LINE;
-                request_addr <= request_addr + (4 * WORDS_PER_LINE);
+                current_i <= current_i + BURST_SIZE;
+                request_addr <= request_addr + (4 * BURST_SIZE);
               end
               if (current_i > SIZE) begin
                 current_i <= -1;

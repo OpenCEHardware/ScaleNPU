@@ -1,4 +1,4 @@
-top := hs_npu_systolic
+top := hs_npu
 core_dirs := rtl target tb
 
 .PHONY: all

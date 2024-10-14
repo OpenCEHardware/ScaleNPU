@@ -56,18 +56,25 @@ module hs_npu_memory_interface
   always_ff @(posedge clk or negedge rst_n) begin
     if (!rst_n) begin
       state <= IDLE;
-      mem_valid_o <= 0;
-      mem_ready_o <= 1;  // Memory is initially ready
-      burst_counter <= 0;
     end else begin
       state <= next_state;
     end
   end
 
   always_comb begin
-    // Default assignments
-    next_state  = state;
-    mem_valid_o = 0;
+    // Default assignments to avoid latches
+    mem_valid_o   = 0;
+    mem_ready_o   = 1;
+    axi.arvalid   = 0;
+    axi.awvalid   = 0;
+    axi.wvalid    = 0;
+    axi.wlast     = 0;
+    axi.rready    = 0;
+    axi.araddr    = '0;
+    burst_counter = '0;
+    axi.awaddr    = '0;
+    axi.wdata     = '0;
+    next_state    = state;
 
     case (state)
       IDLE: begin
@@ -80,10 +87,8 @@ module hs_npu_memory_interface
         // Handle read request
         if (mem_read_ready_i && !mem_write_valid_i) begin
           next_state = READ;
-        end
-
         // Handle write request
-        if (mem_write_valid_i) begin
+        end else if (mem_write_valid_i) begin
           next_state = WRITE;
         end
       end
@@ -147,7 +152,7 @@ module hs_npu_memory_interface
         end
       end
 
-      default: state = IDLE;
+      default: next_state = IDLE;
     endcase
   end
 endmodule
