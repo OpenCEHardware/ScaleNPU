@@ -7,29 +7,29 @@ module hs_npu_top_flat
     output logic irq_cpu,
 
     // Flattened axi4lite_intf master signals
-    output logic csr_AWREADY,
-    input logic csr_AWVALID,
-    input logic [31:0] csr_AWADDR,
-    input logic [2:0] csr_AWPROT,
+    output logic csr_awready,
+    input logic csr_awvalid,
+    input logic [31:0] csr_awaddr,
+    input logic [2:0] csr_awprot,
 
-    output logic csr_WREADY,
-    input logic csr_WVALID,
-    input logic [31:0] csr_WDATA,
-    input logic [3:0] csr_WSTRB,
+    output logic csr_wready,
+    input logic csr_wvalid,
+    input logic [31:0] csr_wdata,
+    input logic [3:0] csr_wstrb,
 
-    input logic csr_BREADY,
-    output logic csr_BVALID,
-    output logic [1:0] csr_BRESP,
+    input logic csr_bready,
+    output logic csr_bvalid,
+    output logic [1:0] csr_bresp,
 
-    output logic csr_ARREADY,
-    input logic csr_ARVALID,
-    input logic [31:0] csr_ARADDR,
-    input logic [2:0] csr_ARPROT,
+    output logic csr_arready,
+    input logic csr_arvalid,
+    input logic [31:0] csr_araddr,
+    input logic [2:0] csr_arprot,
 
-    input logic csr_RREADY,
-    output logic csr_RVALID,
-    output logic [31:0] csr_RDATA,
-    output logic [1:0] csr_RRESP,
+    input logic csr_rready,
+    output logic csr_rvalid,
+    output logic [31:0] csr_rdata,
+    output logic [1:0] csr_rresp,
 
     // Flattened axib_if master signals
     input logic mem_awready,
@@ -39,6 +39,7 @@ module hs_npu_top_flat
     output logic [31:0] mem_awaddr,
     output logic [2:0] mem_awsize,
     output logic [1:0] mem_awburst,
+    output logic [2:0] mem_awprot,
 
     input logic mem_wready,
     output logic mem_wvalid,
@@ -58,6 +59,7 @@ module hs_npu_top_flat
     output logic [31:0] mem_araddr,
     output logic [2:0] mem_arsize,
     output logic [1:0] mem_arburst,
+    output logic [2:0] mem_arprot,
 
     output logic mem_rready,
     input logic mem_rvalid,
@@ -71,30 +73,34 @@ module hs_npu_top_flat
   axi4lite_intf csr ();
   axib_if mem ();
 
+  //
+  assign mem_awprot = 3'b010;
+  assign mem_arprot = 3'b010;
+
   // Map the flattened signals to the interface signals
-  assign csr_AWREADY = csr.master.AWREADY;
-  assign csr.master.AWVALID = csr_AWVALID;
-  assign csr.master.AWADDR  = csr_AWADDR;
-  assign csr.master.AWPROT  = csr_AWPROT;
+  assign csr_awready = csr.master.AWREADY;
+  assign csr.master.AWVALID = csr_awvalid;
+  assign csr.master.AWADDR  = csr_awaddr;
+  assign csr.master.AWPROT  = csr_awprot;
 
-  assign csr_WREADY = csr.master.WREADY;
-  assign csr.master.WVALID = csr_WVALID;
-  assign csr.master.WDATA  = csr_WDATA;
-  assign csr.master.WSTRB  = csr_WSTRB;
+  assign csr_wready = csr.master.WREADY;
+  assign csr.master.WVALID = csr_wvalid;
+  assign csr.master.WDATA  = csr_wdata;
+  assign csr.master.WSTRB  = csr_wstrb;
 
-  assign csr.master.BREADY = csr_BREADY;
-  assign csr_BVALID = csr.master.BVALID;
-  assign csr_BRESP  = csr.master.BRESP;
+  assign csr.master.BREADY = csr_bready;
+  assign csr_bvalid = csr.master.BVALID;
+  assign csr_bresp  = csr.master.BRESP;
 
-  assign csr_ARREADY = csr.master.ARREADY;
-  assign csr.master.ARVALID = csr_ARVALID;
-  assign csr.master.ARADDR  = csr_ARADDR;
-  assign csr.master.ARPROT  = csr_ARPROT;
+  assign csr_arready = csr.master.ARREADY;
+  assign csr.master.ARVALID = csr_arvalid;
+  assign csr.master.ARADDR  = csr_araddr;
+  assign csr.master.ARPROT  = csr_arprot;
 
-  assign csr.master.RREADY = csr_RREADY;
-  assign csr_RVALID = csr.master.RVALID;
-  assign csr_RDATA  = csr.master.RDATA;
-  assign csr_RRESP  = csr.master.RRESP;
+  assign csr.master.RREADY = csr_rready;
+  assign csr_rvalid = csr.master.RVALID;
+  assign csr_rdata  = csr.master.RDATA;
+  assign csr_rresp  = csr.master.RRESP;
 
   // Map the flattened AXI4 full master interface signals
   assign mem.s.awready = mem_awready;

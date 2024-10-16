@@ -6,6 +6,8 @@ define core/hs_npu_top_flat
   $(this)/rtl_top := hs_npu_top_flat
   $(this)/rtl_files := \
     hs_npu_top_flat.sv
+
+  $(this)/qsys_ip_file := scaleNPU_hw.tcl
 endef
 
 define core/hs_npu
