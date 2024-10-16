@@ -1,10 +1,10 @@
 module hs_npu_top_flat
   import hs_npu_pkg::*;
 (
-    input logic clk,
+    input logic clk_npu,
     input logic rst_n,
 
-    output logic irq_cpu,
+    output logic irq,
 
     // Flattened axi4lite_intf master signals
     output logic csr_awready,
@@ -139,9 +139,9 @@ module hs_npu_top_flat
 
   // Instantiate the original top module using the interfaces
   hs_npu_top hs_npu (
-    .clk(clk),
+    .clk(clk_npu),
     .rst_n(rst_n),
-    .irq_cpu(irq_cpu),
+    .irq_cpu(irq),
     .csr(csr.slave),
     .mem(mem.m)
   );

@@ -76,7 +76,7 @@ set_interface_property reset PORT_NAME_MAP ""
 set_interface_property reset CMSIS_SVD_VARIABLES ""
 set_interface_property reset SVD_ADDRESS_GROUP ""
 
-add_interface_port reset reset_n reset_n Input 1
+add_interface_port reset rst_n reset_n Input 1
 
 
 # 
