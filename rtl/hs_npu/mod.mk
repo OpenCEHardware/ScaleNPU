@@ -1,11 +1,19 @@
-cores := hs_npu hs_npu_pkg hs_npu_systolic hs_npu_fifo_keeper hs_npu_mm_unit hs_npu_accumulator hs_npu_inference hs_npu_memory_ordering hs_npu_ctrlstatus_regs hs_npu_executive hs_npu_memory_interface
+cores := hs_npu_top_flat hs_npu hs_npu_pkg hs_npu_systolic hs_npu_fifo_keeper hs_npu_mm_unit hs_npu_accumulator hs_npu_inference hs_npu_memory_ordering hs_npu_ctrlstatus_regs hs_npu_executive hs_npu_memory_interface
+
+define core/hs_npu_top_flat
+  $(this)/deps := hs_npu
+ 
+  $(this)/rtl_top := hs_npu_top_flat
+  $(this)/rtl_files := \
+    hs_npu_top_flat.sv
+endef
 
 define core/hs_npu
   $(this)/deps := hs_npu_memory_ordering hs_npu_inference hs_npu_ctrlstatus_regs hs_npu_executive hs_npu_memory_interface
  
   $(this)/rtl_top := hs_npu
   $(this)/rtl_files := \
-    hs_npu.sv
+    hs_npu_top.sv
 endef
 
 define core/hs_npu_memory_ordering

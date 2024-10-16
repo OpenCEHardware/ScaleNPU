@@ -249,7 +249,7 @@ module hs_npu_memory_ordering
                 else read_ready_aux <= 1;
               end
             end
-            if (current_i == SIZE - BURST_SIZE && !use_sum) read_ready_aux <= 0;
+            //if (current_i == SIZE - BURST_SIZE && !use_sum) read_ready_aux <= 0;
           end else begin
             // Skip loading bias if not in use
             for (int i = 0; i < SIZE; i++) begin
@@ -368,7 +368,7 @@ module hs_npu_memory_ordering
   assign exec_ready_o = (state == IDLE);
   assign mem_read_ready_o = ( state == LOADING_WEIGHTS || state == LOADING_INPUTS && !reuse_inputs || state == LOADING_BIAS || state == LOADING_SUMS) && read_ready_aux;
   assign mem_write_valid_o = (state == SAVING && current_i != -1 && output_counter <= num_input_rows && write_valid_aux);
-  assign mem_reset = (state == IDLE);
+  assign mem_invalidate = (state == IDLE || state == READY_TO_COMPUTE);
 
   assign flush_input_fifos = (state == SAVING);
   assign flush_weight_fifos = (state == SAVING);

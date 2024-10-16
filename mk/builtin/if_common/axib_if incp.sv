@@ -11,7 +11,6 @@ interface axib_if #(
   logic [                       2:0] awsize;
   logic [                       1:0] awburst;
   logic [          ADDR_WIDTH - 1:0] awaddr;
-  logic [                       2:0] awprot;
 
   logic                              wvalid;
   logic                              wready;
@@ -30,8 +29,6 @@ interface axib_if #(
   logic [             2:0] arsize;
   logic [             1:0] arburst;
   logic [ADDR_WIDTH - 1:0] araddr;
-  logic [             2:0] arprot;
-
 
   logic                    rvalid;
   logic                    rready;
@@ -49,7 +46,6 @@ interface axib_if #(
                awsize,
                awburst,
                awvalid,
-               awprot,
 
                wdata,
                wlast,
@@ -64,7 +60,6 @@ interface axib_if #(
                arsize,
                arburst,
                arvalid,
-               arprot,
 
                rready
   );

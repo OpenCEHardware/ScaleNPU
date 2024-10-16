@@ -1,4 +1,4 @@
-module hs_npu
+module hs_npu_top
   import hs_npu_pkg::*;
 #(
     // Microarch
@@ -166,7 +166,7 @@ module hs_npu
       .mem_invalidate(memory_interface_invalidate),
       .memory_data_in(memory_data_read),
       .memory_data_out(memory_data_write),
-      .request_address(request_address),
+      .request_address(request_address)
   );
 
   // Instantiate hs_npu_inference

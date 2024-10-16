@@ -1,15 +1,12 @@
 import cocotb
+from cocotb.triggers import RisingEdge, FallingEdge, Timer, ClockCycles
+from cocotb.regression import TestFactory
 from cocotb.clock import Clock
-from cocotb.triggers import ClockCycles, RisingEdge
-import random
-import struct
+from cocotb_bus.drivers.amba import AXI4LiteMaster
+from axi import * 
 
-
-# Set parameters for the test
-SIZE = 8
-INPUT_DATA_WIDTH = 16
-OUTPUT_DATA_WIDTH = 32
-CLOCK_PERIOD = 10  # in ns
+# Constants
+CLK_PERIOD = 10  # Clock period in ns
 
 # Define the matrices and vectors
 matrixB_data = [
@@ -27,7 +24,7 @@ matrixA_data = [
 ]
 
 bias_vector = [-128, -91, 10, -89, 10, 10, 127, 10]  # 32-bit integers
-sums_vector = [0, 0, 0, 0, 0, 0, 0, 0]  # 32-bit integers
+#sums_vector = [0, 0, 0, 0, 0, 0, 0, 0]  # 32-bit integers
 
 # Define later 2
 
@@ -58,186 +55,106 @@ weights_418 = [
 
 biases_418 = [-128, -12, 127, 0, 0, 0, 0, 0]
 
-# Function to retrieve 32-bit data from memory
-def get_data(address):
-
-    memory = []
-
-    # Flatten matrix B and matrix A as int8 values (1 byte each)
-    memory = [byte for row in matrixB_data for byte in row] + \
-            [byte for row in matrixA_data for byte in row]
-
-    # Add bias and sums vectors as int32 values (4 bytes each)
-    # Pack each 32-bit integer as 4 bytes and extend the memory
-    for bias in bias_vector:
-        memory.append(bias)
-        for _ in range(3):
-            if bias < 0:
-                memory.append(-1)
-            else:
-                memory.append(0)
-
-    for sum_val in sums_vector:
-        memory.append(sum_val)
-        for _ in range(3):
-            if sum_val < 0:
-                memory.append(-1)
-            else:
-                memory.append(0)
-
-    memory2 = [byte for row in weights_417 for byte in row]
-    for value in memory2:
-        memory.append(value)
-
-    for bias in biases_417:
-        memory.append(bias)
-        for _ in range(3):
-            if bias < 0:
-                memory.append(-1)
-            else:
-                memory.append(0)
-
-    memory3 = [byte for row in weights_418 for byte in row]
-    for value in memory3:
-        memory.append(value)
-
-    for bias in biases_418:
-        memory.append(bias)
-        for _ in range(3):
-            if bias < 0:
-                memory.append(-1)
-            else:
-                memory.append(0)
-    # -----------
-
-    # Fetch 4 consecutive bytes from the memory starting at the given address
-    if address >= len(memory):
-        print(f"Address {hex(address)} out of bounds")
-        print(f"Address {address} out of bounds")
-        return(-1)
-    # Get the 4 bytes
-    bytes_data = memory[address:address + 4]
-
-    # Convert each byte to its signed 8-bit binary representation
-    signed_binaries = []
-    for byte in bytes_data:
-        # Convert byte to signed 8-bit binary
-        signed_binary = format(byte & 0xFF, '08b')  # Mask to ensure it's in the range of 0-255
-        signed_binaries.append(signed_binary)
-
-    data = signed_binaries[3] + signed_binaries[2] + signed_binaries[1] + signed_binaries[0]
-
-
-    # Output the signed binary representations
-    return int(data,2)
-
-@cocotb.coroutine
-async def memory_read_dummy(dut):
-    while True:
-        await RisingEdge(dut.clk)
-        if (dut.mem_read_ready_o.value):
-            dut.mem_valid_i.value = 0
-            value1 = get_data(dut.request_address.value.signed_integer)
-            value2 = get_data(dut.request_address.value.signed_integer + 4)
-            print(f"Addresses {hex(dut.request_address.value)} to {hex(dut.request_address.value + 3) }, have been read. Returned {value1}")
-            print(f"Addresses {hex(dut.request_address.value + 4)} to {hex(dut.request_address.value + 4 + 3)}, have been read. Returned {value2}")
-            await ClockCycles(dut.clk, random.randint(1,1)) # IMPORTANT, memory should take at least 1 cycle to answer
-            dut.memory_data_in[0].value = value1
-            dut.memory_data_in[1].value = value2
-            dut.mem_valid_i.value = 1
-        if (dut.mem_reset.value):
-            dut.mem_valid_i.value = 0
-
-@cocotb.coroutine
-async def memory_write_dummy(dut):
-    while True:
-        await RisingEdge(dut.clk)
-        if (dut.mem_write_valid_o.value and dut.mem_ready_i.value):
-            dut.mem_ready_i.value = 0
-            print(f"{dut.memory_data_out[0].value.signed_integer} has been written to address {hex(dut.request_address.value)}")
-            print(f"{dut.memory_data_out[1].value.signed_integer} has been written to address {hex(dut.request_address.value + 4)}")
-            await ClockCycles(dut.clk, random.randint(1,10)) # IMPORTANT, memory should take at least 1 cycle to answer
-            dut.mem_ready_i.value = 1
-
-
 @cocotb.test()
-async def hs_npu_test(dut):
-    """Test the hs_npu module"""
-
-    # Generate a clock signal
-    clock = Clock(dut.clk, 10, units="ns")  # 10ns period
+async def test_hs_npu(dut):
+    """Test hs_npu module."""
+    # Create a clock on the clk signal
+    clock = Clock(dut.clk, CLK_PERIOD, units="ns")
     cocotb.start_soon(clock.start())
-    cocotb.start_soon(memory_read_dummy(dut))
-    cocotb.start_soon(memory_write_dummy(dut))
 
     # Resetting module
     dut.rst_n.value = 0
     await ClockCycles(dut.clk, 5)
     dut.rst_n.value = 1
 
-    dut.mem_ready_i.value = 1
+    # # Create an empty bytearray
+    # memory = bytearray(b'\xc6\xd1+\xc7\xcb^"m\xdd\x80\xe65\xec\xfb\x7f\xafb\n\r\xf1\xd5ED%U%\xfd\x8d\x92\x9e_\xf2')
 
-    dut.num_input_rows_in.value = 4;
-    dut.num_input_columns_in.value = 4;
-    dut.num_weight_rows_in.value = 4;
-    dut.num_weight_columns_in.value = 8;
+    memory = bytearray();
 
-    dut.reuse_inputs_in.value = 0;
-    dut.reuse_weights_in.value = 0;
-    dut.save_outputs_in.value = 1;
-    dut.use_bias_in.value = 1;
-    dut.use_sum_in.value = 1;
-    dut.shift_amount_in.value = 7;
-    #dut.shift_amount_in.value = 0;
-    dut.activation_select_in.value = 1;
-    dut.base_address_in.value = 0;
-    dut.result_address_in.value = 200;
+    # Flatten matrix B and matrix A as int8 values (1 byte each)
+    for row in matrixB_data:
+        for byte in row:
+            memory.append(byte & 0xFF)  # Convert to 8-bit
 
-    dut.exec_valid_i.value = 1;
-    await ClockCycles(dut.clk, 1)
-    dut.exec_valid_i.value = 0;
+    for row in matrixA_data:
+        for byte in row:
+            memory.append(byte & 0xFF)  # Convert to 8-bit
 
-    await ClockCycles(dut.clk, 300)
+    # Add bias and sums vectors as int32 values (4 bytes each)
+    for bias in bias_vector:
+        memory.extend(bias.to_bytes(4, byteorder='little', signed=True))
 
-    dut.num_input_rows_in.value = 4;
-    dut.num_input_columns_in.value = 8;
-    dut.num_weight_rows_in.value = 8;
-    dut.num_weight_columns_in.value = 8;
+    # for sum_val in sums_vector:
+    #     memory.extend(sum_val.to_bytes(4, byteorder='little', signed=True))
 
-    dut.reuse_inputs_in.value = 1;
-    dut.reuse_weights_in.value = 0;
-    dut.save_outputs_in.value = 1;
-    dut.use_bias_in.value = 1;
-    dut.use_sum_in.value = 0;
-    dut.shift_amount_in.value = 7;
-    dut.activation_select_in.value = 1;
-    dut.base_address_in.value = 128;
-    dut.result_address_in.value = 400;
+    # Flatten and add weights_417 as int8 values (1 byte each)
+    for row in weights_417:
+        for value in row:
+            memory.append(value & 0xFF)  # Convert to 8-bit
 
-    dut.exec_valid_i.value = 1;
-    await ClockCycles(dut.clk, 1)
-    dut.exec_valid_i.value = 0;
+    # Add biases_417 as int32 values (4 bytes each)
+    for bias in biases_417:
+        memory.extend(bias.to_bytes(4, byteorder='little', signed=True))
 
-    await ClockCycles(dut.clk, 300)
+    # Flatten and add weights_418 as int8 values (1 byte each)
+    for row in weights_418:
+        for value in row:
+            memory.append(value & 0xFF)  # Convert to 8-bit
 
-    dut.num_input_rows_in.value = 4;
-    dut.num_input_columns_in.value = 8;
-    dut.num_weight_rows_in.value = 8;
-    dut.num_weight_columns_in.value = 3;
+    # Add biases_418 as int32 values (4 bytes each)
+    for bias in biases_418:
+        memory.extend(bias.to_bytes(4, byteorder='little', signed=True))
 
-    dut.reuse_inputs_in.value = 1;
-    dut.reuse_weights_in.value = 0;
-    dut.save_outputs_in.value = 1;
-    dut.use_bias_in.value = 1;
-    dut.use_sum_in.value = 0;
-    dut.shift_amount_in.value = 0;
-    dut.activation_select_in.value = 0;
-    dut.base_address_in.value = 224;
-    dut.result_address_in.value = 600;
 
-    dut.exec_valid_i.value = 1;
-    await ClockCycles(dut.clk, 1)
-    dut.exec_valid_i.value = 0;
+    print(memory)
 
-    await ClockCycles(dut.clk, 300)
+    memory = memoryview(memory)
 
+    # Initialize AXI4-Lite and AXI4 burst interfaces
+    csr_if = AXI4LiteMaster(dut, "csr", dut.clk, case_insensitive=False)
+    mem_if = AXI4Agent(dut, "mem", dut.clk, memory, case_insensitive=False)
+    
+    ARCHID_REG_ADDR            = 0x00
+    IMPID_REG_ADDR             = 0x04
+    NUM_ROWS_INPUT_REG_ADDR    = 0x08
+    NUM_COLS_INPUT_REG_ADDR    = 0x0C
+    NUM_ROWS_WEIGHT_REG_ADDR   = 0x10
+    NUM_COLS_WEIGHT_REG_ADDR   = 0x14
+    REINPUT_REG_ADDR           = 0x18
+    REWEIGHT_REG_ADDR          = 0x1C
+    SAVEOUT_REG_ADDR           = 0x20
+    USE_BIAS_REG_ADDR          = 0x24
+    USE_SUMM_REG_ADDR          = 0x28
+    SHIFT_AMT_REG_ADDR         = 0x2C
+    ACT_FN_REG_ADDR            = 0x30
+    BASE_MEMADDR_REG_ADDR      = 0x34
+    RESULT_MEMADDR_REG_ADDR    = 0x38
+    MAINCTRL_INIT_REG_ADDR     = 0x3C
+    EXIT_CODE_REG_ADDR         = 0x40
+
+    await csr_if.write(NUM_ROWS_INPUT_REG_ADDR, 4)
+    await csr_if.write(NUM_COLS_INPUT_REG_ADDR, 8)
+    await csr_if.write(NUM_ROWS_WEIGHT_REG_ADDR, 4)
+    await csr_if.write(NUM_COLS_WEIGHT_REG_ADDR, 8)
+
+    await csr_if.write(REINPUT_REG_ADDR, 0)
+    await csr_if.write(REWEIGHT_REG_ADDR, 0)
+    await csr_if.write(SAVEOUT_REG_ADDR, 1)
+    await csr_if.write(USE_BIAS_REG_ADDR, 1)
+    await csr_if.write(USE_SUMM_REG_ADDR, 0)
+    await csr_if.write(SHIFT_AMT_REG_ADDR, 7)
+    await csr_if.write(ACT_FN_REG_ADDR, 1)
+
+    await csr_if.write(BASE_MEMADDR_REG_ADDR, 0)
+    await csr_if.write(RESULT_MEMADDR_REG_ADDR, 1000)
+
+    await csr_if.write(MAINCTRL_INIT_REG_ADDR, 1)
+
+
+    await ClockCycles(dut.clk, 1000)
+
+    print("AAAAAAAAAAAAAA")
+    print(list(memory[1000:1004]))
+
+    await ClockCycles(dut.clk, 1000)
