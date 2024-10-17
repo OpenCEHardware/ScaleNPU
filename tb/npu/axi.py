@@ -68,7 +68,7 @@ class AXI4Agent(BusDriver):
         self.bus.arready.setimmediatevalue(0)
         self.bus.rvalid.setimmediatevalue(0)
         self.bus.rlast.setimmediatevalue(0)
-        self.bus.awready.setimmediatevalue(0)
+        self.bus.awready.setimmediatevalue(1)
         self._memory = memory
 
         self.write_address_busy = Lock("%s_wabusy" % name)
@@ -89,7 +89,7 @@ class AXI4Agent(BusDriver):
         while True:
             while True:
                 self.bus.wready.value = 0
-                await ReadOnly()
+                # await ReadOnly()
                 if self.bus.awvalid.value:
                     self.bus.wready.value = 1
                     break
@@ -126,9 +126,9 @@ class AXI4Agent(BusDriver):
                     _burst_diff = burst_length - burst_count
                     _st = _awaddr + (_burst_diff * bytes_in_beat)  # start
                     _end = _awaddr + ((_burst_diff + 1) * bytes_in_beat)  # end
-                    self._memory[_st:_end] = array.array('B', word.buff)
-                    burst_count -= 1
-                    if burst_count == 0:
+                    self._memory[_st:_end] = word.buff
+                    #burst_count -= 1
+                    if self.bus.wlast == 1:
                         break
                 await clock_re
 

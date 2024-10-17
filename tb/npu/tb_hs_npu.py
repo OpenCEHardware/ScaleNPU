@@ -24,7 +24,7 @@ matrixA_data = [
 ]
 
 bias_vector = [-128, -91, 10, -89, 10, 10, 127, 10]  # 32-bit integers
-#sums_vector = [0, 0, 0, 0, 0, 0, 0, 0]  # 32-bit integers
+sums_vector = [0, 0, 0, 0, 0, 0, 0, 0]  # 32-bit integers
 
 # Define later 2
 
@@ -59,12 +59,12 @@ biases_418 = [-128, -12, 127, 0, 0, 0, 0, 0]
 async def test_hs_npu(dut):
     """Test hs_npu module."""
     # Create a clock on the clk signal
-    clock = Clock(dut.clk, CLK_PERIOD, units="ns")
+    clock = Clock(dut.clk_npu, CLK_PERIOD, units="ns")
     cocotb.start_soon(clock.start())
 
     # Resetting module
     dut.rst_n.value = 0
-    await ClockCycles(dut.clk, 5)
+    await ClockCycles(dut.clk_npu, 5)
     dut.rst_n.value = 1
 
     # # Create an empty bytearray
@@ -85,8 +85,8 @@ async def test_hs_npu(dut):
     for bias in bias_vector:
         memory.extend(bias.to_bytes(4, byteorder='little', signed=True))
 
-    # for sum_val in sums_vector:
-    #     memory.extend(sum_val.to_bytes(4, byteorder='little', signed=True))
+    for sum_val in sums_vector:
+        memory.extend(sum_val.to_bytes(4, byteorder='little', signed=True))
 
     # Flatten and add weights_417 as int8 values (1 byte each)
     for row in weights_417:
@@ -112,8 +112,8 @@ async def test_hs_npu(dut):
     memory = memoryview(memory)
 
     # Initialize AXI4-Lite and AXI4 burst interfaces
-    csr_if = AXI4LiteMaster(dut, "csr", dut.clk, case_insensitive=False)
-    mem_if = AXI4Agent(dut, "mem", dut.clk, memory, case_insensitive=False)
+    csr_if = AXI4LiteMaster(dut, "csr", dut.clk_npu, case_insensitive=True)
+    mem_if = AXI4Agent(dut, "mem", dut.clk_npu, memory, case_insensitive=False)
     
     ARCHID_REG_ADDR            = 0x00
     IMPID_REG_ADDR             = 0x04
@@ -142,7 +142,7 @@ async def test_hs_npu(dut):
     await csr_if.write(REWEIGHT_REG_ADDR, 0)
     await csr_if.write(SAVEOUT_REG_ADDR, 1)
     await csr_if.write(USE_BIAS_REG_ADDR, 1)
-    await csr_if.write(USE_SUMM_REG_ADDR, 0)
+    await csr_if.write(USE_SUMM_REG_ADDR, 1)
     await csr_if.write(SHIFT_AMT_REG_ADDR, 7)
     await csr_if.write(ACT_FN_REG_ADDR, 1)
 
@@ -152,9 +152,47 @@ async def test_hs_npu(dut):
     await csr_if.write(MAINCTRL_INIT_REG_ADDR, 1)
 
 
-    await ClockCycles(dut.clk, 1000)
+    await RisingEdge(dut.irq)
 
-    print("AAAAAAAAAAAAAA")
-    print(list(memory[1000:1004]))
+    await csr_if.write(NUM_ROWS_INPUT_REG_ADDR, 4)
+    await csr_if.write(NUM_COLS_INPUT_REG_ADDR, 8)
+    await csr_if.write(NUM_ROWS_WEIGHT_REG_ADDR, 8)
+    await csr_if.write(NUM_COLS_WEIGHT_REG_ADDR, 8)
 
-    await ClockCycles(dut.clk, 1000)
+    await csr_if.write(REINPUT_REG_ADDR, 1)
+    await csr_if.write(REWEIGHT_REG_ADDR, 0)
+    await csr_if.write(SAVEOUT_REG_ADDR, 1)
+    await csr_if.write(USE_BIAS_REG_ADDR, 1)
+    await csr_if.write(USE_SUMM_REG_ADDR, 0)
+    await csr_if.write(SHIFT_AMT_REG_ADDR, 7)
+    await csr_if.write(ACT_FN_REG_ADDR, 1)
+
+    await csr_if.write(BASE_MEMADDR_REG_ADDR, 128)
+    await csr_if.write(RESULT_MEMADDR_REG_ADDR, 2000)
+
+    await csr_if.write(MAINCTRL_INIT_REG_ADDR, 1)
+
+
+    await RisingEdge(dut.irq)
+
+    await csr_if.write(NUM_ROWS_INPUT_REG_ADDR, 4)
+    await csr_if.write(NUM_COLS_INPUT_REG_ADDR, 8)
+    await csr_if.write(NUM_ROWS_WEIGHT_REG_ADDR, 8)
+    await csr_if.write(NUM_COLS_WEIGHT_REG_ADDR, 3)
+
+    await csr_if.write(REINPUT_REG_ADDR, 1)
+    await csr_if.write(REWEIGHT_REG_ADDR, 0)
+    await csr_if.write(SAVEOUT_REG_ADDR, 1)
+    await csr_if.write(USE_BIAS_REG_ADDR, 1)
+    await csr_if.write(USE_SUMM_REG_ADDR, 0)
+    await csr_if.write(SHIFT_AMT_REG_ADDR, 0)
+    await csr_if.write(ACT_FN_REG_ADDR, 0)
+
+    await csr_if.write(BASE_MEMADDR_REG_ADDR, 224)
+    await csr_if.write(RESULT_MEMADDR_REG_ADDR, 3000)
+
+    await csr_if.write(MAINCTRL_INIT_REG_ADDR, 1)
+
+    await RisingEdge(dut.irq)
+
+    await ClockCycles(dut.clk_npu, 10)

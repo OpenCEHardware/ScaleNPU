@@ -1,23 +1,23 @@
 [*]
 [*] GTKWave Analyzer v3.4.0 (w)1999-2022 BSI
-[*] Wed Oct 16 02:36:59 2024
+[*] Thu Oct 17 04:28:57 2024
 [*]
 [dumpfile] "/home/jachm/Repos/SCALE-NPU/build/tb_hs_npu/test-cff7605b/dump.vcd"
-[dumpfile_mtime] "Wed Oct 16 02:32:33 2024"
-[dumpfile_size] 2335958
+[dumpfile_mtime] "Thu Oct 17 04:28:02 2024"
+[dumpfile_size] 1214302
 [savefile] "/home/jachm/Repos/SCALE-NPU/tb/npu/wave.gtkw"
-[timestart] 916
+[timestart] 0
 [size] 1920 985
 [pos] -1 -1
-*-7.500000 1009 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+*-10.200000 6421 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
 [treeopen] hs_npu_top_flat.
 [treeopen] hs_npu_top_flat.hs_npu.
 [sst_width] 297
 [signals_width] 318
 [sst_expanded] 1
-[sst_vpaned_height] 416
+[sst_vpaned_height] 391
 @28
-hs_npu_top_flat.clk
+hs_npu_top_flat.clk_npu
 @22
 [color] 7
 hs_npu_top_flat.mem.rdata[31:0]
@@ -64,7 +64,10 @@ hs_npu_top_flat.mem.awprot[2:0]
 hs_npu_top_flat.mem.awready
 hs_npu_top_flat.mem.awsize[2:0]
 hs_npu_top_flat.mem.awvalid
-@22
+[color] 1
+hs_npu_top_flat.mem.wvalid
+@420
+[color] 1
 hs_npu_top_flat.mem.wdata[31:0]
 @28
 hs_npu_top_flat.mem.wlast
@@ -72,12 +75,9 @@ hs_npu_top_flat.mem.wready
 @22
 hs_npu_top_flat.mem.wstrb[3:0]
 @28
-hs_npu_top_flat.mem.wvalid
 hs_npu_top_flat.mem.bready
 hs_npu_top_flat.mem.bresp[1:0]
-@29
 hs_npu_top_flat.mem.bvalid
-@28
 [color] 2
 hs_npu_top_flat.hs_npu.memory_interface.mem_invalidate
 [color] 2
@@ -89,10 +89,17 @@ hs_npu_top_flat.hs_npu.memory_interface.mem_valid_o
 [color] 2
 hs_npu_top_flat.hs_npu.memory_interface.mem_write_valid_i
 @420
+hs_npu_top_flat.hs_npu.memory_interface.memory_data_in_ff[0][31:0]
+hs_npu_top_flat.hs_npu.memory_interface.memory_data_in_ff[1][31:0]
 [color] 2
 hs_npu_top_flat.hs_npu.memory_interface.memory_data_in[0][31:0]
+@421
 [color] 2
 hs_npu_top_flat.hs_npu.memory_interface.memory_data_in[1][31:0]
+@28
+hs_npu_top_flat.hs_npu.memory_interface.axi.wready
+hs_npu_top_flat.hs_npu.memory_interface.next_state[2:0]
+hs_npu_top_flat.hs_npu.memory_interface.mem_ready_o
 @22
 [color] 2
 hs_npu_top_flat.hs_npu.memory_interface.memory_data_out[0][31:0]
@@ -109,6 +116,7 @@ hs_npu_top_flat.hs_npu.memory_interface.request_address_ff[31:0]
 @28
 [color] 2
 hs_npu_top_flat.hs_npu.memory_interface.state[2:0]
+hs_npu_top_flat.hs_npu.memory_interface.burst_counter_ff[0]
 [color] 2
 hs_npu_top_flat.hs_npu.memory_interface.burst_counter[0]
 [color] 3
@@ -164,5 +172,14 @@ hs_npu_top_flat.hs_npu.memory_ordering.output_bias[6][31:0]
 hs_npu_top_flat.hs_npu.memory_ordering.output_bias[7][31:0]
 @28
 hs_npu_top_flat.hs_npu.executive.irq
+@420
+hs_npu_top_flat.hs_npu.memory_ordering.output_sums[0][31:0]
+hs_npu_top_flat.hs_npu.memory_ordering.output_sums[1][31:0]
+hs_npu_top_flat.hs_npu.memory_ordering.output_sums[2][31:0]
+hs_npu_top_flat.hs_npu.memory_ordering.output_sums[3][31:0]
+hs_npu_top_flat.hs_npu.memory_ordering.output_sums[4][31:0]
+hs_npu_top_flat.hs_npu.memory_ordering.output_sums[5][31:0]
+hs_npu_top_flat.hs_npu.memory_ordering.output_sums[6][31:0]
+hs_npu_top_flat.hs_npu.memory_ordering.output_sums[7][31:0]
 [pattern_trace] 1
 [pattern_trace] 0

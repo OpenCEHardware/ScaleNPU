@@ -270,7 +270,7 @@ module hs_npu_memory_ordering
               current_i <= current_i + BURST_SIZE;
               request_addr <= request_addr + (4 * BURST_SIZE);
             end else begin
-              if (current_i == SIZE - BURST_SIZE) read_ready_aux <= 0;
+              //if (current_i == SIZE - BURST_SIZE) read_ready_aux <= 0;
               if (current_i >= SIZE) begin
                 state <= READY_TO_COMPUTE;
               end
@@ -325,7 +325,7 @@ module hs_npu_memory_ordering
                 current_i <= 0;
               end
             end else begin
-              if (mem_ready_i && current_i <= SIZE) begin
+              if (mem_ready_i && current_i < SIZE) begin
                 // Logic to save output results
                 for (int bundle_idx = 0; bundle_idx < BURST_SIZE; bundle_idx++) begin
                   memory_data_out[bundle_idx] <= results[current_i+bundle_idx];
@@ -334,7 +334,7 @@ module hs_npu_memory_ordering
                 current_i <= current_i + BURST_SIZE;
                 request_addr <= request_addr + (4 * BURST_SIZE);
               end
-              if (current_i > SIZE) begin
+              if (current_i >= SIZE) begin
                 current_i <= -1;
                 write_valid_aux <= 0;
               end
