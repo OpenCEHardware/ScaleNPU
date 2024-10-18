@@ -23,7 +23,7 @@ module hs_npu_top_flat
 
     output logic csr_arready,
     input logic csr_arvalid,
-    input logic [31:0] csr_araddr,
+    input logic [7:0] csr_araddr,
     input logic [2:0] csr_arprot,
 
     input logic csr_rready,
@@ -70,7 +70,7 @@ module hs_npu_top_flat
 );
 
   // Instantiate the interfaces
-  axi4lite_intf csr ();
+  axi4lite_intf #(.ADDR_WIDTH(8))csr();
   axib_if mem ();
 
   //

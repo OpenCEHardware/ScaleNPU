@@ -201,6 +201,18 @@ addrmap hs_npu_ctrlstatus_regs
         } INIT @ 0x0000;
 
         reg {
+            name = "Interrupt";
+            desc = "Interrupt signals cominng from the NPU. Signals the NPU has finished";
+
+            field {
+                sw   = rw;   // Software can only clear
+                hw   = r;    // Hardware can read
+                woclr;       // Software write 1 to clear
+                hwset;       // Hardware can set to 1
+            } FINISHED;
+        } IRQ @ 0x0004;
+
+        reg {
             name = "Exit code";
             desc = "Exit code produced by the NPU once the operation finishes. UNUSED = 00, SUCCESS = 01, MEM_ERR = 10, CPU_ERR = 11";
 
@@ -208,7 +220,7 @@ addrmap hs_npu_ctrlstatus_regs
                 sw = r;
                 hw = w;
             } CODE[1:0];
-        } EXITCODE @ 0x0004;
+        } EXITCODE @ 0x0008;
 
     } MAINCTRL @ 0x003C;
 

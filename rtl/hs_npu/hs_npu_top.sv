@@ -56,7 +56,9 @@ module hs_npu_top
   uword result_address;
 
   // Instantiate hs_npu_executive
-  hs_npu_executive executive (
+  hs_npu_executive #(
+      .BUFFER_SIZE(BUFFER_SIZE)
+  ) executive (
       .clk(clk),
       .rst_n(rst_n),
       // CSRs
