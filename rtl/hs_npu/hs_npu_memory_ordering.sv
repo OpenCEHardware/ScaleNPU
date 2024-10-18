@@ -309,7 +309,7 @@ module hs_npu_memory_ordering
           end
 
           if (computation_cycles == 3 * SIZE + num_input_rows) begin
-            request_addr <= result_address;
+            request_addr <= result_address - (4 * BURST_SIZE);
             current_i <= -1;
             state <= SAVING;
           end
