@@ -4,7 +4,7 @@
 
 
 # 
-# scaleNPU "ScaleNPU" v1.0
+# hs_npu "ScaleNPU" v1.0
 #  2024.10.15.22:58:34
 # 
 # 
@@ -16,10 +16,10 @@ package require -exact qsys 16.1
 
 
 # 
-# module scaleNPU
+# module hs_npu
 # 
 set_module_property DESCRIPTION ""
-set_module_property NAME scaleNPU
+set_module_property NAME hs_npu
 set_module_property VERSION 1.0
 set_module_property INTERNAL false
 set_module_property OPAQUE_ADDRESS_MAP true
