@@ -121,6 +121,13 @@ module hs_npu_memory_ordering
       output_counter <= 0;
       write_valid_aux <= 0;
       read_ready_aux <= 0;
+      input_fifo_valid_o <=0;
+      weight_fifo_valid_o <=0;
+
+      weight_enable <=0;
+      start_input_gatekeeper <=0;
+      start_output_gatekeeper <=0;
+
 
       finished <= 0;
 
@@ -128,6 +135,9 @@ module hs_npu_memory_ordering
         sums[i] <= '0;
         bias[i] <= '0;
         results[i] <= '0;
+        output_weights[i] <= '0;
+        output_inputs[i] <= '0;
+        memory_data_out[i] <= '0;
       end
     end else begin
       // Flop control signals and progress
@@ -157,6 +167,12 @@ module hs_npu_memory_ordering
             output_counter <= 0;
             write_valid_aux <= 0;
             read_ready_aux <= 1;
+            input_fifo_valid_o <=0;
+            weight_fifo_valid_o <=0;
+
+            weight_enable <=0;
+            start_input_gatekeeper <=0;
+            start_output_gatekeeper <=0;
             state <= LOADING_WEIGHTS;
           end
         end

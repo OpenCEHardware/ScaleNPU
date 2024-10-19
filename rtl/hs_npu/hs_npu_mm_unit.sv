@@ -61,7 +61,7 @@ module hs_npu_mm_unit
           .clk_core  (clk),
           .rst_core_n(rst_n),
           .flush     (flush_input_fifos),
-          .reread    (),
+          .reread    (0),
           .ready_o   (input_fifo_ready_o[i]),   // FIFO ready signal
           .valid_i   (input_fifo_valid_i),      // Input FIFO valid signal
           .in        (input_matrix_row[i]),     // Input matrix row data
@@ -94,7 +94,7 @@ module hs_npu_mm_unit
           .clk_core  (clk),
           .rst_core_n(rst_n),
           .flush     (flush_weight_fifos),
-          .reread    (),
+          .reread    (0),
           .ready_o   (weight_fifo_ready_o[i]),  // Ready signal from weight FIFO
           .valid_i   (weight_fifo_valid_i),     // Valid signal for weight FIFO
           .in        (weight_matrix_row[i]),    // Weight matrix row data
