@@ -137,6 +137,8 @@ module hs_npu_memory_ordering
         results[i] <= '0;
         output_weights[i] <= '0;
         output_inputs[i] <= '0;
+      end
+      for (int i = 0; i < BURST_SIZE; i++) begin
         memory_data_out[i] <= '0;
       end
     end else begin
