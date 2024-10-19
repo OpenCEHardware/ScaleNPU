@@ -43,6 +43,8 @@ module hs_npu_memory_interface
   localparam logic [1:0] INCR = 1;
   localparam logic [3:0] STRB = 4'b1111;
 
+  assign axi.arid    = '0;
+  assign axi.awid    = '0;
   assign axi.arburst = INCR;
   assign axi.awburst = INCR;
   assign axi.arsize  = BURST_SIZE;
