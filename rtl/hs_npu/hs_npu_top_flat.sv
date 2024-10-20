@@ -130,7 +130,7 @@ module hs_npu_top_flat
   assign mem_arsize  = mem.s.arsize;
   assign mem_arburst = mem.s.arburst;
 
-  assign mem_rready = mem.m.rready;
+  assign mem_rready = mem.s.rready;
   assign mem.s.rvalid = mem_rvalid;
   assign mem.s.rid    = mem_rid;
   assign mem.s.rdata  = mem_rdata;
