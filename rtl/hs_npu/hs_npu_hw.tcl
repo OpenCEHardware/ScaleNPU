@@ -113,11 +113,11 @@ set_interface_property csr PORT_NAME_MAP ""
 set_interface_property csr CMSIS_SVD_VARIABLES ""
 set_interface_property csr SVD_ADDRESS_GROUP ""
 
-add_interface_port csr csr_araddr araddr Input 8
+add_interface_port csr csr_araddr araddr Input 16
 add_interface_port csr csr_arprot arprot Input 3
 add_interface_port csr csr_arready arready Output 1
 add_interface_port csr csr_arvalid arvalid Input 1
-add_interface_port csr csr_awaddr awaddr Input 8
+add_interface_port csr csr_awaddr awaddr Input 16
 add_interface_port csr csr_awprot awprot Input 3
 add_interface_port csr csr_awready awready Output 1
 add_interface_port csr csr_awvalid awvalid Input 1

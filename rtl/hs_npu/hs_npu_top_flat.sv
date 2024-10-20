@@ -1,5 +1,5 @@
 module hs_npu_top_flat
-  import hs_npu_pkg::*;
+  import hs_npu_pkg::*, hs_npu_ctrlstatus_regs_pkg::*;
 (
     input logic clk_npu,
     input logic rst_n,
@@ -9,7 +9,7 @@ module hs_npu_top_flat
     // Flattened axi4lite_intf master signals
     output logic csr_awready,
     input logic csr_awvalid,
-    input logic [31:0] csr_awaddr,
+    input logic [15:0] csr_awaddr,
     input logic [2:0] csr_awprot,
 
     output logic csr_wready,
@@ -23,7 +23,7 @@ module hs_npu_top_flat
 
     output logic csr_arready,
     input logic csr_arvalid,
-    input logic [7:0] csr_araddr,
+    input logic [15:0] csr_araddr,
     input logic [2:0] csr_arprot,
 
     input logic csr_rready,
@@ -70,7 +70,7 @@ module hs_npu_top_flat
 );
 
   // Instantiate the interfaces
-  axi4lite_intf #(.ADDR_WIDTH(8))csr();
+  axi4lite_intf #(.ADDR_WIDTH(HS_NPU_CTRLSTATUS_REGS_MIN_ADDR_WIDTH)) csr ();
   axib_if mem ();
 
   //
@@ -80,7 +80,7 @@ module hs_npu_top_flat
   // Map the flattened signals to the interface signals
   assign csr_awready = csr.master.AWREADY;
   assign csr.master.AWVALID = csr_awvalid;
-  assign csr.master.AWADDR  = csr_awaddr;
+  assign csr.master.AWADDR  = csr_awaddr[HS_NPU_CTRLSTATUS_REGS_MIN_ADDR_WIDTH - 1:0];
   assign csr.master.AWPROT  = csr_awprot;
 
   assign csr_wready = csr.master.WREADY;
@@ -94,7 +94,7 @@ module hs_npu_top_flat
 
   assign csr_arready = csr.master.ARREADY;
   assign csr.master.ARVALID = csr_arvalid;
-  assign csr.master.ARADDR  = csr_araddr;
+  assign csr.master.ARADDR  = csr_araddr[HS_NPU_CTRLSTATUS_REGS_MIN_ADDR_WIDTH - 1:0];
   assign csr.master.ARPROT  = csr_arprot;
 
   assign csr.master.RREADY = csr_rready;
