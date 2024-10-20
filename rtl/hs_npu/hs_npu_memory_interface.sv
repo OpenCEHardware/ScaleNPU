@@ -28,14 +28,12 @@ module hs_npu_memory_interface
     IDLE,
     READ,
     WRITE,
-    READ_WAIT,
-    WRITE_WAIT
+    READ_WAIT
   } state_t;
   state_t state, next_state;
 
   // Write and read data tracking
-  // logic [31:0] write_data[BURST_SIZE];
-  // logic [31:0] read_data[BURST_SIZE];
+  logic clear_done, aw_done, w_done;
   logic [$clog2(BURST_LEN+1)-1:0] burst_counter;  // To track burst transfers
   logic [$clog2(BURST_LEN+1)-1:0] burst_counter_ff;  // To track burst transfers
 
@@ -57,7 +55,7 @@ module hs_npu_memory_interface
   uword request_address_ff;
   logic read;
   logic mem_valid_o_comb;
-  uword memory_data_in_ff [BURST_SIZE];
+  uword memory_data_in_ff  [BURST_SIZE];
 
 
   // Control logic for read/write requests and AXI interface handling
@@ -80,7 +78,17 @@ module hs_npu_memory_interface
       for (int i = 0; i < BURST_SIZE; i++) begin
         memory_data_in_ff[i] <= memory_data_in[i];
       end
+
       if (read) memory_data_out[burst_counter_ff] <= axi.rdata;
+
+      if (axi.awready && axi.awvalid) aw_done <= 1;
+
+      if (axi.wready && axi.wvalid && axi.wlast) w_done <= 1;
+
+      if (clear_done) begin
+        w_done  <= 0;
+        aw_done <= 0;
+      end
     end
   end
 
@@ -98,6 +106,7 @@ module hs_npu_memory_interface
     axi.awaddr       = '0;
     axi.wdata        = '0;
     read             = 0;
+    clear_done       = 0;
     next_state       = state;
 
 
@@ -107,6 +116,8 @@ module hs_npu_memory_interface
           // Invalidates any current read
           mem_valid_o_comb = 0;
         end
+
+        clear_done  = 1;
         mem_ready_o = 1;  // Memory interface is available
 
         // Handle read request
@@ -115,31 +126,28 @@ module hs_npu_memory_interface
           // Handle write request
         end else if (mem_write_valid_i) begin
           mem_ready_o = 0;  // Indicate busy
-          next_state = WRITE;
+          next_state  = WRITE;
         end
       end
 
       READ: begin
+        axi.araddr = request_address_ff;
+
         if (mem_invalidate) begin
           // Invalidates any current read
-          mem_valid_o_comb = 0;
           next_state = IDLE;
-        end else if (axi.arready) begin
-          // Initiate AXI burst read
-          axi.araddr = request_address_ff;
+        end else begin
           axi.arvalid = 1;
-          burst_counter = 0;
-          mem_ready_o = 0;  // Indicate busy
-          read = 0;
-          next_state = READ_WAIT;
+
+          if (axi.arready) next_state = READ_WAIT;
         end
       end
 
       READ_WAIT: begin
-        if (!mem_invalidate)begin
-        axi.arvalid = 0;
-        axi.rready = mem_read_ready_i;
-        read = 0;
+        if (!mem_invalidate) begin
+          axi.arvalid = 0;
+          axi.rready = mem_read_ready_i;
+          read = 0;
         end else begin
           axi.rready = 1;
         end
@@ -156,35 +164,30 @@ module hs_npu_memory_interface
       end
 
       WRITE: begin
-        if (axi.awready) begin
-          // Initiate AXI burst write
-          axi.awaddr = request_address_ff;
-          axi.awvalid = 1;
-          burst_counter = 0;
-          next_state = WRITE_WAIT;
+        // Initiate AXI burst write
+        axi.awaddr  = request_address_ff;
+        axi.awvalid = !aw_done;
+
+        if (burst_counter_ff == 1) begin
+          axi.wlast = 1;  // Indicate this is the last transfer in the burst
+        end else begin
+          axi.wlast = 0;  // Not the last transfer yet
         end
-      end
 
-      WRITE_WAIT: begin
-        axi.awvalid = 0;
+        axi.wdata = memory_data_in_ff[burst_counter_ff];
+        axi.wvalid = !w_done;
 
-        if (axi.wready) begin
-          axi.wdata  = memory_data_in_ff[burst_counter_ff];
-          axi.wvalid = 1;
+        burst_counter = burst_counter_ff;
+        if (axi.wvalid && axi.wready) burst_counter = burst_counter + 1;
 
-          if (burst_counter_ff == 1) begin
-            axi.wlast  = 1;  // Indicate this is the last transfer in the burst
-            next_state = IDLE;  // Wait for the AXI response to complete the write
-            mem_ready_o = 1;  // Indicate busy
-          end else begin
-            axi.wlast = 0;  // Not the last transfer yet
-            burst_counter = burst_counter + 1;
-            //next_state = IDLE;
-          end
+        if (aw_done && w_done) begin
+          next_state  = IDLE;  // Wait for the AXI response to complete the write
+          mem_ready_o = 1;  // Indicate busy
         end
       end
 
       default: next_state = IDLE;
     endcase
   end
+
 endmodule

@@ -87,8 +87,9 @@ module hs_npu_memory_ordering
   logic in_progress;
   uword num_input_rows, num_input_columns, num_weight_rows, num_weight_columns;
   logic reuse_inputs, reuse_weights, save_outputs, use_bias, use_sum, activation_select;
+  word current_i;  // Needs to be signed!!!
   uword shift_amount, result_address;
-  uword computation_cycles, current_i, request_addr;
+  uword computation_cycles, request_addr;
   logic write_valid_aux, read_ready_aux;
   logic [OUTPUT_DATA_WIDTH-1:0] sums[SIZE], bias[SIZE];
   logic [OUTPUT_DATA_WIDTH-1:0] results[SIZE];
@@ -121,12 +122,12 @@ module hs_npu_memory_ordering
       output_counter <= 0;
       write_valid_aux <= 0;
       read_ready_aux <= 0;
-      input_fifo_valid_o <=0;
-      weight_fifo_valid_o <=0;
+      input_fifo_valid_o <= 0;
+      weight_fifo_valid_o <= 0;
 
-      weight_enable <=0;
-      start_input_gatekeeper <=0;
-      start_output_gatekeeper <=0;
+      weight_enable <= 0;
+      start_input_gatekeeper <= 0;
+      start_output_gatekeeper <= 0;
 
 
       finished <= 0;
@@ -169,12 +170,12 @@ module hs_npu_memory_ordering
             output_counter <= 0;
             write_valid_aux <= 0;
             read_ready_aux <= 1;
-            input_fifo_valid_o <=0;
-            weight_fifo_valid_o <=0;
+            input_fifo_valid_o <= 0;
+            weight_fifo_valid_o <= 0;
 
-            weight_enable <=0;
-            start_input_gatekeeper <=0;
-            start_output_gatekeeper <=0;
+            weight_enable <= 0;
+            start_input_gatekeeper <= 0;
+            start_output_gatekeeper <= 0;
             state <= LOADING_WEIGHTS;
           end
         end
