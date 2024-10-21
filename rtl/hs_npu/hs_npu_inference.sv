@@ -118,7 +118,7 @@ module hs_npu_inference
 
   generate
     for (i = 0; i < SIZE; i++) begin : gen_fifo_output
-      hs_fifo #(
+      hs_npu_fifo #(
           .WIDTH(INPUT_DATA_WIDTH),
           .DEPTH(OUTPUT_FIFO_DEPTH)
       ) output_fifo (
