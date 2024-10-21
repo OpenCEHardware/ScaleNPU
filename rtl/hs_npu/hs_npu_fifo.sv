@@ -1,4 +1,4 @@
-module hs_fifo #(
+module hs_npu_fifo #(
     int WIDTH = 1,
     int DEPTH = 1
 ) (

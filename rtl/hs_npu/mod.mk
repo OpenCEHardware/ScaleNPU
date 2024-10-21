@@ -62,7 +62,7 @@ define core/hs_npu_inference
 endef
 
 define core/hs_npu_mm_unit
-  $(this)/deps := hs_npu_systolic hs_utils
+  $(this)/deps := hs_npu_systolic
 
   $(this)/rtl_top := hs_npu_mm_unit
   $(this)/rtl_files := \
@@ -88,7 +88,7 @@ define core/hs_npu_accumulator
 endef
 
 define core/hs_npu_fifo_keeper
-  $(this)/deps := hs_npu_pkg hs_utils
+  $(this)/deps := hs_npu_pkg
 
   $(this)/rtl_top := hs_npu_fifo_keeper
   $(this)/rtl_files := \
@@ -99,5 +99,5 @@ endef
 define core/hs_npu_pkg
   $(this)/deps := 
 
-  $(this)/rtl_files := hs_npu_pkg.sv
+  $(this)/rtl_files := hs_npu_fifo.sv hs_npu_pkg.sv
 endef

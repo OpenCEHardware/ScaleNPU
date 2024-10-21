@@ -54,7 +54,7 @@ module hs_npu_mm_unit
   generate
     for (i = 0; i < SIZE; i++) begin : gen_fifo_gatekeeper_input
       // Input pipeline: FIFO -> Gatekeeper -> Systolic array input
-      hs_fifo #(
+      hs_npu_fifo #(
           .WIDTH(INPUT_DATA_WIDTH),
           .DEPTH(INPUT_FIFO_DEPTH)
       ) input_fifo (
@@ -87,7 +87,7 @@ module hs_npu_mm_unit
 
     // Generate weight FIFO logic (no gatekeeper needed, direct to systolic array)
     for (i = 0; i < SIZE; i++) begin : gen_fifo_weight
-      hs_fifo #(
+      hs_npu_fifo #(
           .WIDTH(WEIGHT_DATA_WIDTH),
           .DEPTH(WEIGHT_FIFO_DEPTH)
       ) weight_fifo (

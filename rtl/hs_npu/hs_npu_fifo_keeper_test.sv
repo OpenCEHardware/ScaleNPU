@@ -28,7 +28,7 @@ module hs_npu_fifo_keeper
   logic gatekeeper_start, gatekeeper_active;
 
   // Instantiate the FIFO feeding into the gatekeeper
-  hs_fifo #(
+  hs_npu_fifo #(
       .WIDTH(WIDTH),
       .DEPTH(DEPTH)
   ) input_fifo (
@@ -73,7 +73,7 @@ module hs_npu_fifo_keeper
   );
 
   // Instantiate the FIFO receiving data from the gatekeeper
-  hs_fifo #(
+  hs_npu_fifo #(
       .WIDTH(WIDTH),
       .DEPTH(DEPTH)
   ) output_fifo (
