@@ -181,7 +181,7 @@ module hs_npu_memory_ordering
         end
 
         LOADING_WEIGHTS: begin
-          if (mem_valid_i && current_i <= num_weight_rows && !reuse_weights) begin
+          if (mem_valid_i && current_i < num_weight_rows && !reuse_weights) begin
             // Load weights into output_weights
             for (int bundle_idx = 0; bundle_idx < BURST_SIZE; bundle_idx++) begin
               for (int weight_idx = 0; weight_idx < 4; weight_idx++) begin
@@ -196,12 +196,8 @@ module hs_npu_memory_ordering
             request_addr <= request_addr + (4 * BURST_SIZE);
           end else begin
             weight_fifo_valid_o <= 0;
-            if (current_i == 0 && !reuse_weights) begin
-              current_i <= current_i + 1;
-              request_addr <= request_addr + (4 * BURST_SIZE);
-            end
           end
-          if (current_i > num_weight_rows) begin
+          if (current_i >= num_weight_rows) begin
             state <= LOADING_INPUTS;
             current_i <= 0;
             weight_fifo_valid_o <= 0;
@@ -393,7 +389,7 @@ module hs_npu_memory_ordering
   assign flush_weight_fifos = (state == SAVING);
   assign flush_output_fifos = (state == LOADING_BIAS);
 
-  assign output_fifo_ready_o = ((state == SAVING && current_i == -1) || (state == LOADING_INPUTS && reuse_inputs) || (state == LOADING_WEIGHTS && current_i > num_weight_rows && reuse_inputs));
+  assign output_fifo_ready_o = ((state == SAVING && current_i == -1) || (state == LOADING_INPUTS && reuse_inputs) || (state == LOADING_WEIGHTS && current_i >= num_weight_rows && reuse_inputs));
   assign output_fifo_reread = (state == IDLE);
 
   assign activation_select_out = activation_select;

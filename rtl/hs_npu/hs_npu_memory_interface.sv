@@ -52,17 +52,14 @@ module hs_npu_memory_interface
   assign axi.wstrb   = STRB;
   assign axi.bready  = 1;
 
-  uword request_address_ff;
   logic read;
   logic mem_valid_o_comb;
   uword memory_data_in_ff  [BURST_SIZE];
-
 
   // Control logic for read/write requests and AXI interface handling
   always_ff @(posedge clk or negedge rst_n) begin
     if (!rst_n) begin
       state <= IDLE;
-      request_address_ff <= request_address;
       burst_counter_ff <= '0;
       for (int i = 0; i < BURST_SIZE; i++) begin
         memory_data_out[i] <= '0;
@@ -72,7 +69,6 @@ module hs_npu_memory_interface
       end
     end else begin
       state <= next_state;
-      request_address_ff <= request_address;
       burst_counter_ff <= burst_counter;
       mem_valid_o <= mem_valid_o_comb;
       for (int i = 0; i < BURST_SIZE; i++) begin
@@ -131,7 +127,7 @@ module hs_npu_memory_interface
       end
 
       READ: begin
-        axi.araddr = request_address_ff;
+        axi.araddr = request_address;
 
         if (mem_invalidate) begin
           // Invalidates any current read
@@ -165,7 +161,7 @@ module hs_npu_memory_interface
 
       WRITE: begin
         // Initiate AXI burst write
-        axi.awaddr  = request_address_ff;
+        axi.awaddr  = request_address;
         axi.awvalid = !aw_done;
 
         if (burst_counter_ff == 1) begin
