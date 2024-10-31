@@ -1,31 +1,23 @@
 # Protocols
 
-For all interfaces that use a standard industry protocol or an internal/proprietary protocol, list them here and link to the relevant specifications that govern those protocols. If any interfaces use custom protocols that are not defined elsewhere, define them in detail here, with one subsection per protocol. Make sure to define any protocols that involve more than one interface [[1]](references.md#ref1). For custom protocols, feel free to add as much information as needed so they can be easily understood, used, and tested.
+This section outlines the protocols used by the ScaleNPU for inter-module communication and interaction with external components. Both standard protocols are described to ensure clarity in data transfer and control sequences across the NPU. Standard protocols are linked to their specifications.
 
 ## Standard Protocols
 
-### Protocol 1
+### AXI4 Burst Protocol
 
-- **Description**: Brief description of the protocol.
-- **Specification**: [Link to the protocol specification](http://example.com/specification1).
+- **Description**: The AXI4 (Advanced eXtensible Interface 4) Burst protocol is used for  memory access, allowing data to be transferred in bursts to optimize bandwidth. In the ScaleNPU, AXI4 Burst is used by the **Memory Interface** to interact with **RAM** for loading input data and storing output results.
+- **Specification**: [AXI4 Burst Protocol Specification](https://developer.arm.com/documentation/ihi0022/g)
 
-### Protocol 2
+### AXI4-Lite Protocol
 
-- **Description**: Brief description of the protocol.
-- **Specification**: [Link to the protocol specification](http://example.com/specification2).
+- **Description**: AXI4-Lite is a lightweight version of the AXI4 protocol, intended for simpler control and configuration transactions with low bandwidth requirements. The ScaleNPU uses AXI4-Lite for communication between the **Control-Status Registers (CSR)** and the **CPU**, allowing the CPU to configure the NPU’s operation and retrieve status information.
+- **Specification**: [AXI4-Lite Protocol Specification](https://developer.arm.com/documentation/ihi0022/g)
 
-## Custom Protocols
+### Ready-Valid Protocol
 
-### Custom Protocol 1
+- **Description**: Internally, ScaleNPU loosely follows a **Ready-Valid** protocol for handshaking between modules. This protocol is widely used across the NPU’s modules to coordinate the exchange of data and control signals. Most modules have a `ready` and `valid` signals, though they are not always used. This is due manly because of the predictable behavoir of the unit, allowing for logic simplifications and cycle efficiency. 
 
-- **Description**: Detailed description of the custom protocol.
-- **Involved Interfaces**: List of interfaces that use this protocol.
-- **Data Format**: Definition of the data format exchanged.
-- **Communication Sequence**: Details about the communication sequence between interfaces.
+!!! note
 
-### Custom Protocol 2
-
-- **Description**: Detailed description of the custom protocol.
-- **Involved Interfaces**: List of interfaces that use this protocol.
-- **Data Format**: Definition of the data format exchanged.
-- **Communication Sequence**: Details about the communication sequence between interfaces.
+    Here are some great videos to undertand this protocols: [AXI tutorial](https://www.youtube.com/watch?v=1zw1HBsjDH8&list=PLkqJVNOiuuHtNrVaNK4O1BSgczja4obeW)

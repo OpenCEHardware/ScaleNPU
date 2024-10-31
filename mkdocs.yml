@@ -1,6 +1,6 @@
-site_name: hSCALE-V Core Documentation
-repo_name: OpenCEHardware/SCALE-Core-V
-repo_url: https://github.com/OpenCEHardware/SCALE-Core-V
+site_name: ScaleNPU Documentation
+repo_name: OpenCEHardware/ScaleNPU
+repo_url: https://github.com/OpenCEHardware/ScaleNPU
 extra_css:
   - css/extra.css 
 theme:
@@ -64,13 +64,18 @@ markdown_extensions:
   - md_in_html
   - markdown_include.include:
         base_path: docs
+
+extra_javascript:
+  - javascripts/mathjax.js
+  - https://unpkg.com/mathjax@3/es5/tex-mml-chtml.js
+
 nav:
   - Home: index.md
-  - Block Name:
+  - ScaleNPU:
     - Revisions: block/revisions.md
     - Document Conventions: block/conventions.md
     - Introduction: block/introduction.md
-    - Block Diagram: block/diagram.md
+    - Diagrams: block/diagram.md
     - Configuration: block/configuration.md
     - Protocols: block/protocols.md
     - Memory Map: block/memory.md
@@ -83,13 +88,9 @@ nav:
     - Synthesis: block/synthesis.md
     - Verification: block/verification.md
     - Microarchitecture: 
-      - Arithmetic Logic Unit: block/microarchitecture/alu.md
-      - Branching Unit: block/microarchitecture/branch.md
-      - Memory Unit: block/microarchitecture/memory.md
-      - Issue Unit: block/microarchitecture/issue.md
-      - Commit Unit: block/microarchitecture/commit.md
-      - Sub-module 2: block/microarchitecture/sub2.md 
-
+      - Preamble: block/microarchitecture/preamble.md
+      - Fifo: block/microarchitecture/fifo.md
+      - MAC: block/microarchitecture/mac.md
   - About: about.md
 copyright: |
   &copy; 2024 <a href="https://github.com/OpenCEHardware"  target="_blank" rel="noopener">OpenCEHardware</a>

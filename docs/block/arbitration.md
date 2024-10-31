@@ -1,26 +1,22 @@
 # Arbitration, Fairness, QoS, and Forward Progress Guarantees
 
-This section addresses how the design handles arbitration between multiple traffic classes or concurrent transaction types that share resources or interfaces. It outlines the arbitration policies, fairness properties, QoS features, and forward progress guarantees [[1]](references.md#ref1).
+The ScaleNPU operates as a single slave module within a system, meaning it doesn’t manage multiple traffic classes or arbitration directly. Instead, it relies on the AXI protocol for memory access, where arbitration and resource sharing are handled by the AXI interconnect. This interconnect manages how memory requests from the ScaleNPU are prioritized and ensures fair access among all system modules.
 
 ## Arbitration and Fairness
 
-Define the arbitration policy for shared resources or interfaces. Describe how multiple traffic classes or transaction types are prioritized and how fairness is ensured. If applicable, detail any configurability features that allow adjustments to the arbitration policy or QoS settings. Clearly state if any traffic classes are unfairly treated and discuss the implication [[1]](references.md#ref1).
+The ScaleNPU delegates arbitration to the AXI interconnect, which could use round-robin or priority-based policies based on system configuration. This setup ensures that the ScaleNPU's memory requests are fairly managed alongside other AXI-connected masters, with no need for the ScaleNPU itself to enforce fairness.
 
-- **Arbitration Policy**: Describe the policy used for arbitration (e.g., round-robin, priority-based).
-- **Fairness**: Explain how fairness is maintained among traffic classes.
-- **Configurability**: Detail any features that allow users to control arbitration or QoS.
+- **Arbitration and Fairness**: Managed by the AXI interconnect, not the ScaleNPU.  
+- **Configurability**: AXI settings determine arbitration behavior.
 
 ## Quality-of-Service (QoS)
 
-Discuss the QoS mechanisms implemented in the design. Describe how the system ensures different levels of service based on traffic class or transaction type, and how these mechanisms impact system performance [[1]](references.md#ref1).
+Any QoS or priority configurations are also managed by the AXI interconnect. This allows the system to prioritize the ScaleNPU’s memory transactions if needed but is configured at the system level rather than within the ScaleNPU.
 
-- **QoS Features**: List and describe the QoS features supported by the design.
-- **Impact on Performance**: Explain how QoS affects the performance of the system.
+- **QoS Control**: Assigned via AXI, influencing transaction prioritization among connected modules.
 
-## Forward Progress Guarantees
+## Forward Progress
 
-Ensure that the design provides forward progress guarantees, meaning that it avoids deadlock and livelock conditions. State any assumptions about the external system required to guarantee forward progress. Provide a high-level outline of the proof for these guarantees, and indicate if it can be formally verified [[1]](references.md#ref1).
+The AXI protocol ensures forward progress by preventing deadlock and livelock, guaranteeing that all requests are eventually serviced as long as the interconnect adheres to AXI standards.
 
-- **Deadlock and Livelock Prevention**: Describe how the design prevents deadlock and livelock.
-- **Assumptions**: State any assumptions needed for forward progress.
-- **Proof Outline**: Provide a brief outline of the proof or verification approach for forward progress guarantees.
+- **Guarantees**: Deadlock prevention and transaction progress are enforced by AXI protocol compliance, not by the ScaleNPU.

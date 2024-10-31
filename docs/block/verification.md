@@ -1,61 +1,50 @@
 # Verification
 
-This section details the types of tests applied to the block and presents relevant benchmark results.
+This section details the types of tests applied to the block, as well as the verification methodologies used in the development process.
 
-## Test Environment
+## Test and test environment
 
-Describe the tools, simulators, or testbeds used for verification and any relevant configuration or parameters for the tests.
-
-### Test Environment Table
-
-| Tool       | Version | Relevant Configuration                  |
-|------------|---------|-----------------------------------------|
-| Simulator X| 2024.1  | Configuration A, Parameter B            |
-| Tool Y     | 3.2.1   | Configuration C, Parameter D            |
-
-## Tests
-
-Describe the different types of tests applied to the block, such as functional tests, regression tests, and specific verification methodologies used (e.g., simulation, formal verification, emulation).
+The test environment employed various tools, simulators, and testbeds to verify the functionality and integration of the ScaleNPU. Initial functionality of the systolic array was prototyped in C++. Module-level testing was conducted using **cocotb**, and a complete system simulation (CPU + NPU + memory + JTAG) was carried out with **Verilator**. Final signal validation on FPGA hardware was achieved using **Signal Tap** and the Nios terminal over JTAG.
 
 ### Tests Table
 
-| Test Type           | Description                                                    | Tools Used                  |
-|---------------------|----------------------------------------------------------------|-----------------------------|
-| Functional Test     | Verification that the block meets functional specifications.   | Simulator X, Tool Y         |
-| Regression Test     | Ensuring recent changes do not introduce errors in the design. | Simulator Z, Test Suite W   |
-| Formal Verification | Rigorous mathematical verification of design properties.       | Tool A, Tool B              |
+| Tool          | Testing                                           | Directory/Repository                  |
+|---------------|---------------------------------------------------|----------------------------|
+| C++ Prototype | Initial concept verification of systolic array functionality | [Emulation](https://github.com/OpenCEHardware/ScaleNPU/tree/main/emulation)                       |
+| cocotb        | Module-level tests for gatekeeper, systolic array, matrix multiplication, and inference | [Testbech](https://github.com/OpenCEHardware/ScaleNPU/tree/main/tb)             |
+| Verilator     | Full-system simulation (CPU, NPU, memory, JTAG)   | [Full system simulation](https://github.com/OpenCEHardware/ScaleCore-Software)          |
+| Signal Tap    | Signal validation on FPGA                         | N/A                        |
+| Nios Terminal | Final system validation via JTAG                  | N/A                        |
+
 
 ### Test Results
 
-Show the results of the tests applied to the system, ideally in a table format.
+ Primary verification of AXI protocol compliance and module functionality was successfully achieved across simulated and hardware environments.
 
 ## Benchmarks
 
-Include benchmark results, such as performance metrics, comparisons with expected outcomes, and block performance under different conditions.
-
-### Benchmarks Table
-
-| Metric              | Value            | Comments                                  |
-|---------------------|-------------------|------------------------------------------|
-| Maximum Frequency   | 200 MHz           | Meets performance expectations.           |
-| Latency             | 10 ns             | Within acceptable limits.                |
-| Resource Usage      | 5000 LUTs, 3000 FFs | Efficient in terms of utilized resources. |
-
-### Benchmarks Results
-
-Show the results of the benchmarks applied to the system, ideally in a table format.
+Benchmarks were not run for this system.
 
 ## Issues and Resolutions
 
-Brief discussion of any issues found during verification and how they were resolved.
+The primary issues encountered during verification were related to AXI protocol compliance, particularly in subtle variations between simulated environments and FPGA hardware. 
+
+!!!note 
+    
+    While these issues were resolved, a more thorough verification of AXI protocol interactions with memory is advisable, as slight behavioral differences were noted between simulation and FPGA operation.
 
 ### Issues and Resolutions Table
 
-| Issue                | Description                             | Resolution                            |
-|----------------------|-----------------------------------------|---------------------------------------|
-| Simulation Error     | Results inconsistent with expectations. | Adjusted simulator configuration.     |
-| Timing Error         | Deviation in response time.             | Optimized design in critical path.    |
+| Issue                | Description                             | Resolution                                  |
+|----------------------|-----------------------------------------|---------------------------------------------|
+| Simulation Error     | Results were inconsistent with expected behavior in AXI transactions. | Adjusted RTL AXI timing parameters. |
+
+!!!warning 
+
+    This means that cocotb and verilator's models of AXI are unreliable. They can be used to verify basic functionality but they can't
+    assure your module is AXI compliant.
+
 
 ## Verification Summary
 
-Provide a brief summary of the block's results from the verification and benchmark processes.
+In summary, the ScaleNPU block successfully met functional specifications and demonstrated compatibility within the AXI protocol framework. Module functionality and integration were verified at multiple stages from C++ concept prototyping to hardware-based validation on the FPGA. Additional AXI protocol testing with memory could further reinforce the design's reliability.

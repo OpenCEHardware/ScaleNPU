@@ -1,21 +1,17 @@
 # Synthesis
 
-This section presents the synthesis results of the design across different FPGAs. It includes a table displaying performance, area, and other relevant parameters for each evaluated FPGA.
+This section presents the synthesis results of the ScaleNPU across two FPGAs: DE1-SoC and DE10-Nano. The table below summarizes the usage of resources, including ALMs, registers, memory blocks, and DSPs, along with their respective utilization percentages.
 
 ## Synthesis Results Table
 
-| FPGA    | Maximum Frequency (MHz) | Area (LUTs) | Area (FFs) | Area (BRAMs) | Area (DSPs) | Comments                                      |
-|---------|--------------------------|-------------|------------|--------------|-------------|-----------------------------------------------|
-| FPGA_A  | 200                      | 5000        | 3000       | 10           | 20          | Description of performance and area for FPGA_A |
-| FPGA_B  | 250                      | 4800        | 2800       | 12           | 18          | Description of performance and area for FPGA_B |
-| FPGA_C  | 180                      | 5200        | 3100       | 8            | 22          | Description of performance and area for FPGA_C |
+| FPGA       | ALMs (Usage / Total) | Registers | Memory Bits (Usage / Total) | DSPs (Usage / Total) | Comments                                       |
+|------------|-----------------------|-----------|-----------------------------|-----------------------|------------------------------------------------|
+| DE1-SoC    | 3,744 / 32,070 (11.7%) | 5,682     | 5,120 / 4,065,280 (0.1%)    | 40 / 87 (46%)         | Efficient usage within the board's capacity.   |
+| DE10-Nano  | 3,754.8 / 41,910 (8.9%) | 5,695     | 5,120 / 5,662,720 (0.09%)   | 40 / 112 (36%)        | Lower utilization than DE1-SoC, with more capacity. |
 
-## Additional Comments (Optional)
+## Additional Comments
 
-In this section, provide additional comments on the synthesis results, including observations on performance, optimization, and recommendations for future improvements or adjustments.
+- **Performance and Area**: Both boards demonstrate efficient resource use, with relatively low utilization of memory bits (not accounting for external memory needed to store weights, inputs, biases, and sum values) and ALMs. DSP utilization is notable, especially on the DE1-SoC, where nearly half of the DSP resources are consumed, limiting the maximum size of the systolic array.
 
-### Observations
+- **Scalability**: Resource usage is intentionally kept low to accommodate additional system components, including a CPU, interconnect, and memory, which are necessary for full system integration to effectively use the ScaleNPU as an accelerator.
 
-- **Performance:** Comment on the differences in maximum frequency achieved across different FPGAs and possible reasons for these differences.
-- **Area:** Analyze how the area used varies among different FPGAs and if there are opportunities for optimization.
-- **Recommendations:** Offer recommendations for design improvements based on the synthesis results.

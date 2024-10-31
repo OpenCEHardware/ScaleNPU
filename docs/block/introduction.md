@@ -1,31 +1,50 @@
 # Introduction
 
-This section provides a description of the block. It briefly covers, at a high level, what the block does and presents a "bird's-eye" black-box view of the top-level module. It discusses the goals and non-goals of the block, how it is intended to integrate into a larger system, lists standard protocols, highlights important performance requirements, and touches on debugging features. It outlines the design methodology (coding language, internal and third-party libraries and IPs), and anything else a verification engineer should know before writing the first draft of the test plan [[1]](references.md#ref1). Most of these concepts can be expressed as a list of features, as seen in an I²C-Master Core Specification [[2]](references.md#ref2) example.
+The **ScaleNPU** is an AI accelerator designed to efficiently handle simple matrix multiplication operations for neural network inference. It is architected for integration in heterogeneous CPU+accelerator systems, providing a dedicated block for accelerating machine learning tasks. The design is modular, scalable, and configurable, focusing on optimizing system resources and performance.
+
+## Blackbox Top-level Diagram
+
+![blackbox-npu_l](../diagrams/blackbox_npu_l.png#only-light)  
+![blackbox-npu_d](../diagrams/blackbox_npu_d.png#only-dark)
+
+## Goals and Non-Goals
+
+### Goals
+- Efficiently accelerate matrix operations, primarily for neural network inference.
+- Seamlessly integrate with CPU-based systems on FPGA platforms.
+- Optimize resource usage in FPGA environments, minimizing memory consumption while maximizing throughput.
+
+### Non-Goals
+- ScaleNPU is **not** designed for floating-point operations or general-purpose computing.
+- It is **not** intended to replace the CPU, but rather to complement it in specific AI-related tasks.
 
 ## Features
 
-In a list of sentences, this section expresses what the block is capable of and its most notable characteristics.
+The main function of the ScaleNPU block is to efficiently perform neural network (NN) inference. Key capabilities include:
 
-### Integration
+- **Matrix multiplication**: Support for matrix multiplication of any size.
+- **Bias accumulation**: Support for adding bias vectors at the layer level.
+- **Non-linear activation function**: Support for ReLU (Rectified Linear Unit) activation.
+- **Re-quantization during inference**: Support for symmetric power-of-two quantization of results.
 
-- **Functionality A**
-- **Functionality B**
-- **Functionality C**
+## Debugging Features
 
-### Performance
+The ScaleNPU includes several features to aid in debugging:
 
-- **Functionality A**
-- **Functionality B**
-- **Functionality C**
+- **Status registers**: Provide visibility into the internal state of the NPU for monitoring.
+- **Testbench support**: A verification environment using cocotb and other simulation tools to ensure functional correctness.
 
-### Design
+## Integration and System Context
 
-- **Functionality A**
-- **Functionality B**
-- **Functionality C**
+ScaleNPU is designed to be integrated into larger heterogeneous computing systems, particularly within the H-SCALE framework, which combines a RISC-V CPU with AI accelerators for educational purposes. It communicates with the CPU and memory systems using standard protocols like AXI, and uses DMA for efficient data transfers during matrix operations. The unit is controlled via configuration registers (CSRs), allowing the CPU to manage operations and initiate tasks.
 
-### Debugging
+### Standard Protocols
 
-- **Functionality A**
-- **Functionality B**
-- **Functionality C**
+The ScaleNPU uses the following standard communication protocols:
+- **AXI Protocol**: AXI4 Burst for high-speed memory access and AXI4-Lite for control signal exchanges between the accelerator and the system.
+- **CSR (Control and Status Registers)**: Provides configuration and control mechanisms for interfacing with the host CPU.
+- **IRQ Line**: Provides an interrupt request output line for CPU or peripheral IRQs.
+
+!!! note
+
+    Performance is highly dependent on the actual parameters of the implementation and the characteristics of the FPGA. Memory speed, register availability, and clock speeds will impact the overall performance of the block.
