@@ -1,10 +1,10 @@
 # Home
 
-Welcome to the ScaleNPU hardware module documentation. This document has all the information needed to understand the current state of the ScaleNPU block.
+Welcome to the documentation for **OpenCEHardware’s ScaleNPU** hardware module. This resource provides a comprehensive guide to understanding and working with the ScaleNPU block, detailing its current capabilities, configurations, and design specifications.
 
 ## Navigation
 
-This documentation is organized into the following sections:
+To help you get the most out of this documentation, we've organized it into the following sections:
 
 <div class="grid cards" markdown>
 
@@ -23,10 +23,19 @@ This documentation is organized into the following sections:
 - :fontawesome-solid-bug: [Debugging](block/debugging.md): Techniques and tools for system debugging.
 - :fontawesome-solid-table: [Synthesis](block/synthesis.md): Summary and results of the design synthesis.
 - :fontawesome-solid-table: [Verification](block/verification.md): Test environments, verification and testbenches applied to the system.
+- :fontawesome-solid-info:[Microarquitecture Preamble](block/microarchitecture/preamble.md): Overview of the teorical principles, data flow, and design rationale behind the ScaleNPU’s microarchitecture.
 - **Microarchitecture:**
-    - :fontawesome-solid-cube: [Sub-module 1](block/microarchitecture/sub1.md): Details of the first sub-module of the microarchitecture.
-    - :fontawesome-solid-cube: [Sub-module 2](block/microarchitecture/sub2.md): Details of the second sub-module of the microarchitecture.
-
+    - :fontawesome-solid-cube: [MAC](block/microarchitecture/mac.md): Multiply-accumulate unit for core computational operations.
+    - :fontawesome-solid-cube: [FIFO](block/microarchitecture/fifo.md): First-In-First-Out buffers for data handling and synchronization.
+    - :fontawesome-solid-cube: [Gatekeeper](block/microarchitecture/gatekeeper.md): Access control and resource management.
+    - :fontawesome-solid-cube: [Accumulator](block/microarchitecture/accumulator.md): Accumulation of computation results.
+    - :fontawesome-solid-cube: [Activation](block/microarchitecture/activation.md): Activation function application for inference.
+    - :fontawesome-solid-cube: [Systolic Array](block/microarchitecture/systolic_array.md): Systolic data flow for matrix operations.
+    - :fontawesome-solid-cube: [Inference](block/microarchitecture/inference.md): Management of inference processes.
+    - :fontawesome-solid-cube: [Memory Ordering](block/microarchitecture/memory_ordering.md): Ordering and management of memory requests.
+    - :fontawesome-solid-cube: [Memory Interface](block/microarchitecture/memory_interface.md): Interface for accessing external memory resources.
+    - :fontawesome-solid-cube: [Executive](block/microarchitecture/executive.md): Control and orchestration of the ScaleNPU’s operations.
+    
 </div>
 
 ## Acknowledgements
