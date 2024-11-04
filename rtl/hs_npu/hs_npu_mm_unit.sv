@@ -117,9 +117,9 @@ module hs_npu_mm_unit
       .result   (output_systolic)   // Computation result
   );
 
-  // Generate output FIFO and gatekeeper logic
+  // Generate output gatekeeper logic
   generate
-    for (i = 0; i < SIZE; i++) begin : gen_fifo_gatekeeper_output
+    for (i = 0; i < SIZE; i++) begin : gen_gatekeeper_output
       // Output pipeline: Systolic array output -> Gatekeeper
       hs_npu_gatekeeper #(
           .DATA_WIDTH(OUTPUT_DATA_WIDTH)

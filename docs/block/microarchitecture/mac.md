@@ -1,4 +1,4 @@
-# MAC Module Documentation
+# MAC Module
 
 ## Description
 
@@ -29,11 +29,16 @@ Each instance of `hs_npu_mac` operates independently, supporting parallel proces
 ## Operation
 
 The `hs_npu_mac` module performs the multiply-accumulate operation as follows:
+
 1. Receives `a_in` and `b_in` as inputs for multiplication. These inputs may represent values from two matrices in a matrix multiplication scenario.
+
 2. When `enable_in` is active, registers the `b_in` input value, allowing selective updates to the second operand in the multiplication. In our case this is for "fixed weight" inference.
+
 3. Performs the multiply-accumulate operation by calculating \( (a\_in \times b\_ff) + sum \), where `b_ff` stores the last registered `b_in` value.
+
 4. Outputs the result of the operation in `result`.
-5. Forwards `a_in` and `b_in` as `a_out` and `b_out` to propagate values to the next MAC unit.
+
+5. Forwards `a_ff` and `b_ff` as `a_out` and `b_out` to propagate values to the next MAC unit.
 
 ## Internal Signals
 
@@ -42,7 +47,6 @@ The `hs_npu_mac` module performs the multiply-accumulate operation as follows:
 
 
 ## Submodule Diagram
-
 
 {!diagrams/mac.html!}
 

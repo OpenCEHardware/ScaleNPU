@@ -89,8 +89,17 @@ nav:
     - Verification: block/verification.md
     - Microarchitecture: 
       - Preamble: block/microarchitecture/preamble.md
-      - Fifo: block/microarchitecture/fifo.md
       - MAC: block/microarchitecture/mac.md
+      - Fifo: block/microarchitecture/fifo.md
+      - Gatekeeper: block/microarchitecture/gatekeeper.md
+      - Systolic Array: block/microarchitecture/systolic.md
+      - Matrix Multiplication Unit: block/microarchitecture/mm_unit.md
+      - Accumulator: block/microarchitecture/accumulator.md
+      - Activation: block/microarchitecture/activation.md
+      - Inference: block/microarchitecture/inference.md
+      - Memory Ordering: block/microarchitecture/memory_ordering.md
+      - Memory Inteface: block/microarchitecture/memory_interface.md
+      - Executive: block/microarchitecture/executive.md
   - About: about.md
 copyright: |
   &copy; 2024 <a href="https://github.com/OpenCEHardware"  target="_blank" rel="noopener">OpenCEHardware</a>

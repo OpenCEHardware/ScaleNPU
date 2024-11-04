@@ -230,6 +230,7 @@ module hs_npu_memory_ordering
               // Load inputs from past inference results
               for (int input_idx = 0; input_idx < SIZE; input_idx++) begin
                 output_inputs[SIZE - num_input_columns + input_idx] <= inference_result[input_idx][15:0];
+                //TODO: Fill remaining rows with 0
               end
             end
             input_fifo_valid_o <= 1;

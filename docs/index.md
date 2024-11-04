@@ -30,7 +30,7 @@ To help you get the most out of this documentation, we've organized it into the 
     - :fontawesome-solid-cube: [Gatekeeper](block/microarchitecture/gatekeeper.md): Access control and resource management.
     - :fontawesome-solid-cube: [Accumulator](block/microarchitecture/accumulator.md): Accumulation of computation results.
     - :fontawesome-solid-cube: [Activation](block/microarchitecture/activation.md): Activation function application for inference.
-    - :fontawesome-solid-cube: [Systolic Array](block/microarchitecture/systolic_array.md): Systolic data flow for matrix operations.
+    - :fontawesome-solid-cube: [Systolic Array](block/microarchitecture/systolic.md): Systolic data flow for matrix operations.
     - :fontawesome-solid-cube: [Inference](block/microarchitecture/inference.md): Management of inference processes.
     - :fontawesome-solid-cube: [Memory Ordering](block/microarchitecture/memory_ordering.md): Ordering and management of memory requests.
     - :fontawesome-solid-cube: [Memory Interface](block/microarchitecture/memory_interface.md): Interface for accessing external memory resources.
