@@ -1,6 +1,8 @@
 module hs_npu_activation #(
-    parameter int DATA_WIDTH = 32,  // Input data width
-    parameter int OUTPUT_WIDTH = 16  // Output data width (only the first OUTPUT_WIDTH bits of result)
+    // Input data width
+    parameter int DATA_WIDTH   = 32,
+    // Output data width (only the first OUTPUT_WIDTH bits of result)
+    parameter int OUTPUT_WIDTH = 16
 ) (
     input logic [DATA_WIDTH-1:0] input_data,  // Input data from accumulator
     input logic valid_i,  // Valid input signal
@@ -8,7 +10,8 @@ module hs_npu_activation #(
     input logic [DATA_WIDTH-1:0] shift_amount,  // Input shift amount
 
     // Output signals
-    output logic [OUTPUT_WIDTH-1:0] result,  // Output after ReLU and shift (truncated to OUTPUT_WIDTH bits)
+    // Output after ReLU and shift (truncated to OUTPUT_WIDTH bits)
+    output logic [OUTPUT_WIDTH-1:0] result,
     output logic valid_o  // Valid output signal
 );
 

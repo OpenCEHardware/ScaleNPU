@@ -66,7 +66,7 @@ module hs_npu_fifo #(
         valid_o   <= 0;
       end
 
-      if (reread) read_ptr  <= '0;
+      if (reread) read_ptr <= '0;
     end
 
   always_ff @(posedge clk_core) begin

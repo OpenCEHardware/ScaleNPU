@@ -1,12 +1,18 @@
 module hs_npu_mm_unit
   import hs_npu_pkg::*;
 #(
-    parameter int SIZE = 8,  // Size of the systolic array (default 8x8)
-    parameter int INPUT_DATA_WIDTH = 16,  // Input data width (int8)
-    parameter int OUTPUT_DATA_WIDTH = 32,  // Output data width (int32)
-    parameter int WEIGHT_DATA_WIDTH = 16,  // Weight data width (int8)
-    parameter int INPUT_FIFO_DEPTH = 10,  // Depth of input FIFOs
-    parameter int WEIGHT_FIFO_DEPTH = 8    // Depth of weight FIFOs (same or more than the systolic array size)
+    // Size of the systolic array (default 8x8)
+    parameter int SIZE = 8,
+    // Input data width (int8)
+    parameter int INPUT_DATA_WIDTH = 16,
+    // Output data width (int32)
+    parameter int OUTPUT_DATA_WIDTH = 32,
+    // Weight data width (int8)
+    parameter int WEIGHT_DATA_WIDTH = 16,
+    // Depth of input FIFOs
+    parameter int INPUT_FIFO_DEPTH = 10,
+    // Depth of weight FIFOs (same or more than the systolic array size)
+    parameter int WEIGHT_FIFO_DEPTH = 8
 ) (
     input logic clk,
     input logic rst_n,
@@ -41,8 +47,10 @@ module hs_npu_mm_unit
   logic [INPUT_DATA_WIDTH-1:0] input_fifo_out[SIZE];  // Output data from input FIFOs
   logic [WEIGHT_DATA_WIDTH-1:0] weight_fifo_out[SIZE];  // Output data from weight FIFOs
 
-  logic [INPUT_DATA_WIDTH-1:0] input_systolic[SIZE];  // Input data to systolic array (delayed input matrix)
-  logic [OUTPUT_DATA_WIDTH-1:0] output_systolic[SIZE];  // Output data from systolic array (delayed results)
+  // Input data to systolic array (delayed input matrix)
+  logic [INPUT_DATA_WIDTH-1:0] input_systolic[SIZE];
+  // Output data from systolic array (delayed results)
+  logic [OUTPUT_DATA_WIDTH-1:0] output_systolic[SIZE];
 
   logic input_keeper_active[SIZE];  // Gatekeeper active signal for input FIFOs
 
@@ -76,12 +84,17 @@ module hs_npu_mm_unit
       ) input_gatekeeper (
           .clk(clk),
           .rst_n(rst_n),
-          .input_data(input_fifo_out[i]),  // Input data from FIFO
+          // Input data from FIFO
+          .input_data(input_fifo_out[i]),
           .enable_cycles_in(enable_cycles_in),
-          .start_in(i == 0 ? start_input_gatekeeper : start_input_out[i-1]),  // First gatekeeper starts externally, others cascade
-          .output_data(input_systolic[i]),  // Output data to systolic array
-          .start_out(start_input_out[i]),  // Cascaded start signal
-          .active(input_keeper_active[i])  // Active signal to control FIFO ready signal
+          // First gatekeeper starts externally, others cascade
+          .start_in(i == 0 ? start_input_gatekeeper : start_input_out[i-1]),
+          // Output data to systolic array
+          .output_data(input_systolic[i]),
+          // Cascaded start signal
+          .start_out(start_input_out[i]),
+          // Active signal to control FIFO ready signal
+          .active(input_keeper_active[i])
       );
     end
 
@@ -126,12 +139,17 @@ module hs_npu_mm_unit
       ) gatekeeper_out (
           .clk(clk),
           .rst_n(rst_n),
-          .input_data(output_systolic[i]),  // Input from systolic array
+          // Input from systolic array
+          .input_data(output_systolic[i]),
           .enable_cycles_in(enable_cycles_in),
-          .start_in(i == 0 ? start_output_gatekeeper : start_output_out[i-1]),  // First output gatekeeper starts externally, others cascade
-          .output_data(output_data[i]),  // Output data to output FIFO
-          .start_out(start_output_out[i]),  // Cascaded start signal
-          .active(valid_o[i])  // Active signal
+          // First output gatekeeper starts externally, others cascade
+          .start_in(i == 0 ? start_output_gatekeeper : start_output_out[i-1]),
+          // Output data to output FIFO
+          .output_data(output_data[i]),
+          // Cascaded start signal
+          .start_out(start_output_out[i]),
+          // Active signal
+          .active(valid_o[i])
       );
     end
   endgenerate

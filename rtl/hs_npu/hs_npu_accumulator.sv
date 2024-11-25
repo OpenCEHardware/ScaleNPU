@@ -1,5 +1,4 @@
-module hs_npu_accumulator
-#(
+module hs_npu_accumulator #(
     parameter int OUTPUT_DATA_WIDTH = 32  // Output data width (int32)
 ) (
     input logic clk,
@@ -34,10 +33,10 @@ module hs_npu_accumulator
   always_comb begin
     if (valid_i) begin
       // Sum input_data with the stored bias and output the result
-      result = input_data + bias;
+      result  = input_data + bias;
       valid_o = 1'b1;  // Assert valid_out when result is valid
     end else begin
-      result = '0;
+      result  = '0;
       valid_o = 1'b0;  // Deassert valid_out when no valid input
     end
   end

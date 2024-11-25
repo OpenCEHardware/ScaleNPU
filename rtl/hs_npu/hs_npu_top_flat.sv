@@ -139,11 +139,11 @@ module hs_npu_top_flat
 
   // Instantiate the original top module using the interfaces
   hs_npu_top hs_npu (
-    .clk(clk_npu),
-    .rst_n(rst_n),
-    .irq_cpu(irq),
-    .csr(csr.slave),
-    .mem(mem.m)
+      .clk(clk_npu),
+      .rst_n(rst_n),
+      .irq_cpu(irq),
+      .csr(csr.slave),
+      .mem(mem.m)
   );
 
 endmodule

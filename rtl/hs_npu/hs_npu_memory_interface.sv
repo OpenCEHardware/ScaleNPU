@@ -54,7 +54,7 @@ module hs_npu_memory_interface
 
   logic read;
   logic mem_valid_o_comb;
-  uword memory_data_in_ff  [BURST_SIZE];
+  uword memory_data_in_ff[BURST_SIZE];
 
   // Control logic for read/write requests and AXI interface handling
   always_ff @(posedge clk or negedge rst_n) begin
@@ -164,7 +164,7 @@ module hs_npu_memory_interface
         axi.awaddr  = request_address;
         axi.awvalid = !aw_done;
 
-        if (burst_counter_ff == 1) begin // TODO: Change this in case the burst is biiger than 2
+        if (burst_counter_ff == 1) begin  // TODO: Change this in case the burst is biiger than 2
           axi.wlast = 1;  // Indicate this is the last transfer in the burst
         end else begin
           axi.wlast = 0;  // Not the last transfer yet

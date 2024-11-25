@@ -1,14 +1,17 @@
 module hs_npu_inference
   import hs_npu_pkg::*;
 #(
-    parameter int SIZE                    = 8,   // Number of rows and columns of the systolic array
-    parameter int INPUT_DATA_WIDTH        = 16,
-    parameter int OUTPUT_DATA_WIDTH       = 32,
-    parameter int WEIGHT_DATA_WIDTH       = 16,  // Should be the same as input data width
-    parameter int INPUT_FIFO_DEPTH        = 10,
-    parameter int WEIGHT_FIFO_DEPTH       = 8,
-    parameter int ACTIVATION_OUTPUT_WIDTH = 16,  // Output width of the activation module, should be same as input data width
-    parameter int OUTPUT_FIFO_DEPTH       = 10   // Should be same as input depth
+    // Number of rows and columns of the systolic array
+    parameter int SIZE = 8,
+    parameter int INPUT_DATA_WIDTH = 16,
+    parameter int OUTPUT_DATA_WIDTH = 32,
+    // Should be the same as input data width
+    parameter int WEIGHT_DATA_WIDTH = 16,
+    parameter int INPUT_FIFO_DEPTH = 10,
+    parameter int WEIGHT_FIFO_DEPTH = 8,
+    // Output width of the activation module, should be same as input data width
+    parameter int ACTIVATION_OUTPUT_WIDTH = 16,
+    parameter int OUTPUT_FIFO_DEPTH = 10  // Should be same as input depth
 ) (
     input logic clk,
     input logic rst_n,
@@ -40,7 +43,8 @@ module hs_npu_inference
     input logic relu_enable,  // Enable signal for ReLU
 
     // Output fifo source signals
-    output logic [ACTIVATION_OUTPUT_WIDTH-1:0] inference_result[SIZE],  // Final output from activation
+    // Final output from activation
+    output logic [ACTIVATION_OUTPUT_WIDTH-1:0] inference_result[SIZE],
     output logic output_fifo_valid_o[SIZE],
     input logic output_fifo_ready_i,
     input logic output_fifo_reread

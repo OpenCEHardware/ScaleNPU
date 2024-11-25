@@ -3,14 +3,14 @@ module hs_npu_gatekeeper
 #(
     parameter int DATA_WIDTH = 32  // Parameter for the size of input_data and output_data
 ) (
-    input  logic                  clk,
-    input  logic                  rst_n,
-    input  logic [DATA_WIDTH-1:0] input_data,
-    input  uword                  enable_cycles_in,
-    input  logic                  start_in,
+    input logic clk,
+    input logic rst_n,
+    input logic [DATA_WIDTH-1:0] input_data,
+    input uword enable_cycles_in,
+    input logic start_in,
     output logic [DATA_WIDTH-1:0] output_data,
-    output logic                  start_out,
-    output logic                  active // This signal serves as either a ready or a valid
+    output logic start_out,
+    output logic active  // This signal serves as either a ready or a valid
 );
   // Internal variables
   uword enable_cycles;

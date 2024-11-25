@@ -229,7 +229,9 @@ module hs_npu_memory_ordering
             end else begin
               // Load inputs from past inference results
               for (int input_idx = 0; input_idx < SIZE; input_idx++) begin
-                output_inputs[SIZE - num_input_columns + input_idx] <= inference_result[input_idx][15:0];
+                output_inputs[SIZE - num_input_columns + input_idx]
+                  <= inference_result[input_idx][15:0];
+
                 //TODO: Fill remaining rows with 0
               end
             end
@@ -382,15 +384,23 @@ module hs_npu_memory_ordering
 
   // Input/output ready/valid signals
   assign exec_ready_o = (state == IDLE);
-  assign mem_read_ready_o = ( state == LOADING_WEIGHTS || state == LOADING_INPUTS && !reuse_inputs || state == LOADING_BIAS || state == LOADING_SUMS) && read_ready_aux;
-  assign mem_write_valid_o = (state == SAVING && current_i != -1 && output_counter <= num_input_rows && write_valid_aux);
+  assign mem_read_ready_o = ( state == LOADING_WEIGHTS
+  || state == LOADING_INPUTS
+  && !reuse_inputs
+  || state == LOADING_BIAS
+  || state == LOADING_SUMS)
+  && read_ready_aux;
+  assign mem_write_valid_o = (state == SAVING && current_i != -1
+  && output_counter <= num_input_rows && write_valid_aux);
   assign mem_invalidate = (state == IDLE || state == READY_TO_COMPUTE);
 
   assign flush_input_fifos = (state == SAVING);
   assign flush_weight_fifos = (state == SAVING);
   assign flush_output_fifos = (state == LOADING_BIAS);
 
-  assign output_fifo_ready_o = ((state == SAVING && current_i == -1) || (state == LOADING_INPUTS && reuse_inputs) || (state == LOADING_WEIGHTS && current_i >= num_weight_rows && reuse_inputs));
+  assign output_fifo_ready_o = ((state == SAVING && current_i == -1)
+  || (state == LOADING_INPUTS && reuse_inputs)
+  || (state == LOADING_WEIGHTS && current_i >= num_weight_rows && reuse_inputs));
   assign output_fifo_reread = (state == IDLE);
 
   assign activation_select_out = activation_select;

@@ -23,12 +23,18 @@ module hs_npu_systolic
         hs_npu_mac mac_unit (
             .clk(clk),
             .enable_in(enable_in),
-            .a_in(i == 0 ? matrixA[j] : a_wire[i-1][j]),   // First row gets inputs from matrix A, others from previous column
-            .b_in(j == 0 ? matrixB[i] : b_wire[i][j-1]),   // First column gets inputs from matrix B, others from previous row
-            .sum(j == 0 ? sum_in[i] : sum_wire[i][j-1]),   // First column gets initial sum, others from previous row
-            .a_out(a_wire[i][j]),  // Forward A to the next MAC unit in the same row
-            .b_out(b_wire[i][j]),  // Pass B downward to the next MAC unit in the same column
-            .result(sum_wire[i][j])  // Internal result wire
+            // First row gets inputs from matrix A, others from previous column
+            .a_in(i == 0 ? matrixA[j] : a_wire[i-1][j]),
+            // First column gets inputs from matrix B, others from previous row
+            .b_in(j == 0 ? matrixB[i] : b_wire[i][j-1]),
+            // First column gets initial sum, others from previous row
+            .sum(j == 0 ? sum_in[i] : sum_wire[i][j-1]),
+            // Forward A to the next MAC unit in the same row
+            .a_out(a_wire[i][j]),
+            // Pass B downward to the next MAC unit in the same column
+            .b_out(b_wire[i][j]),
+            // Internal result wire
+            .result(sum_wire[i][j])
         );
       end
     end
