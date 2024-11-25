@@ -1,4 +1,4 @@
-module hs_npu_fifo_keeper
+module hs_npu_fifo_keeper_test
   import hs_npu_pkg::*;
 #(
     parameter int WIDTH = 32,  // Data width
@@ -39,6 +39,7 @@ module hs_npu_fifo_keeper
       .valid_i   (fifo_in_valid),
       .in        (fifo_in_data),
 
+      .reread(0),
       .ready_i(gatekeeper_active),  // Gatekeeper is ready to receive data when active
       .valid_o(),
       .out(gatekeeper_data_in)
@@ -84,6 +85,7 @@ module hs_npu_fifo_keeper
       .valid_i   (gatekeeper_active),
       .in        (gatekeeper_data_out),
 
+      .reread(0),
       .ready_i(),
       .valid_o(fifo_out_valid),
       .out(fifo_out_data)

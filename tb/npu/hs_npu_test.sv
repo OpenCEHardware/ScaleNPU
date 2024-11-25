@@ -1,4 +1,4 @@
-module hs_npu
+module hs_npu_test
   import hs_npu_pkg::*;
 #(
     parameter int SIZE                    = 8,   // Number of rows and columns of the systolic array
@@ -118,7 +118,9 @@ module hs_npu
         .output_inputs(output_inputs),
         .output_bias(output_bias),
         .output_sums(output_sums),
-        .inference_result(inference_result)
+        .inference_result(inference_result),
+        .finished(),
+        .mem_invalidate(0)
     );
 
     // Instantiate hs_npu_inference

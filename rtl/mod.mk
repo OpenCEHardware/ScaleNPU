@@ -1,1 +1,0 @@
-subdirs := hs_npu
